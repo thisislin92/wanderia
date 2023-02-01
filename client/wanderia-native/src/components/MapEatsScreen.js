@@ -36,7 +36,7 @@ const MapEatsScreen = () => {
 
         {
           bussinessMarker.map((marker) => (
-            <Marker coordinate={{
+            <Marker key={marker.id} coordinate={{
               latitude: marker.latitude,
               longitude: marker.longitude}
             } title={marker.name} description='origin'>
