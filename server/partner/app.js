@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== "test") {
     .then(() => {
       app.listen(port, function (err) {
         if (err) console.log("Error in Server Setup");
-        console.log(`"user-service" listening on port ${port}`);
+        console.log(`"partner-service" listening on port ${port}`);
       });
     })
     .catch((error) => {
