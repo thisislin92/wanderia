@@ -23,5 +23,5 @@ jobs:
       run: npm i
       working-directory: server/user
     - name: Run unit tests using Mocha
-      run: npm test -- --reporter=spec --testPathPattern='mocha tests/**/*.test.js'
+      run: npm test -- --reporter=spec --testPathPattern='mocha tests/**/*.test.js' --exit
       working-directory: server/user
