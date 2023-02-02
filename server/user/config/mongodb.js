@@ -10,9 +10,11 @@ let db
 async function runConnection() {
     try {
         db = client.db(databaseName);
+        console.log(`Connected to database: ${databaseName} @ ${config.mongodb.host}`)
         return db
     } catch (error) {
         await client.close()
+        console.log(error.message)
         throw error
     }
     
