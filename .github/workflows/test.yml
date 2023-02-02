@@ -3,7 +3,7 @@ name: Test
 on:
   pull_request:
     branches:
-      - backend
+      - backend/development
 
 jobs:
   test-user:
