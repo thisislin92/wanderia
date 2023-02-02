@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon",
-    "test": "mocha tests/**/*.test.js --timeout 10000"
+    "test": "nyc mocha tests/**/*.test.js --timeout 10000 --exit"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +18,8 @@
     "mocha": "^10.2.0",
     "mongodb": "^5.0.0",
     "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "nyc": "^15.1.0"
   }
 }

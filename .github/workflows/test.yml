@@ -1,13 +1,9 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - backend/01-initialize
   pull_request:
     branches:
       - main
-      - backend/01-initialize
 
 jobs:
   test:
@@ -22,6 +18,6 @@ jobs:
     - name: Install dependencies
       run: npm i
       working-directory: server/user
-    - name: Run unit tests using Mocha
-      run: npm test -- --reporter=spec --testPathPattern='mocha tests/**/*.test.js' --exit
+    - name: Run unit tests using nyc and Mocha
+      run: npm test -- --reporter=nyc
       working-directory: server/user
