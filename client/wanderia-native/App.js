@@ -102,13 +102,19 @@ function RootNavigator() {
 export default function App() {
     return (
         <AuthenticatedUserProvider>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={{ flex: 1 }}
-                keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 20}
-            >
-                <RootNavigator />
-            </KeyboardAvoidingView>
+            <SafeAreaProvider>
+                <Provider store={store}>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        style={{ flex: 1 }}
+                        keyboardVerticalOffset={
+                            Platform.OS === "ios" ? -64 : 20
+                        }
+                    >
+                        <RootNavigator />
+                    </KeyboardAvoidingView>
+                </Provider>
+            </SafeAreaProvider>
         </AuthenticatedUserProvider>
     );
 }
