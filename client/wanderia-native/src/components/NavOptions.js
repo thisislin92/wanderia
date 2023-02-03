@@ -5,21 +5,32 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { selectOrigin } from "../stores/slices/navSlice";
 import tw from "tailwind-react-native-classnames";
-
-const data = [
-    {
-        id: "1",
-        title: "Get a ride",
-        image: "https://links.papareact.com/3pn",
-        screen: "MapScreen",
-    },
-    {
-        id: "2",
-        title: "Order food",
-        image: "https://links.papareact.com/28w",
-        screen: "EatsScreen",
-    },
-];
+const data=[
+  {
+    id:'1',
+    title:'Get a ride',
+    image:'https://links.papareact.com/3pn',
+    screen:'MapScreen'
+  },
+  {
+    id:'2',
+    title:'Order food',
+    image:'https://links.papareact.com/28w',
+    screen:'EatsScreen'
+  },
+  {
+    id:'3',
+    title:'Chat',
+    image:'https://links.papareact.com/28w',
+    screen:'ChatScreen'
+  },
+  {
+    id:'4',
+    title:'Login',
+    image:'https://links.papareact.com/28w',
+    screen:'LoginScreen'
+  }
+]
 
 const NavOptions = () => {
     const navigation = useNavigation();
