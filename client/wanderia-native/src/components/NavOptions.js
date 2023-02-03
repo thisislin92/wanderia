@@ -1,6 +1,6 @@
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import {Icon} from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 
 const data=[
@@ -15,6 +15,18 @@ const data=[
     title:'Order food',
     image:'https://links.papareact.com/28w',
     screen:'EatsScreen'
+  },
+  {
+    id:'3',
+    title:'Chat',
+    image:'https://links.papareact.com/28w',
+    screen:'ChatScreen'
+  },
+  {
+    id:'4',
+    title:'Login',
+    image:'https://links.papareact.com/28w',
+    screen:'LoginScreen'
   }
 ]
 
