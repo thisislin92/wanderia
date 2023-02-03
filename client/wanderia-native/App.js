@@ -29,7 +29,10 @@ const AuthenticatedUserProvider = ({ children }) => {
 
 function MainStack() {
     return (
-        <Stack.Navigator defaultScreenOptions={HomeScreen}>
+        <Stack.Navigator
+            defaultScreenOptions={HomeScreen}
+            screenOptions={{ headerShown: false }}
+        >
             <Stack.Screen
                 name="HomeScreen"
                 component={HomeScreen}
