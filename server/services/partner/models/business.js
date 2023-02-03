@@ -38,5 +38,16 @@ module.exports = (sequelize, DataTypes) => {
         business.latitude = check[0];
         business.longitude = check[1];
     });
+    Business.beforeUpdate(function (business) {
+        let checkLatitude = business.mapUrl.split("/");
+        let check;
+        checkLatitude.map(function (el) {
+            if (el.includes("@")) {
+                check = el.slice(1).split(",");
+            }
+        });
+        business.latitude = check[0];
+        business.longitude = check[1];
+    });
     return Business;
 };

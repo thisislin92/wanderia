@@ -18,6 +18,29 @@ class BusinessController {
             console.log(error);
         }
     }
+
+    static async editBusiness(req, res, next) {
+        try {
+            const id = req.params.id;
+            const { name, description, CategoryId, mapUrl } = req.body;
+            const data = await Business.update(
+                {
+                    name,
+                    description,
+                    CategoryId,
+                    mapUrl,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                }
+            );
+            res.status(201).json("data berhasil di update");
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = BusinessController;

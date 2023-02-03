@@ -6,6 +6,7 @@ const router = express.Router();
 router.post("/partner/register", UserController.register);
 router.post("/partner/login", UserController.login);
 router.post("/business", BusinessController.createBusiness);
+router.patch("/business/:id", BusinessController.editBusiness);
 router.get("/", (req, res) => {
     res.send("Hello World!");
 });
