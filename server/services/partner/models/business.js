@@ -9,6 +9,18 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Business.belongsTo(models.Category, {
+                foreignKey: "CategoryId",
+                as: "category",
+            });
+            Business.belongsTo(models.Partner, {
+                foreignKey: "PartnerId",
+                as: "author",
+            });
+            Business.hasMany(models.Post, {
+                foreignKey: "BusinessId",
+                as: "posts",
+            });
         }
     }
     Business.init(
@@ -57,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             PartnerId: DataTypes.INTEGER,
             status: DataTypes.STRING,
+            imageUrl: DataTypes.STRING,
         },
         {
             sequelize,
@@ -64,6 +77,17 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
     Business.beforeCreate(function (business) {
+        let checkLatitude = business.mapUrl.split("/");
+        let check;
+        checkLatitude.map(function (el) {
+            if (el.includes("@")) {
+                check = el.slice(1).split(",");
+            }
+        });
+        business.latitude = check[0];
+        business.longitude = check[1];
+    });
+    Business.beforeUpdate(function (business) {
         let checkLatitude = business.mapUrl.split("/");
         let check;
         checkLatitude.map(function (el) {
