@@ -23,8 +23,8 @@ const upload = multer({ storage: storage });
 routerPost.get("/", PostControler.getAllPost);
 routerPost.post(
     "/add-post/:id",
-    upload.array("imageUrl"),
     authorization,
+    upload.array("imageUrl"),
     PostControler.createPost
 );
 routerPost.delete("/:id", PostControler.deletePost);
