@@ -29,32 +29,35 @@ const HomeScreen = () => {
         signOut(auth).catch((error) => alert(error.message));
     };
 
-    useLayoutEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                dispatch(setLocationPermission(false));
-            }
-            dispatch(setLocationPermission(true));
-            let location = await Location.getCurrentPositionAsync({});
-            // console.log("location", location);
-            let reverseGeoCode = await Location.reverseGeocodeAsync({
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-            });
+    const deviceLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+            dispatch(setLocationPermission(false));
+            return;
+        }
+        dispatch(setLocationPermission(true));
+        let location = await Location.getCurrentPositionAsync({});
+        // console.log("location", location);
+        let reverseGeoCode = await Location.reverseGeocodeAsync({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+        });
 
-            let address = `${reverseGeoCode[0].district} ${reverseGeoCode[0].subregion} ${reverseGeoCode[0].region} ${reverseGeoCode[0].country}`;
-            // console.log("address", address);
-            dispatch(
-                setOrigin({
-                    location: {
-                        lat: location.coords.latitude,
-                        lng: location.coords.longitude,
-                    },
-                    description: address,
-                })
-            );
-        })();
+        let address = `${reverseGeoCode[0].district} ${reverseGeoCode[0].subregion} ${reverseGeoCode[0].region} ${reverseGeoCode[0].country}`;
+        // console.log("address", address);
+        dispatch(
+            setOrigin({
+                location: {
+                    lat: location.coords.latitude,
+                    lng: location.coords.longitude,
+                },
+                description: address,
+            })
+        );
+    };
+
+    useEffect(() => {
+        deviceLocation();
     }, []);
 
     return (
