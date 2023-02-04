@@ -59,6 +59,17 @@ class BusinessController {
             console.log(error);
         }
     }
+
+    static async getOneBusiness(req, res, next) {
+        try {
+            const { id } = req.params;
+
+            const data = await Business.findByPk(id);
+            res.status(200).json(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = BusinessController;

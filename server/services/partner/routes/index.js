@@ -10,6 +10,7 @@ router.post("/partner/login", UserController.login);
 router.use(authentication);
 router.get("/business", BusinessController.getAllBusinesses);
 router.post("/business", BusinessController.createBusiness);
+router.get("/business/:id", BusinessController.getOneBusiness);
 router.patch("/business/:id", authorization, BusinessController.editBusiness);
 router.get("/categories", CategoryController.readCategory);
 
