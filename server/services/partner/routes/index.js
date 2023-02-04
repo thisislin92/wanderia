@@ -4,14 +4,12 @@ const CategoryController = require("../controllers/categoryController");
 const UserController = require("../controllers/userController");
 const { authentication, authorization } = require("../middleware/auth");
 const router = express.Router();
-const postRouter = require('./postRoute')
+const postRouter = require("./postRoute");
 
-
-
-router.use('/post', postRouter)
 router.post("/partner/register", UserController.register);
 router.post("/partner/login", UserController.login);
 router.use(authentication);
+router.use("/post", postRouter);
 router.get("/business", BusinessController.getAllBusinesses);
 router.post("/business", BusinessController.createBusiness);
 router.get("/business/:id", BusinessController.getOneBusiness);

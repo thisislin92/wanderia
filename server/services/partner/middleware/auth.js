@@ -30,9 +30,13 @@ async function authentication(req, res, next) {
 async function authorization(req, res, next) {
     try {
         const { id } = req.params;
+
         const data = await Business.findOne({
             where: { id },
         });
+        if (!data) {
+            throw { name: `errorNotFound` };
+        }
         if (req.user.id === data.PartnerId) {
             next();
         } else {
