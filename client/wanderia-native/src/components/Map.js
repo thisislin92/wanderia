@@ -9,6 +9,9 @@ import {
     selectWaypoints,
 } from "../stores/slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
+import { useDispatch } from "react-redux";
+import { setTravelTimeInformation } from "../stores/slices/navSlice";
+import * as Location from "expo-location";
 
 const Map = () => {
     const origin = useSelector(selectOrigin);
@@ -16,6 +19,7 @@ const Map = () => {
     const destination = useSelector(selectDestination);
     const waypoints = useSelector(selectWaypoints);
     const mapRef = useRef(null);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!origin || !destination) return;
@@ -27,6 +31,44 @@ const Map = () => {
                 edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
             }
         );
+    }, [origin, destination]);
+
+    useEffect(() => {
+        if (!origin || !destination) return;
+        // Get the distance and time of the route and every waypoints
+        const waypointInput = waypoints.map((waypoint) => {
+            Location.reverseGeocodeAsync({
+                latitude: waypoint.latitude,
+                longitude: waypoint.longitude,
+            })
+                .then((res) => {
+                    console.log("res", res);
+                    let address = `${res[0].district} ${res[0].subregion} ${res[0].region} ${res[0].country}`;
+                    console.log("address", address);
+                    return address;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        });
+
+        console.log("====================================");
+        console.log("waypointInput", waypointInput);
+        console.log("====================================");
+
+        const getTravelTime = async () => {
+            fetch(
+                `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin.description}&destinations=${destination.description}&key=AIzaSyCPqKoUKVc1aUxhG4vGluGxF3OOr8ProL4`
+            )
+                .then((res) => res.json())
+                .then((data) => {
+                    dispatch(
+                        setTravelTimeInformation(data.rows[0].elements[0])
+                    );
+                });
+        };
+
+        getTravelTime();
     }, [origin, destination]);
 
     return (
