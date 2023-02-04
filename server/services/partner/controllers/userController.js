@@ -8,7 +8,7 @@ class UserController {
             const data = await Partner.create({ name, email, password });
             res.status(201).json(data);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 
@@ -35,7 +35,7 @@ class UserController {
 
             res.status(200).json({ accessToken });
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 }
