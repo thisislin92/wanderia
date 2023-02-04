@@ -5,50 +5,54 @@ const { readFileSync } = require("fs"); // this is used to import the graphql sc
 
 //contract
 const userTypeDefs = readFileSync(
-  require.resolve("./graphql/user.graphql")
+  require.resolve("./types/user.graphql")
 ).toString("utf-8");
 
 const userResolver = {
-    Query: {
-        getAllUsers: async () => {
-            try {
-                const cache = await redis.get("users")
-                if (cache) {
-                    const data = await JSON.parse(cache)
-                    return data
-                } else {
-                    const { data } = await axios.get(`${process.env.USER_URL}/users`)
-                    await redis.set("users", JSON.stringify(data))
-                    return data
-                }
-            } catch (error) {
-                throw error.response.data
-            }
-        },
-    },
-    Mutation: {
-        registerNewUser: async (_, args) => {
-            try {
-                // const {
-                //   name,
-                //   email,
-                //   password,
-                //   phoneNumber,
-                //   dateOfBirth,
-                //   address
-                // } = args.input
-                const response = await axios({
-                    method: "POST",
-                    url: `${process.env.USER_URL}/users`,
-                    data: args.input,
-                })
-                await redis.del('users')
-                return response.data
-            } catch (error) {
-                throw error.response.data;
-            }
+  Query: {
+    getAllUsers: async () => {
+      try {
+        const cache = await redis.get("users");
+        if (cache) {
+          const data = await JSON.parse(cache);
+          return data;
+        } else {
+          const { data } = await axios.get(`${process.env.USER_URL}/users`);
+          await redis.set("users", JSON.stringify(data));
+          return data;
         }
-    }
+      } catch (error) {
+        throw error.response.data;
+      }
+    },
+  },
+  Mutation: {
+    registerNewUser: async (_, args) => {
+      try {
+        const response = await axios({
+          method: "POST",
+          url: `${process.env.USER_URL}/users`,
+          data: args.input,
+        });
+        await redis.del("users");
+        return response.data;
+      } catch (error) {
+        throw error.response.data;
+      }
+    },
+    deleteUserById: async (_, args) => {
+      try {
+        const response = await axios({
+          method: "DELETE",
+          url: `${process.env.USER_URL}/users/${args._id}`,
+        });
+        await redis.del("users");
+        return response.data;
+      } catch (error) {
+        throw error.response.data;
+      }
+    },
+  },
 };
 
-module.exports = { userTypeDefs, userResolver }
+module.exports = { userTypeDefs, userResolver };
