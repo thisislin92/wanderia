@@ -17,10 +17,11 @@ module.exports = (sequelize, DataTypes) => {
             latitude: DataTypes.FLOAT,
             longitude: DataTypes.FLOAT,
             description: DataTypes.TEXT,
-            mapUrl: DataTypes.STRING,
+            mapUrl: DataTypes.TEXT,
             CategoryId: DataTypes.INTEGER,
             PartnerId: DataTypes.INTEGER,
             status: DataTypes.STRING,
+            imageUrl: DataTypes.STRING,
         },
         {
             sequelize,

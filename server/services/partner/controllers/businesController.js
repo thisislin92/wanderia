@@ -2,14 +2,21 @@ const { Partner, Business } = require("../models/index");
 class BusinessController {
     static async createBusiness(req, res, next) {
         try {
-            const { name, description, CategoryId, mapUrl, PartnerId } =
-                req.body;
+            const {
+                name,
+                description,
+                CategoryId,
+                mapUrl,
+                PartnerId,
+                imageUrl,
+            } = req.body;
             const data = await Business.create({
                 name,
                 description,
                 CategoryId,
                 mapUrl,
                 PartnerId,
+                imageUrl,
                 status: "pending",
             });
 
@@ -22,13 +29,15 @@ class BusinessController {
     static async editBusiness(req, res, next) {
         try {
             const id = req.params.id;
-            const { name, description, CategoryId, mapUrl } = req.body;
+            const { name, description, CategoryId, mapUrl, imageUrl } =
+                req.body;
             const data = await Business.update(
                 {
                     name,
                     description,
                     CategoryId,
                     mapUrl,
+                    imageUrl,
                 },
                 {
                     where: {
