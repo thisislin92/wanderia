@@ -33,9 +33,9 @@ class User {
     static async findUserByPk(id) {
         try {
             const db = getDatabase()
-            const dataUserFromDb = db.collection("User")
+            const dataUserFromDb = db.collection("Users")
             const data = await dataUserFromDb.findOne({
-                _id: ObjectId(id)
+                _id: new ObjectId(id)
             })
             return data
         } catch (error) {
@@ -48,7 +48,7 @@ class User {
             const db = getDatabase()
             const dataUserFromDb = db.collection("Users")
             const data = await dataUserFromDb.deleteOne({
-                _id:ObjectId(id)
+                _id: new ObjectId(id)
             })
             return data
         } catch (error) {
