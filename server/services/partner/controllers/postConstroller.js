@@ -16,12 +16,12 @@ class PostControler{
                     // BusinessId: findBusiness.id
                 }
             })
-            console.log(postImagesData, "<<");
+            // console.log(postImagesData, "<<");
 
             const dataPost = await Post.bulkCreate(postImagesData)
             res.status(201).json(dataPost)
         } catch (error) {
-            console.log(error);
+            next(error)
         }
     }
 
@@ -31,12 +31,12 @@ class PostControler{
             const {id} = req.params
             const dataPost = await Post.findByPk(id)
             if(!dataPost){
-                throw {name: "DataNotFound"}
+                throw {name: "errorNotFound"}
             }
             await Post.destroy({where: {id}})
             res.status(200).json({message: "Success to Delete"})
         } catch (error) {
-            console.log(error);
+            next(error)
         }
     }
 
