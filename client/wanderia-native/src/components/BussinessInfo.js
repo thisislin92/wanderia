@@ -39,13 +39,13 @@ const BussinessInfo = () => {
           </TouchableOpacity>
           <ScrollView horizontal className='flex-row gap-2'>
             <View>
-              <ChatUser username={'user1'} />
+              <ChatUser username={'fahmifachrizal'} />
             </View>
             <View>
               <ChatUser username={'user1'} />
             </View>
             <View>
-              <ChatUser username={'user1'} />
+              <ChatUser username={'user2'} />
             </View>
           </ScrollView>
         </View>

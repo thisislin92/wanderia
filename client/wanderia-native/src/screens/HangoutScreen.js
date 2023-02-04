@@ -65,7 +65,13 @@ const HangoutScreen = () => {
                 <Text className='py-1 pr-1 text-white'>You</Text>
               </View>
               <View>
+                <ChatUser username={'fahmifachrizal'}/>
+              </View>
+              <View>
                 <ChatUser username={'user1'}/>
+              </View>
+              <View>
+                <ChatUser username={'user2'}/>
               </View>
             </ScrollView>
           </View>
