@@ -22,7 +22,7 @@ class BusinessController {
 
             res.status(201).json(data);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 
@@ -47,7 +47,7 @@ class BusinessController {
             );
             res.status(201).json("data berhasil di update");
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 
@@ -56,7 +56,7 @@ class BusinessController {
             const data = await Business.findAll();
             res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 
@@ -67,7 +67,7 @@ class BusinessController {
             const data = await Business.findByPk(id);
             res.status(200).json(data);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 }
