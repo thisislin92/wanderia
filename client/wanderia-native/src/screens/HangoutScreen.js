@@ -1,19 +1,19 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useState, useLayoutEffect, useCallback } from 'react';
 import * as Icons from '@expo/vector-icons'
+import { ScrollView } from 'react-native-gesture-handler'
 import { GiftedChat } from 'react-native-gifted-chat'
 import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore';
 import { auth, database } from '../../config/firebase';
 import { useNavigation } from '@react-navigation/native';
+import ChatUser from '../components/ChatUser';
 
-const DirectChatScreen = ({ route }) => {
+const HangoutScreen = () => {
   const navigator = useNavigation()
   const [messages, setMessages] = useState([])
-  const { username } = route.params;
-  const collectionName = auth?.currentUser?.displayName < username ? auth?.currentUser?.displayName + username : username + auth?.currentUser?.displayName
   
   useLayoutEffect(()=>{
-    const collectionRef = collection(database, collectionName)
+    const collectionRef = collection(database, 'bussiness1')
     const q = query(collectionRef, orderBy('createdAt', 'desc'))
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -30,7 +30,7 @@ const DirectChatScreen = ({ route }) => {
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
     const { _id, createdAt, text, user } = messages[0]
-    addDoc(collection(database, collectionName), {
+    addDoc(collection(database, 'bussiness1'), {
       _id,
       createdAt,
       text,
@@ -46,10 +46,29 @@ const DirectChatScreen = ({ route }) => {
           <Icons.Feather name='arrow-left' className='text-2xl'/>
         </TouchableOpacity>
         <View className=''>
-          <Text className='text-xl font-semibold'>@{ username }</Text>
+          <Text className='text-xl font-semibold'>Bussiness Name</Text>
         </View>
         <View className='w-8 h-8'>
           {/* Hollow space to make space-between */}
+        </View>
+      </View>
+
+      <View className='px-4 mt-2'>
+        {/* Sub Header */}
+        <View className='h-20'>
+          <View>
+            <Text className='text-lg font-semibold mb-1'>User at here</Text>
+          </View>
+          <View className='mt-3'>
+            <ScrollView horizontal className='gap-2'>
+              <View className='bg-[#3982F7] rounded-xl flex-row items-center gap-x-1 px-1 text-white border-[1px]'>
+                <Text className='py-1 pr-1 text-white'>You</Text>
+              </View>
+              <View>
+                <ChatUser username={'user1'}/>
+              </View>
+            </ScrollView>
+          </View>
         </View>
       </View>
 
@@ -72,4 +91,4 @@ const DirectChatScreen = ({ route }) => {
   )
 }
 
-export default DirectChatScreen
+export default HangoutScreen
