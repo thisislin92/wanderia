@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/partner/register", UserController.register);
 router.post("/partner/login", UserController.login);
 router.use(authentication);
+router.get("/business", BusinessController.getAllBusinesses);
 router.post("/business", BusinessController.createBusiness);
 router.patch("/business/:id", authorization, BusinessController.editBusiness);
 router.get("/categories", CategoryController.readCategory);

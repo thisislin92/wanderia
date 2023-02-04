@@ -50,6 +50,15 @@ class BusinessController {
             console.log(error);
         }
     }
+
+    static async getAllBusinesses(req, res, next) {
+        try {
+            const data = await Business.findAll();
+            res.status(200).json(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = BusinessController;
