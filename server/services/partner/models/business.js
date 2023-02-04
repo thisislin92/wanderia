@@ -12,13 +12,49 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
     Business.init(
-        {
-            name: DataTypes.STRING,
+        { // category id valid, name, valid, mapurl valid,
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notNull:{
+                        msg: "Name is Required"
+                    },
+                    notEmpty:{
+                        msg: "Name is Required"
+                    }
+                }
+            },
             latitude: DataTypes.FLOAT,
             longitude: DataTypes.FLOAT,
             description: DataTypes.TEXT,
-            mapUrl: DataTypes.STRING,
-            CategoryId: DataTypes.INTEGER,
+            mapUrl: {
+                type:DataTypes.STRING,
+                allowNull: false,
+                validate:{
+                    notNull:{
+                        msg: "Location is Required"
+                    },
+                    notEmpty:{
+                        msg: "Location is Required"
+                    },
+                    isUrl:{
+                        msg: "Location must be URL from maps location"
+                    }
+                }
+            },
+            CategoryId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate:{
+                    notNull: {
+                        msg: "Category is Required"
+                    },
+                    notEmpty: {
+                        msg: "Category is Required"
+                    }
+                }
+            },
             PartnerId: DataTypes.INTEGER,
             status: DataTypes.STRING,
         },

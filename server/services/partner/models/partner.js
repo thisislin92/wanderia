@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
     Partner.init(
-        {
+        {// validate semua, email isemail, email uuniq, 
             name: DataTypes.STRING,
             email: DataTypes.STRING,
             password: DataTypes.STRING,
