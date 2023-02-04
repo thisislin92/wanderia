@@ -41,6 +41,11 @@ const errorHandlers = (error, req, res, next) => {
       code = 404;
       msg = "Not found";
       break;
+    case "MongoServerError": {
+      if (error.message.includes("E11000 duplicate key error collection")) {
+        code = 409;
+      }
+    }
     default:
       break;
   }
