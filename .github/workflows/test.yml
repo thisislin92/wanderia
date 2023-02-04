@@ -20,5 +20,5 @@ jobs:
       run: npm i
       working-directory: server/services/user
     - name: Run unit tests using nyc and Mocha
-      run: npm test -- --reporter=nyc
+      run: npm test
       working-directory: server/services/user
