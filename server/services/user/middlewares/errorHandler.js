@@ -8,8 +8,14 @@ const errorHandlers = (error, req, res, next) => {
       code = 401;
       msg = "Invalid token";
       break;
-    case "MissingOrInvalidJWT":
-      (code = 401), (msg = "Invalid token");
+    // error from custom error messages
+    case "EmailRequired":
+      code = 400;
+      msg = "Email is required";
+      break;
+    case "PasswordRequired":
+      code = 400;
+      msg = "Password is required";
       break;
     case "InvalidCredentials":
       code = 401;

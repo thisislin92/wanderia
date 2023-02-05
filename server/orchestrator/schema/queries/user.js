@@ -1,6 +1,4 @@
-const { gql } = require("graphql-tag");
-
-const USER_GET_ALL_USERS = gql`
+const USER_GET_ALL_USERS = `#graphql
   query {
     getAllUsers {
       _id
@@ -15,7 +13,7 @@ const USER_GET_ALL_USERS = gql`
   }
 `;
 
-const USER_REGISTER_NEW_USER = gql`
+const USER_REGISTER_NEW_USER = `#graphql
   mutation Mutation($input: NewUser) {
     registerNewUser(input: $input) {
       _id
@@ -30,7 +28,7 @@ const USER_REGISTER_NEW_USER = gql`
   }
 `;
 
-const USER_DELETE_USER_BY_ID = gql`
+const USER_DELETE_USER_BY_ID = `#graphql
   mutation Mutation($_id: ID) {
     deleteUserById(_id: $_id) {
       message
@@ -39,7 +37,7 @@ const USER_DELETE_USER_BY_ID = gql`
   }
 `;
 
-const USER_UPDATE_USER = gql`
+const USER_UPDATE_USER = `#graphql
   mutation Mutation($input: UpdateUser) {
     updateUser(input: $input) {
       _id
@@ -52,9 +50,18 @@ const USER_UPDATE_USER = gql`
   }
 `;
 
+const USER_LOGIN_USER = `#graphql
+  mutation Mutation($input: LoginUser) {
+    loginUser(input: $input) {
+      access_token
+    }
+  }
+`;
+
 module.exports = {
   USER_GET_ALL_USERS,
   USER_REGISTER_NEW_USER,
   USER_DELETE_USER_BY_ID,
   USER_UPDATE_USER,
+  USER_LOGIN_USER,
 };
