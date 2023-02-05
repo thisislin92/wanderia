@@ -31,6 +31,7 @@ class userController {
         phoneNumber,
         dateOfBirth,
         address,
+
       });
 
       const newUser = await User.findUserByPk(data.insertedId)
@@ -44,7 +45,10 @@ class userController {
         address,
         createdAt: newUser.created_at,
         updatedAt: null
+
+        
       });
+      
     } catch (error) {
       next(error);
     }
