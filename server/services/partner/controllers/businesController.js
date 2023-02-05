@@ -2,14 +2,9 @@ const { Partner, Business, Post, Category } = require("../models/index");
 class BusinessController {
     static async createBusiness(req, res, next) {
         try {
-            const {
-                name,
-                description,
-                CategoryId,
-                mapUrl,
-                PartnerId,
-                imageUrl,
-            } = req.body;
+            const { name, description, CategoryId, mapUrl, imageUrl } =
+                req.body;
+            const PartnerId = req.user.id;
             const data = await Business.create({
                 name,
                 description,
@@ -19,7 +14,6 @@ class BusinessController {
                 imageUrl,
                 status: "pending",
             });
-
             res.status(201).json(data);
         } catch (error) {
             next(error);
@@ -82,6 +76,36 @@ class BusinessController {
             const { id } = req.params;
 
             const data = await Business.findByPk(id, {
+                include: [
+                    {
+                        model: Partner,
+                        as: "author",
+                        attributes: { exclude: ["password"] },
+                    },
+                    {
+                        model: Category,
+                        as: "category",
+                    },
+                    {
+                        model: Post,
+                        as: "posts",
+                    },
+                ],
+                order: [["name", "ASC"]],
+            });
+            res.status(200).json(data);
+        } catch (error) {
+            next(error);
+        }
+    }
+    // additional method
+    static async getPartnerBusiness(req, res, next) {
+        try {
+            const PartnerId = req.user.id;
+            const data = await Business.findAll({
+                where: {
+                    PartnerId,
+                },
                 include: [
                     {
                         model: Partner,
