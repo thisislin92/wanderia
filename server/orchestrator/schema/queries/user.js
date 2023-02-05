@@ -22,6 +22,7 @@ const USER_REGISTER_NEW_USER = `#graphql
       phoneNumber
       dateOfBirth
       address
+      role
       createdAt
       updatedAt
     }
@@ -46,6 +47,21 @@ const USER_UPDATE_USER = `#graphql
       phoneNumber
       dateOfBirth
       address
+      role
+    }
+  }
+`;
+
+const USER_UPDATE_USER_ROLE = `#graphql
+  mutation Mutation($input: UpdateUserRole) {
+    updateUserRole(input: $input) {
+      _id
+      name
+      email
+      phoneNumber
+      dateOfBirth
+      address
+      role
     }
   }
 `;
@@ -63,5 +79,6 @@ module.exports = {
   USER_REGISTER_NEW_USER,
   USER_DELETE_USER_BY_ID,
   USER_UPDATE_USER,
+  USER_UPDATE_USER_ROLE,
   USER_LOGIN_USER,
 };
