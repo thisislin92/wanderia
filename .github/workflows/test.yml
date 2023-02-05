@@ -16,13 +16,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
-      - name: Install dependencies
+      - name: Install dependencies (user-service)
+        run: npm i
+        working-directory: server/services/user
+      - name: Run microservice (user-service)
+        run: npm run start
+        working-directory: server/services/user
+      - name: Install dependencies (orchestrator)
         run: npm i
         working-directory: server/orchestrator
-      - name: Check env
-        run: echo ${{ secrets.REDIS_HOST }}
       - name: Run unit tests using nyc and Mocha
-        run: REDIS_HOST=${{ secrets.REDIS_HOST }} REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} REDIS_PORT=${{ secrets.REDIS_PORT }} REDIS_USERNAME=${{ secrets.REDIS_USERNAME }} npm test
+        run: npm test
+        env:
+          USER_URL: "http://localhost:4001"
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_USERNAME: ${{ secrets.REDIS_USERNAME }}
         working-directory: server/orchestrator
   test-user:
     runs-on: ubuntu-latest
