@@ -1,7 +1,7 @@
 type User {
   _id: ID
   name: String
-  email: String,
+  email: String
   phoneNumber: String
   dateOfBirth: String
   address: String
@@ -18,6 +18,15 @@ input NewUser {
   address: String
 }
 
+input UpdateUser {
+  _id: ID!
+  name: String
+  email: String
+  phoneNumber: String
+  dateOfBirth: String
+  address: String
+}
+
 type Message {
   code: Int
   message: String!
@@ -29,5 +38,6 @@ type Query {
 
 type Mutation {
   registerNewUser(input: NewUser): User
+  updateUser(input: UpdateUser): User
   deleteUserById(_id: ID): Message
 }

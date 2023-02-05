@@ -40,6 +40,19 @@ const userResolver = {
         throw error.response.data;
       }
     },
+    updateUser: async (_, args) => {
+      try {
+        const response = await axios({
+          method: "PATCH",
+          url: `${process.env.USER_URL}/users/${args.input._id}`,
+          data: args.input,
+        });
+        await redis.del("users");
+        return response.data;
+      } catch (error) {
+        throw error.response.data;
+      }
+    },
     deleteUserById: async (_, args) => {
       try {
         const response = await axios({
