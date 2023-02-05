@@ -15,7 +15,15 @@ const server = new ApolloServer({
   introspection: true,
 });
 
-startStandaloneServer(server, { listen: { port } })
+const options = {
+  context: ({ req }) => {
+    const token = req.headers.access_token || "";
+    return { token };
+  },
+  listen: { port },
+};
+
+startStandaloneServer(server, options)
   .then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
   })
@@ -23,4 +31,4 @@ startStandaloneServer(server, { listen: { port } })
     console.log(err);
   });
 
-module.exports = server
+module.exports = server;

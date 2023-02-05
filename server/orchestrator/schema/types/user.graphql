@@ -9,6 +9,15 @@ type User {
   updatedAt: String
 }
 
+type LoginResponse {
+  access_token: String
+}
+
+input LoginUser {
+  email: String!
+  password: String!
+}
+
 input NewUser {
   name: String
   email: String!
@@ -38,6 +47,7 @@ type Query {
 
 type Mutation {
   registerNewUser(input: NewUser): User
+  loginUser(input: LoginUser): LoginResponse
   updateUser(input: UpdateUser): User
   deleteUserById(_id: ID): Message
 }
