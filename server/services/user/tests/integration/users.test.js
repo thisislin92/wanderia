@@ -6,36 +6,7 @@ const app = require("../../app");
 const { runConnection, getDatabase } = require("../../config/mongodb");
 
 let userIdDuringTesting;
-
-describe("Test GET /users endpoint", () => {
-  it("should return an array of users with a 200 status code", async () => {
-    const res = await request(app).get("/users/");
-    expect(res.statusCode).to.equal(200);
-    expect(res.body).to.be.an("array");
-    expect(res.body[0]).to.have.property("_id");
-    expect(res.body[0]).to.have.property("name");
-    expect(res.body[0]).to.have.property("email");
-    expect(res.body[0]).to.not.have.property("password");
-    expect(res.body[0]).to.have.property("dateOfBirth");
-    expect(res.body[0]).to.have.property("createdAt");
-    expect(res.body[0]).to.have.property("updatedAt");
-  });
-});
-
-describe("Test GET /users/:id endpoint", () => {
-  it("should return a user object with a 200 status code", async () => {
-    const res = await request(app).get("/users/63da8d0c624ef9527e594d1f");
-    expect(res.statusCode).to.equal(200);
-    expect(res.body).to.be.an("object");
-    expect(res.body).to.have.property("_id", "63da8d0c624ef9527e594d1f");
-    expect(res.body).to.have.property("name", "Lina");
-    expect(res.body).to.have.property("email", "herlinalim93@gmail.com");
-    expect(res.body).to.not.have.property("password");
-    expect(res.body).to.have.property("dateOfBirth");
-    expect(res.body).to.have.property("createdAt");
-    expect(res.body).to.have.property("updatedAt");
-  });
-});
+let accessTokenDuringTesting;
 
 describe("Test POST /users endpoint", () => {
   it("should create a user and return with 201 status code and the created user data", async () => {
@@ -118,6 +89,75 @@ describe("Test PATCH /users/:id endpoint", () => {
     // expect(res.body).to.have.property("message", "Invalid data"); // TODO: find better error message for duplicate
   });
 });
+
+describe("Test POST /users/login endpoint", () => {
+  it("should return a 401 status code and an error message if the email is not found", async () => {
+    const res = await request(app).post("/users/login").send({
+      email: "johndoe@example.com",
+      password: "password",
+    });
+    expect(res.statusCode).to.equal(401);
+    expect(res.body).to.have.property("code", 401);
+    expect(res.body).to.have.property("message", "Invalid email/password");
+  });
+  it("should return a 401 status code and an error message if the password is incorrect", async () => {
+    const res = await request(app).post("/users/login").send({
+      email: "johndoeupdated@example.com",
+      password: "password-invalid",
+    });
+    expect(res.statusCode).to.equal(401);
+    expect(res.body).to.have.property("code", 401);
+    expect(res.body).to.have.property("message", "Invalid email/password");
+  });
+  it("should return a 200 status code and the user data if the email and password is correct", async () => {
+    const res = await request(app).post("/users/login").send({
+      email: "johndoeupdated@example.com",
+      password: "password",
+    });
+    expect(res.statusCode).to.equal(200);
+    expect(res.body).to.be.an("object");
+    expect(res.body).to.have.property("access_token");
+    accessTokenDuringTesting = res.body.access_token;
+  });
+});
+
+describe("Test GET /users endpoint", () => {
+  it("should return an error 401, because trying to access without token", async () => {
+    const res = await request(app).get("/users/");
+    expect(res.statusCode).to.equal(401);
+    expect(res.body).to.be.an("object");
+    expect(res.body).to.have.property("code", 401);
+    expect(res.body).to.have.property("message", "Invalid token");
+  });
+  it("should return an array of users with a 200 status code", async () => {
+    const res = await request(app).get("/users/").set("access_token", accessTokenDuringTesting);
+    expect(res.statusCode).to.equal(200);
+    expect(res.body).to.be.an("array");
+    expect(res.body[0]).to.have.property("_id");
+    expect(res.body[0]).to.have.property("name");
+    expect(res.body[0]).to.have.property("email");
+    expect(res.body[0]).to.not.have.property("password");
+    expect(res.body[0]).to.have.property("dateOfBirth");
+    expect(res.body[0]).to.have.property("createdAt");
+    expect(res.body[0]).to.have.property("updatedAt");
+  });
+});
+
+describe("Test GET /users/:id endpoint", () => {
+  it("should return a user object with a 200 status code", async () => {
+    const res = await request(app).get("/users/63da8d0c624ef9527e594d1f");
+    expect(res.statusCode).to.equal(200);
+    expect(res.body).to.be.an("object");
+    expect(res.body).to.have.property("_id", "63da8d0c624ef9527e594d1f");
+    expect(res.body).to.have.property("name", "Lina");
+    expect(res.body).to.have.property("email", "herlinalim93@gmail.com");
+    expect(res.body).to.not.have.property("password");
+    expect(res.body).to.have.property("dateOfBirth");
+    expect(res.body).to.have.property("createdAt");
+    expect(res.body).to.have.property("updatedAt");
+  });
+});
+
 
 describe("Test DELETE /users/:id endpoint", () => {
   it("should failed to delete by returning a 404 status code if the user is not found", async () => {
