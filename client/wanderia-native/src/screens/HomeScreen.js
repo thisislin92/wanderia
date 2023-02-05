@@ -1,5 +1,12 @@
-import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import {
+    Image,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useLayoutEffect } from "react";
 import NavOptions from "../components/NavOptions";
 // import tw from 'tailwind-react-native-classnames';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -11,38 +18,72 @@ import {
 } from "../stores/slices/navSlice";
 import * as Location from "expo-location";
 import NavFavorites from "../components/NavFavorites";
+import { Icon } from "react-native-elements";
+import { signOut } from "firebase/auth";
+import { auth, database } from "../../config/firebase";
 
 const HomeScreen = () => {
     const dispatch = useDispatch();
 
+    const handleSignOut = () => {
+        signOut(auth).catch((error) => alert(error.message));
+    };
+
+    const deviceLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+            dispatch(setLocationPermission(false));
+            return;
+        }
+        dispatch(setLocationPermission(true));
+        let location = await Location.getCurrentPositionAsync({});
+        // console.log("location", location);
+        let reverseGeoCode = await Location.reverseGeocodeAsync({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+        });
+
+        let address = `${reverseGeoCode[0].district} ${reverseGeoCode[0].subregion} ${reverseGeoCode[0].region} ${reverseGeoCode[0].country}`;
+        // console.log("address", address);
+        dispatch(
+            setOrigin({
+                location: {
+                    lat: location.coords.latitude,
+                    lng: location.coords.longitude,
+                },
+                description: address,
+            })
+        );
+    };
+
     useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                dispatch(setLocationPermission(false));
-            }
-            dispatch(setLocationPermission(true));
-            let location = await Location.getCurrentPositionAsync({});
-            console.log("location", location);
-            dispatch(
-                setOrigin({
-                    location: {
-                        lat: location.coords.latitude,
-                        lng: location.coords.longitude,
-                    },
-                    description: "Current Location",
-                })
-            );
-        })();
+        deviceLocation();
     }, []);
 
     return (
         <SafeAreaView className="bg-white h-full">
             <View className="p-5">
-                <Image
-                    style={{ width: 100, height: 100, resizeMode: "contain" }}
-                    source={{ uri: "https://links.papareact.com/gzs" }}
-                />
+                <View className="flex flex-row justify-between">
+                    <Image
+                        className="bg-white h-full"
+                        style={{
+                            width: 150,
+                            height: 150,
+                            resizeMode: "contain",
+                            marginTop: 20,
+                        }}
+                        source={{ uri: "https://i.imgur.com/fLn2YRT.png" }}
+                    />
+                    <TouchableOpacity onPress={handleSignOut}>
+                        <Icon
+                            className="p-2 bg-[#893189] rounded-full w-10 mt-10"
+                            name="logout"
+                            color="white"
+                            type="antdesign"
+                            style={{ marginLeft: 10 }}
+                        />
+                    </TouchableOpacity>
+                </View>
                 <GooglePlacesAutocomplete
                     placeholder="Where from?"
                     styles={{
@@ -54,8 +95,8 @@ const HomeScreen = () => {
                         language: "en",
                     }}
                     onPress={(data, details = null) => {
-                        // console.log(data.description, "<<<<<<<<");
-                        // console.log(details.geometry);
+                        console.log(data.description, "<<<<<<<<");
+                        console.log(details.geometry.location, "<<<<<<<<");
                         // console.log(setOrigin, "setOrigin");
                         dispatch(
                             setOrigin({

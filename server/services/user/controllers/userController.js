@@ -8,6 +8,7 @@ class userController {
         return {
           ...user,
 
+          password: undefined,
           created_at: undefined,
           createdAt: user.created_at,
           updatedAt: user.updatedAt || null
@@ -20,7 +21,7 @@ class userController {
     }
   }
 
-  static async createUser(req, res, next) {
+  static async registerUser(req, res, next) {
     try {
       const { email, password, phoneNumber, address, name, dateOfBirth } = req.body;
       const data = await User.createUser({
@@ -32,7 +33,18 @@ class userController {
         address,
       });
 
-      res.status(200).json(data);
+      const newUser = await User.findUserByPk(data.insertedId)
+
+      res.status(201).json({
+        _id: data.insertedId,
+        name,
+        email,
+        phoneNumber,
+        dateOfBirth,
+        address,
+        createdAt: newUser.created_at,
+        updatedAt: null
+      });
     } catch (error) {
       next(error);
     }
@@ -42,8 +54,21 @@ class userController {
     try {
 
       const  {id}  = req.params;
-      const dataUsers = await User.findUserByPk(id);
-      res.status(200).json(dataUsers);
+      const dataUser = await User.findUserByPk(id);
+      if (!dataUser) {
+        res.status(404).json({
+          code: 404,
+          messages: "User not found"
+        })
+      }
+      
+      const response = {
+        ...dataUser,
+        password: undefined,
+        createdAt: dataUser.created_at,
+        updatedAt: null
+      }
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }
@@ -55,14 +80,14 @@ class userController {
     const dataUsers = await User.findUserByPk(id);
     if(!dataUsers) {
         throw {
-            name:"notFound"
+            name:"NotFound"
         }
     }
     const data = await User.deleteUser(id)
     res.status(200).json({message:" Successfully Deleted"})
       
     } catch (error) {
-        nest(error)
+        next(error)
     }
     
 }
