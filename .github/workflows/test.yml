@@ -19,8 +19,8 @@ jobs:
       - name: Install dependencies (user-service)
         run: npm i
         working-directory: server/services/user
-      - name: Run microservice (user-service)
-        run: npm run start
+      - name: Run microservice (user-service) in background
+        run: nohup node app.js > /dev/null 2>&1 &
         working-directory: server/services/user
       - name: Install dependencies (orchestrator)
         run: npm i
