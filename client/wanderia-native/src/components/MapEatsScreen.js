@@ -28,7 +28,6 @@ const MapEatsScreen = ({ bussinessMarker }) => {
                 marker.longitude <= bounds.northEast.longitude + 0.005
         );
     };
-
     return (
         <>
             <View className="absolute top-16 left-5 z-50 w-20 h-10 items-center justify-center bg-white rounded-full shadow border-[1px] border-gray-200">
@@ -76,6 +75,9 @@ const MapEatsScreen = ({ bussinessMarker }) => {
                                         <TouchableOpacity
                                             className="h-16 w-56 bg-white rounded-xl"
                                             onPress={() => {
+                                                console.log(
+                                                    "tap <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+                                                );
                                                 dispatcher(
                                                     openMarker(marker.id)
                                                 );

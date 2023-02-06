@@ -35,10 +35,10 @@ const EatScreen = () => {
             </View>
             <View
                 className={`${
-                    markerState ? "h-1/2" : "h-0"
-                } duration-200 w-full bg-white`}
+                    markerState ? `h-1/2` : `h-0`
+                } duration-200 w-full bg-white `}
             >
-                <BussinessInfo />
+                <BussinessInfo markerState={markerState} />
             </View>
         </View>
     );
