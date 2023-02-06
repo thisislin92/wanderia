@@ -20,7 +20,7 @@ class RoutesController {
         try {
             const { placeOfOrigin, destination, BussinessId, UserId } = req.body
 
-            let prompt = `tunjukkan satu rute perjalanan dari ${placeOfOrigin} ke ${destination} yang indah dan banyak tempat wisatanya dengan format nama jalan dan nama kota saja tanpa tanda baca`
+            let prompt = `tunjukkan tiga rute perjalanan dari ${placeOfOrigin} ke ${destination} yang melewati tempat //data-bisnis-seeding beserta latitude dan longitudenya`
 
             const { data } = await openai.createCompletion({
                 model: "text-davinci-003",

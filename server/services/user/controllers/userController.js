@@ -1,4 +1,7 @@
+const { hashPassword, compareHash } = require("../helpers/bcrypt");
+const { createToken } = require("../helpers/jwt");
 const User = require("../models/users");
+const bcrypt = require("bcryptjs");
 
 class userController {
     static async findAllUser(req, res, next) {
@@ -10,7 +13,7 @@ class userController {
 
                     password: undefined,
                     created_at: undefined,
-                    createdAt: user.created_at,
+                    createdAt: user.created_at || null,
                     updatedAt: user.updatedAt || null,
                 };
             });
@@ -28,10 +31,11 @@ class userController {
             const data = await User.createUser({
                 name,
                 email,
-                password,
+                password: bcrypt.hashSync(password, 10),
                 phoneNumber,
                 dateOfBirth,
                 address,
+                role: "user",
             });
 
             const newUser = await User.findUserByPk(data.insertedId);
@@ -43,11 +47,45 @@ class userController {
                 phoneNumber,
                 dateOfBirth,
                 address,
-                createdAt: newUser.created_at,
+                role: "user",
+                createdAt: newUser.created_at || null,
                 updatedAt: null,
             });
         } catch (error) {
-            console.log(error);
+            next(error);
+        }
+    }
+
+    static async loginUser(req, res, next) {
+        console.log('masuk login')
+        try {
+            const { email, password } = req.body;
+            if (!email) {
+                throw { name: `EmailRequired` };
+            }
+            if (!password) {
+                throw { name: `PasswordRequired` };
+            }
+
+            const userFromMongoDb = await User.findUserByEmail(email);
+            // console.log(userFromMongoDb)
+            if (!userFromMongoDb) {
+                throw { name: `InvalidCredentials` };
+            }
+            const compared = compareHash(password, userFromMongoDb.password);
+            if (!compared) {
+                throw { name: `InvalidCredentials` };
+            }
+            const payload = {
+                id: userFromMongoDb._id,
+                name: userFromMongoDb.name,
+                email: userFromMongoDb.email,
+                role: userFromMongoDb.role || "user",
+            };
+            const access_token = createToken(payload);
+
+            res.status(200).json({ access_token });
+        } catch (error) {
             next(error);
         }
     }
@@ -98,6 +136,45 @@ class userController {
                 phoneNumber,
                 address,
                 dateOfBirth,
+                password: undefined,
+                createdAt: dataUser.created_at,
+                updatedAt: data.updated_at || null,
+            };
+            res.status(200).json(response);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async updateUserRoleByPk(req, res, next) {
+        try {
+            const { id, role } = req.params;
+            const listOfRole = ["superadmin", "user"];
+            if (!listOfRole.includes(role)) {
+                throw {
+                    name: "InvalidRole",
+                };
+            }
+
+            // only superadmin can update role
+            if (req.user.role !== "superadmin") {
+                throw {
+                    name: "Unauthorized",
+                };
+            }
+
+            const dataUser = await User.findUserByPk(id);
+            if (!dataUser) {
+                throw {
+                    name: "NotFound",
+                };
+            }
+            const data = await User.updateUser(id, {
+                role,
+            });
+            const response = {
+                ...dataUser,
+                role,
                 password: undefined,
                 createdAt: dataUser.created_at,
                 updatedAt: data.updated_at || null,

@@ -39,22 +39,9 @@ module.exports = (sequelize, DataTypes) => {
             },
             latitude: DataTypes.FLOAT,
             longitude: DataTypes.FLOAT,
-            description: DataTypes.TEXT,
-            mapUrl: {
-                type:DataTypes.STRING,
-                allowNull: false,
-                validate:{
-                    notNull:{
-                        msg: "Location is Required"
-                    },
-                    notEmpty:{
-                        msg: "Location is Required"
-                    },
-                    isUrl:{
-                        msg: "Location must be URL from maps location"
-                    }
-                }
-            },
+            price: DataTypes.STRING,
+            rating: DataTypes.STRING,
+            address: DataTypes.TEXT,
             CategoryId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,

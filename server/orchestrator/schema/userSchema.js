@@ -10,16 +10,20 @@ const userTypeDefs = readFileSync(
 
 const userResolver = {
     Query: {
-        getAllUsers: async () => {
+        getAllUsers: async (_, args, contextValue) => {
             try {
                 const cache = await redis.get("users");
                 if (cache) {
                     const data = await JSON.parse(cache);
                     return data;
                 } else {
-                    const { data } = await axios.get(
-                        `${process.env.USER_URL}/users`
-                    );
+                    const { data } = await axios({
+                        method: "GET",
+                        url: `${process.env.USER_URL}/users`,
+                        headers: {
+                            access_token: contextValue.token,
+                        },
+                    });
                     await redis.set("users", JSON.stringify(data));
                     return data;
                 }
@@ -28,6 +32,7 @@ const userResolver = {
             }
         },
     },
+
     Mutation: {
         registerNewUser: async (_, args) => {
             try {
@@ -69,6 +74,7 @@ const userResolver = {
         },
         loginUser: async (_, args) => {
             try {
+                // console.log("masuk login, schema");
                 const response = await axios({
                     method: "POST",
                     url: `${process.env.USER_URL}/users/login`,
@@ -80,6 +86,67 @@ const userResolver = {
             }
         },
     },
+    // loginUser: async (_, args) => {
+    //     try {
+    //         const response = await axios({
+    //             method: "POST",
+    //             url: `${process.env.USER_URL}/users/login`,
+    //             data: args.input,
+    //         });
+    //         return response.data;
+    //     } catch (error) {
+    //         throw error.response.data;
+    //     }
+    // },
+    // updateUser: async (_, args, contextValue) => {
+    //     try {
+    //         const response = await axios({
+    //             method: "PATCH",
+    //             url: `${process.env.USER_URL}/users/${args.input._id}`,
+    //             data: {
+    //                 ...args.input,
+    //                 _id: undefined, // so that the _id is not updated
+    //             },
+    //             headers: {
+    //                 access_token: contextValue.token,
+    //             },
+    //         });
+    //         await redis.del("users");
+    //         return response.data;
+    //     } catch (error) {
+    //         throw error.response.data;
+    //     }
+    // },
+    // updateUserRole: async (_, args, contextValue) => {
+    //     try {
+    //         const response = await axios({
+    //             method: "PATCH",
+    //             url: `${process.env.USER_URL}/users/${args.input._id}/role/${args.input.role}`,
+    //             headers: {
+    //                 access_token: contextValue.token,
+    //             },
+    //         });
+    //         await redis.del("users");
+    //         return response.data;
+    //     } catch (error) {
+    //         throw error.response.data;
+    //     }
+    // },
+    // deleteUserById: async (_, args, contextValue) => {
+    //     try {
+    //         const response = await axios({
+    //             method: "DELETE",
+    //             url: `${process.env.USER_URL}/users/${args._id}`,
+    //             headers: {
+    //                 access_token: contextValue.token,
+    //             },
+    //         });
+    //         await redis.del("users");
+    //         return response.data;
+    //     } catch (error) {
+    //         throw error.response.data;
+    //     }
+    // },
 };
 
 module.exports = { userTypeDefs, userResolver };

@@ -5,11 +5,12 @@ import { useNavigation } from '@react-navigation/native'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 
+
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigation()
-
+  
   const handleLogin = () => {
     // console.log(email, password)
     signInWithEmailAndPassword(auth, email, password)
