@@ -5,7 +5,11 @@ const routerPost = express.Router();
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
-const { authorization, postAuthorization } = require("../middleware/auth");
+const {
+    authorization,
+    postAuthorization,
+    authentication,
+} = require("../middleware/auth");
 cloudinary.config({
     cloud_name: "dcbsnkbgr",
     api_key: "663657673789959",
@@ -21,6 +25,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 routerPost.get("/", PostControler.getAllPost);
+routerPost.use(authentication);
 routerPost.post(
     "/add-post/:id",
     authorization,
