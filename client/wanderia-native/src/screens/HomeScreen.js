@@ -6,11 +6,11 @@ import {
     View,
     TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NavOptions from "../components/NavOptions";
 // import tw from 'tailwind-react-native-classnames';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     setDestination,
     setOrigin,
@@ -21,9 +21,13 @@ import NavFavorites from "../components/NavFavorites";
 import { Icon } from "react-native-elements";
 import { signOut } from "firebase/auth";
 import { auth, database } from "../../config/firebase";
+import { selectOrigin } from "../stores/slices/navSlice";
 
 const HomeScreen = () => {
     const dispatch = useDispatch();
+    const origin = useSelector(selectOrigin);
+    const [location, setLocation] = useState(null);
+    const [address, setAddress] = useState(null);
 
     const handleSignOut = () => {
         signOut(auth).catch((error) => alert(error.message));
@@ -38,6 +42,7 @@ const HomeScreen = () => {
         dispatch(setLocationPermission(true));
         let location = await Location.getCurrentPositionAsync({});
         // console.log("location", location);
+
         let reverseGeoCode = await Location.reverseGeocodeAsync({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
@@ -45,6 +50,15 @@ const HomeScreen = () => {
 
         let address = `${reverseGeoCode[0].district} ${reverseGeoCode[0].subregion} ${reverseGeoCode[0].region} ${reverseGeoCode[0].country}`;
         // console.log("address", address);
+        setAddress(address);
+
+        setLocation({
+            location: {
+                lat: location.coords.latitude,
+                lng: location.coords.longitude,
+            },
+            description: address,
+        });
         dispatch(
             setOrigin({
                 location: {
@@ -59,6 +73,10 @@ const HomeScreen = () => {
     useEffect(() => {
         deviceLocation();
     }, []);
+
+    useEffect(() => {
+        dispatch(setOrigin(location));
+    }, [address]);
 
     return (
         <SafeAreaView className="bg-white h-full">
