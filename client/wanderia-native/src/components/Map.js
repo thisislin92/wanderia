@@ -97,6 +97,18 @@ const Map = () => {
                 longitudeDelta: 0.005,
             }}
             showsMyLocationButton={true}
+            camera={
+                startNavigation && {
+                    center: {
+                        latitude: origin.location.lat,
+                        longitude: origin.location.lng,
+                    },
+                    pitch: 60,
+                    heading: 0,
+                    altitude: 1000,
+                    zoom: 20,
+                }
+            }
         >
             {origin && destination && waypoints && (
                 <MapViewDirections
