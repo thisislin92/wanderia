@@ -25,7 +25,7 @@ const EatScreen = () => {
           <MapEatsScreen bussinessMarker={bussinessMarker}/>
         </View>
           <View className={`${markerState?`h-1/2`:`h-0`} duration-200 w-full bg-white `}>
-            <BussinessInfo />
+            <BussinessInfo markerState={markerState}/>
           </View>
       </View>
   )
