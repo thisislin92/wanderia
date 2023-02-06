@@ -17,6 +17,11 @@ router.use(authentication);
 router.use("/post", postRouter);
 router.get("/business", BusinessController.getPartnerBusiness);
 router.post("/business", BusinessController.createBusiness);
+
+router.get("/categories", CategoryController.readCategory);
+router.get("/business/:id", BusinessController.getOneBusiness);
+
+
 router.patch("/business/:id", authorization, BusinessController.editBusiness);
 
 module.exports = router;
