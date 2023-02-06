@@ -35,6 +35,7 @@ class userController {
         phoneNumber,
         dateOfBirth,
         address,
+        role: "user"
       });
 
       const newUser = await User.findUserByPk(data.insertedId);
@@ -46,7 +47,8 @@ class userController {
         phoneNumber,
         dateOfBirth,
         address,
-        createdAt: newUser.created_at,
+        role: "user",
+        createdAt: newUser.created_at || null,
         updatedAt: null,
       });
     } catch (error) {
@@ -76,6 +78,7 @@ class userController {
         id: userFromMongoDb._id,
         name: userFromMongoDb.name,
         email: userFromMongoDb.email,
+        role: userFromMongoDb.role || "user",
       };
       const access_token = createToken(payload);
 
@@ -131,6 +134,45 @@ class userController {
         phoneNumber,
         address,
         dateOfBirth,
+        password: undefined,
+        createdAt: dataUser.created_at,
+        updatedAt: data.updated_at || null,
+      };
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateUserRoleByPk(req, res, next) {
+    try {
+      const { id, role } = req.params;
+      const listOfRole = ["superadmin", "user"];
+      if (!listOfRole.includes(role)) {
+        throw {
+          name: "InvalidRole",
+        };
+      }
+
+      // only superadmin can update role
+      if(req.user.role !== "superadmin"){
+        throw {
+          name: "Unauthorized",
+        };
+      }
+
+      const dataUser = await User.findUserByPk(id);
+      if (!dataUser) {
+        throw {
+          name: "NotFound",
+        };
+      }
+      const data = await User.updateUser(id, {
+        role
+      });
+      const response = {
+        ...dataUser,
+        role,
         password: undefined,
         createdAt: dataUser.created_at,
         updatedAt: data.updated_at || null,

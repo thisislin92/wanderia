@@ -21,6 +21,14 @@ const errorHandlers = (error, req, res, next) => {
       code = 401;
       msg = "Invalid email/password";
       break;
+    case "InvalidRole":
+      code = 400;
+      msg = "Invalid role";
+      break;
+    case "Unauthorized":
+      code = 403;
+      msg = "Unauthorized";
+      break;
     case "Unauthenticated":
       code = 401;
       msg = "Unauthenticated";

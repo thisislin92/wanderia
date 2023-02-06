@@ -63,7 +63,25 @@ const userResolver = {
         const response = await axios({
           method: "PATCH",
           url: `${process.env.USER_URL}/users/${args.input._id}`,
-          data: args.input,
+          data: { 
+            ...args.input,
+            _id: undefined // so that the _id is not updated
+          },
+          headers: {
+            access_token: contextValue.token,
+          }
+        });
+        await redis.del("users");
+        return response.data;
+      } catch (error) {
+        throw error.response.data;
+      }
+    },
+    updateUserRole: async (_, args, contextValue) => {
+      try {
+        const response = await axios({
+          method: "PATCH",
+          url: `${process.env.USER_URL}/users/${args.input._id}/role/${args.input.role}`,
           headers: {
             access_token: contextValue.token,
           }
