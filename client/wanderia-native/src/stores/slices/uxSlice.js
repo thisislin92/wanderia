@@ -4,9 +4,10 @@ const initialState = {
     bussinessInfo:{}
 };
 
-const foodReducer = (state = initialState, action) => {
+const markerReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'openMarker':
+      console.log(action.payload[0])
       return {
         ...state,
         markerState:true,
@@ -16,7 +17,7 @@ const foodReducer = (state = initialState, action) => {
       return {
         ...state,
         markerState:false,
-        bussinessInfo:{}
+        // bussinessInfo:{}
       }
     case 'mapMarkers':
       return {
@@ -28,4 +29,4 @@ const foodReducer = (state = initialState, action) => {
   }
 }
 
-export default foodReducer
+export default markerReducer

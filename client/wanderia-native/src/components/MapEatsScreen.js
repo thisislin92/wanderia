@@ -4,13 +4,14 @@ import MapView, { Marker, Callout } from 'react-native-maps'
 import * as Icons from '@expo/vector-icons'
 import { openMarker } from '../stores/actionCreator'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const MapEatsScreen = ({ bussinessMarker }) => {
   const navigator = useNavigation()
   const dispatcher = useDispatch()
-  const [bounds, setBounds] = useState(null);
+  const [ bounds, setBounds ] = useState(null);
   const mapRef = useRef(null);
+  const { markerState } = useSelector((state) => state.ux)
 
   const onRegionChangeComplete = () => {
     mapRef.current.getMapBoundaries().then((map) => {
@@ -31,9 +32,10 @@ const MapEatsScreen = ({ bussinessMarker }) => {
 
   return (
     <>
-      <View className='absolute top-16 left-5 z-50 w-10 h-10 items-center justify-center bg-white rounded-full shadow border-[1px] border-gray-200'>
+      <View className='absolute top-16 left-5 z-50 w-20 h-10 items-center justify-center bg-white rounded-full shadow border-[1px] border-gray-200'>
         <TouchableOpacity className='flex-row justify-between' onPress={()=>navigator.navigate('HomeScreen')}>
           <Icons.Feather name='arrow-left' className='text-2xl'/>
+          <Text>{markerState.toString()}</Text>
         </TouchableOpacity>
       </View>
       <MapView
@@ -60,12 +62,10 @@ const MapEatsScreen = ({ bussinessMarker }) => {
                   <Text className='text-3xl'>{String.fromCodePoint(parseInt (marker.icon, 16))}</Text>
                 </View>
                 <Callout tooltip>
-                  <View className="h-16 w-56 bg-white rounded-xl">
-                    <TouchableOpacity className='pl-2 h-full w-full bg-white rounded-xl flex-row flex-1 items-center border-[1px] border-gray-200 shadow'
-                      onPress={()=>{
-                        console.log('tap >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+                  <TouchableOpacity className="h-16 w-56 bg-white rounded-xl" onPress={()=>{
                         dispatcher(openMarker(marker.id))
                       }}>
+                    <View className={`border-gray-200 pl-2 h-full w-full bg-white rounded-xl flex-row flex-1 items-center border-[1px] shadow`}>
                       <Image source={{uri:marker.imageUrl}} className='h-12 w-12 rounded-xl'/>
                       <View className='flex-1 px-1'>
                         <View>
@@ -78,8 +78,8 @@ const MapEatsScreen = ({ bussinessMarker }) => {
                           <Icons.FontAwesome5 name="users" className='text-xl text-gray-800'/>
                         </View>
                       </View>
-                    </TouchableOpacity>
-                  </View>
+                    </View>
+                  </TouchableOpacity>
                 </Callout>
             </Marker>
           )})
