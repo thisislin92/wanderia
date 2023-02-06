@@ -1,13 +1,7 @@
 const initialState = {
     markerState: false,
-    markers:[], // {id, name, description, lat, lng, categories, events}
-    bussinessInfo:{
-      bussinessId:'',
-      name:'',
-      description:'',
-      events:[],
-      categories:'',
-    }
+    markers:[], // {id, name, address, latitude, longitude, category, icon, rating, price, events}
+    bussinessInfo:{}
 };
 
 const foodReducer = (state = initialState, action) => {
@@ -15,7 +9,14 @@ const foodReducer = (state = initialState, action) => {
     case 'openMarker':
       return {
         ...state,
-        markerState:!state.markerState,
+        markerState:true,
+        bussinessInfo:action.payload[0]
+      }
+    case 'closeMarker':
+      return {
+        ...state,
+        markerState:false,
+        bussinessInfo:{}
       }
     case 'mapMarkers':
       return {

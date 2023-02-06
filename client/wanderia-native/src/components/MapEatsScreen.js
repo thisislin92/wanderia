@@ -1,19 +1,33 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import MapView, { Marker, Callout } from 'react-native-maps'
 import * as Icons from '@expo/vector-icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { mapMarkers, openMarker } from '../stores/actionCreator'
+import { openMarker } from '../stores/actionCreator'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
 
-const MapEatsScreen = () => {
+const MapEatsScreen = ({ bussinessMarker }) => {
   const navigator = useNavigation()
   const dispatcher = useDispatch()
-  const { markers:bussinessMarker } = useSelector((state) => state.ux)
+  const [bounds, setBounds] = useState(null);
+  const mapRef = useRef(null);
 
-  useLayoutEffect(() => {
-    dispatcher(mapMarkers())
-  }, [])
+  const onRegionChangeComplete = () => {
+    mapRef.current.getMapBoundaries().then((map) => {
+      setBounds(map);
+    });
+  };
+
+  const filterMarkers = (bussinessMarker, bounds) => {
+    return bussinessMarker.filter(
+      (marker) =>
+        marker.latitude >= bounds.southWest.latitude-0.005 &&
+        marker.latitude <= bounds.northEast.latitude+0.005 &&
+        marker.longitude >= bounds.southWest.longitude-0.005 &&
+        marker.longitude <= bounds.northEast.longitude+0.005
+    );
+  };
+
 
   return (
     <>
@@ -23,6 +37,8 @@ const MapEatsScreen = () => {
         </TouchableOpacity>
       </View>
       <MapView
+        ref={mapRef}
+        onRegionChangeComplete={onRegionChangeComplete}
         className='flex-1'
         initialRegion={{
           maptype: 'mutedStandard',
@@ -33,11 +49,12 @@ const MapEatsScreen = () => {
         }}
       >
 
-        {
-          bussinessMarker.map((marker) => (
-            <Marker key={marker.id} coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude}
+        { bounds &&
+          filterMarkers(bussinessMarker, bounds).map((marker, index) => {
+            return (
+            <Marker key={'marker'+index} coordinate={{
+              latitude: +marker.latitude,
+              longitude: +marker.longitude}
             } title={marker.name} description='origin'>
                 <View className='p-2 bg-white rounded-full shadow border-[1px] border-gray-200'>
                   <Text className='text-3xl'>{String.fromCodePoint(parseInt (marker.icon, 16))}</Text>
@@ -45,24 +62,27 @@ const MapEatsScreen = () => {
                 <Callout tooltip>
                   <View className="h-16 w-56 bg-white rounded-xl">
                     <TouchableOpacity className='pl-2 h-full w-full bg-white rounded-xl flex-row flex-1 items-center border-[1px] border-gray-200 shadow'
-                      onPress={()=>dispatcher(openMarker())}>
+                      onPress={()=>{
+                        console.log('tap >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+                        dispatcher(openMarker(marker.id))
+                      }}>
                       <Image source={{uri:marker.imageUrl}} className='h-12 w-12 rounded-xl'/>
-                      <View className='flex-1 px-2'>
+                      <View className='flex-1 px-1'>
                         <View>
-                          <Text className='text-lg'>{marker.name.length>17?marker.name.slice(0,14)+'...':marker.name}</Text>
-                          <Text className='text-xs font-light text-gray-500'>{marker.description.length>20?marker.description.slice(0,25)+'...':marker.description}</Text>
+                          <Text className='text-lg'>{marker.name?.length>20?marker.name.slice(0,17)+'...':marker.name}</Text>
+                          <Text className='text-xs font-light text-gray-500'>{marker.address?.length>20?marker.address.slice(0,20)+'...':marker.address}</Text>
                         </View>
                       </View>
-                      <View className='h-full w-10 rounded-r-xl pr-2'>
+                      <View className='h-full w-8 rounded-r-xl pr-2'>
                         <View className='flex-1 w-full h-full items-center justify-center border-b-[1px] border-gray-200'>
-                          <Icons.FontAwesome5 name="users" className='text-2xl text-gray-800'/>
+                          <Icons.FontAwesome5 name="users" className='text-xl text-gray-800'/>
                         </View>
                       </View>
                     </TouchableOpacity>
                   </View>
                 </Callout>
             </Marker>
-          ))
+          )})
         }
       </MapView>
     </>

@@ -1,5 +1,6 @@
 const actions = {
   openMarker: 'openMarker',
+  closeMarker: 'closeMarker',
   mapMarkers: 'mapMarkers',
 }
 

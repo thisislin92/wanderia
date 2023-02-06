@@ -1,29 +1,18 @@
 import actions from './actionType';
+import { dummyMarkers } from './markers.json'
 
-const dummyMarkers = [
-  {
-    id: 1,
-    name: 'Bakso Pak Budi',
-    description:'vawbdk kjabwdjn kajwndlanwd',
-    icon: '1F969',
-    longitude: 106.7815256,
-    latitude: -6.2610437,
-    imageUrl:'https://i.pravatar.cc/300'
-  },
-  {
-    id: 2,
-    name: 'Pizza',
-    description: 'aebnfkjnaek akjbdanjkdwaaaiodoaw  iwadoiaipjd',
-    icon: '1F355',
-    longitude: 106.7815256,
-    latitude: -6.2603437,
-    imageUrl:'https://i.pravatar.cc/300'
-  }
-]
-
-export const openMarker = () => {
+export const openMarker = ( id ) => {
   return ( dispatch, getState ) => {
-    dispatch({type:actions.openMarker})
+    console.log(id, 'ketrigger pas open <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+    const data = getState().ux.markers.filter((marker) => marker.id === id)
+    dispatch({type:actions.openMarker, payload:data})
+  }
+}
+
+export const closeMarker = ( ) => {
+  return ( dispatch, getState ) => {
+    console.log('ketrigger pas close <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+    dispatch({type:actions.closeMarker})
   }
 }
 

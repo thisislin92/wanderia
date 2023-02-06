@@ -2,34 +2,50 @@ import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Icons from '@expo/vector-icons'
-import { openMarker } from '../stores/actionCreator'
+import { closeMarker } from '../stores/actionCreator'
 import { useNavigation } from '@react-navigation/native'
 import ChatUser from './ChatUser'
 
 
 const BussinessInfo = () => {
+  const { bussinessInfo } = useSelector((state) => state.ux)
   const navigator = useNavigation()
   const dispatcher = useDispatch()
 
   const { markerState } = useSelector((state) => state.ux)
   return (
     <>
-      { markerState?
+      { markerState &&
           <TouchableOpacity className='fixed -top-5 z-50 items-center justify-center'
-            onPress={()=>dispatcher(openMarker())}>
+            onPress={()=>dispatcher(closeMarker())}>
             <View className='h-10 w-10 bg-white items-center justify-center rounded-full border-[1px] border-gray-200'>
               <Icons.MaterialCommunityIcons name="chevron-double-down" className='text-3xl text-gray-800 rounded-xl'/>
             </View>
-          </TouchableOpacity>:null
-        }
+          </TouchableOpacity>
+      }
       <ScrollView className='px-4'>
-        <View className='flex-row gap-4 mb-4'>
-          <Image source={{uri:'https://i.pravatar.cc/300'}} className='w-24 h-32 rounded-xl'/>
-          <View className='gap-[2px]'>
-            <Text className='text-2xl font-semibold'>Bussiness Name</Text>
-            <Text className='text-lg'>Category</Text>
-            <Text className='text-gray-400'>address</Text>
-            <Text className=''>description</Text>
+        <View className='flex-row gap-3 mb-4'>
+          <Image source={{uri:bussinessInfo?.imageUrl}} className='w-24 h-32 rounded-xl object-contain'/>
+          <View className='gap-1 flex-1'>
+            <Text className='text-2xl font-semibold'>{bussinessInfo?.name}</Text>
+            <Text className='text-lg'>{bussinessInfo?.category}</Text>
+            <Text className='text-gray-400'>{bussinessInfo?.address}</Text>
+            <View className='flex-row gap-x-1'>
+              { bussinessInfo?.rating &&
+                <View className='flex-row gap-1 items-center'>
+                  <Text className='text-lg'>{bussinessInfo?.rating}</Text>
+                  <Icons.MaterialCommunityIcons name='star' className='text-lg'/>
+                </View>
+              }
+              { bussinessInfo?.price &&
+                <View className='flex-row gap-1 items-center'>
+                  <Text className='text-lg'>Price:</Text>
+                  {
+                    bussinessInfo?.price.split('').map(el=> <Icons.FontAwesome5 name='money-bill-wave' className='text-lg'/> )
+                  }
+                </View>
+              }
+            </View>
           </View>
         </View>
         <View className='mb-2'>
@@ -70,6 +86,7 @@ const BussinessInfo = () => {
           </ScrollView>
         </View>
       </ScrollView>
+
     </>
   )
 }
