@@ -19,8 +19,6 @@ import {
 } from "../stores/slices/navSlice";
 import * as Location from "expo-location";
 import NavFavorites from "../components/NavFavorites";
-import { Icon } from "react-native-elements";
-import { signOut } from "firebase/auth";
 import { auth, database } from "../../config/firebase";
 import { selectOrigin } from "../stores/slices/navSlice";
 
@@ -30,10 +28,6 @@ const HomeScreen = () => {
     const [location, setLocation] = useState(null);
     const [address, setAddress] = useState(null);
     const navigator = useNavigation();
-
-    const handleSignOut = () => {
-        signOut(auth).catch((error) => alert(error.message));
-    };
 
     const deviceLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -83,25 +77,36 @@ const HomeScreen = () => {
     return (
         <SafeAreaView className="bg-white h-full">
             <View className="p-5">
-              <View className='flex-row items-center justify-between'>
-                <View>
-                  <Image style={{
-                            width: 150,
-                            height: 150,
-                            resizeMode: "contain",
-                            marginTop: 20,
-                        }} source={{ uri: "https://i.imgur.com/fLn2YRT.png" }} />
+                <View className="flex-row items-center justify-between">
+                    <View>
+                        <Image
+                            style={{
+                                width: 150,
+                                height: 150,
+                                resizeMode: "contain",
+                                marginTop: 20,
+                            }}
+                            source={{ uri: "https://i.imgur.com/fLn2YRT.png" }}
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity
+                            onPress={() => navigator.navigate("ProfileScreen")}
+                        >
+                            {auth.currentUser.photoURL ? (
+                                <Image
+                                    source={{ uri: auth.currentUser.photoURL }}
+                                    className="w-10 h-10 bg-black rounded-full"
+                                />
+                            ) : (
+                                <Icons.FontAwesome5
+                                    name="user-circle"
+                                    className="text-3xl"
+                                />
+                            )}
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View>
-                  <TouchableOpacity onPress={()=>navigator.navigate('ProfileScreen')}>
-                    {
-                      auth.currentUser.photoURL?
-                      <Image source={{ uri: auth.currentUser.photoURL }} className='w-10 h-10 bg-black rounded-full'/>:
-                      <Icons.FontAwesome5 name="user-circle" className='text-3xl'/>
-                    }
-                  </TouchableOpacity>
-                </View>
-              </View>
                 <GooglePlacesAutocomplete
                     placeholder="Where from?"
                     styles={{
