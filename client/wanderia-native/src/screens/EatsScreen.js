@@ -21,15 +21,12 @@ const EatScreen = () => {
 
   return (
       <View className='flex-1 flex-col relative'>
-        <View className='flex-1 w-full z-40'>
+        <View className='flex-1 w-full'>
           <MapEatsScreen bussinessMarker={bussinessMarker}/>
         </View>
-        {
-          markerState &&
-          <View className='h-1/2 duration-200 w-full bg-white  z-40'>
+          <View className={`${markerState?`h-1/2`:`h-0`} duration-200 w-full bg-white `}>
             <BussinessInfo />
           </View>
-        }
       </View>
   )
 }

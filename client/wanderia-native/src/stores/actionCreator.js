@@ -3,7 +3,6 @@ import { dummyMarkers } from './markers.json'
 
 export const openMarker = ( id ) => {
   return ( dispatch, getState ) => {
-    console.log(id, 'ketrigger pas open <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
     const data = getState().ux.markers.filter((marker) => marker.id === id)
     dispatch({type:actions.openMarker, payload:data})
   }
@@ -11,7 +10,6 @@ export const openMarker = ( id ) => {
 
 export const closeMarker = ( ) => {
   return ( dispatch, getState ) => {
-    console.log('ketrigger pas close <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
     dispatch({type:actions.closeMarker})
   }
 }
