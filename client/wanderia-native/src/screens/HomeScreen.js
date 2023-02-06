@@ -8,8 +8,9 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import NavOptions from "../components/NavOptions";
-// import tw from 'tailwind-react-native-classnames';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as Icons from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import {
     setDestination,
@@ -28,6 +29,7 @@ const HomeScreen = () => {
     const origin = useSelector(selectOrigin);
     const [location, setLocation] = useState(null);
     const [address, setAddress] = useState(null);
+    const navigator = useNavigation();
 
     const handleSignOut = () => {
         signOut(auth).catch((error) => alert(error.message));
@@ -81,27 +83,25 @@ const HomeScreen = () => {
     return (
         <SafeAreaView className="bg-white h-full">
             <View className="p-5">
-                <View className="flex flex-row justify-between">
-                    <Image
-                        className="bg-white h-full"
-                        style={{
+              <View className='flex-row items-center justify-between'>
+                <View>
+                  <Image style={{
                             width: 150,
                             height: 150,
                             resizeMode: "contain",
                             marginTop: 20,
-                        }}
-                        source={{ uri: "https://i.imgur.com/fLn2YRT.png" }}
-                    />
-                    <TouchableOpacity onPress={handleSignOut}>
-                        <Icon
-                            className="p-2 bg-[#893189] rounded-full w-10 mt-10"
-                            name="logout"
-                            color="white"
-                            type="antdesign"
-                            style={{ marginLeft: 10 }}
-                        />
-                    </TouchableOpacity>
+                        }} source={{ uri: "https://i.imgur.com/fLn2YRT.png" }} />
                 </View>
+                <View>
+                  <TouchableOpacity onPress={()=>navigator.navigate('ProfileScreen')}>
+                    {
+                      auth.currentUser.photoURL?
+                      <Image source={{ uri: auth.currentUser.photoURL }} className='w-10 h-10 bg-black rounded-full'/>:
+                      <Icons.FontAwesome5 name="user-circle" className='text-3xl'/>
+                    }
+                  </TouchableOpacity>
+                </View>
+              </View>
                 <GooglePlacesAutocomplete
                     placeholder="Where from?"
                     styles={{
