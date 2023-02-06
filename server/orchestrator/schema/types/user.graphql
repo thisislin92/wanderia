@@ -5,8 +5,18 @@ type User {
   phoneNumber: String
   dateOfBirth: String
   address: String
+  role: String
   createdAt: String
   updatedAt: String
+}
+
+type LoginResponse {
+  access_token: String
+}
+
+input LoginUser {
+  email: String!
+  password: String!
 }
 
 input NewUser {
@@ -27,6 +37,11 @@ input UpdateUser {
   address: String
 }
 
+input UpdateUserRole {
+  _id: ID!
+  role: String!
+}
+
 type Message {
   code: Int
   message: String!
@@ -38,6 +53,8 @@ type Query {
 
 type Mutation {
   registerNewUser(input: NewUser): User
+  loginUser(input: LoginUser): LoginResponse
   updateUser(input: UpdateUser): User
+  updateUserRole(input: UpdateUserRole): User
   deleteUserById(_id: ID): Message
 }
