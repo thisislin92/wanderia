@@ -1,6 +1,8 @@
 const axios = require("axios");
-const FormData = require('form-data')
 const redis = require("../configs/ioredis");
+
+const cloudinary = require("cloudinary");
+
 
 const partnerPostTypeDef = `#graphql
     type PartnerPost {
@@ -17,11 +19,12 @@ const partnerPostTypeDef = `#graphql
     input NewPartnerPost {
         name: String,
         BusinessId: Int,
-        access_token: String
+        access_token: String,
+        photo: String
     }
 
     type Mutation {
-        addNewPartnerPost(input: NewPartnerPost): [PartnerPost] 
+        uploadPhoto(input: NewPartnerPost): PartnerPost
     }
 `;
 
@@ -51,19 +54,47 @@ const partnerPostResolver = {
         }
     },
     Mutation: {
-        addNewPartnerPost: async (_, args) => {
+        // addNewPartnerPost: async (_, args) => {
+        //     try {
+        //         const { name, BusinessId, access_token } = args.input
+        //         const response = await axios({
+        //             method: "POST",
+        //             url: `${process.env.PARTNER_URL}/add-post/${BusinessId}`,
+        //             data: { name },
+        //             headers: {
+        //                 access_token
+        //             }
+        //         })
+
+        //     } catch (error) {
+        //         throw error.response.data
+        //     }
+        // }
+        uploadPhoto: async (_, args) => {
+            const { name, BusinessId, access_token, photo } = args.input
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET,
+            });
             try {
-                const { name, BusinessId, access_token } = args.input
+                const result = await cloudinary.v2.uploader.upload(photo, {
+                    allowed_formats: ["jpg", "png"],
+                    public_id: "",
+                    folder: "Wanderia",
+                });
+                // return `Successful-Photo URL: ${result.url}`;
                 const response = await axios({
-                    method: "POST",
-                    url: `${process.env.PARTNER_URL}/add-post/${BusinessId}`,
-                    data: { name },
+                    method: 'POST',
+                    url: `${process.env.PARTNER_URL}/post/add/${BusinessId}`,
+                    data: { name, imageUrl: result.url },
                     headers: {
                         access_token
                     }
                 })
+                return response.data;
             } catch (error) {
-                throw error.response.data
+                return `Image could not be uploaded:${error.message}`;
             }
         }
     }
