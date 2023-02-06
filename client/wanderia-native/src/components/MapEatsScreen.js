@@ -71,18 +71,16 @@ const MapEatsScreen = ({ bussinessMarker }) => {
                                             )}
                                         </Text>
                                     </View>
-                                    <Callout tooltip>
-                                        <TouchableOpacity
-                                            className="h-16 w-56 bg-white rounded-xl"
-                                            onPress={() => {
-                                                console.log(
-                                                    "tap <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-                                                );
-                                                dispatcher(
-                                                    openMarker(marker.id)
-                                                );
-                                            }}
-                                        >
+                                    <Callout
+                                        tooltip
+                                        onPress={() => {
+                                            console.log(
+                                                "tap <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+                                            );
+                                            dispatcher(openMarker(marker.id));
+                                        }}
+                                    >
+                                        <TouchableOpacity className="h-16 w-56 bg-white rounded-xl">
                                             <View
                                                 className={`border-gray-200 pl-2 h-full w-full bg-white rounded-xl flex-row flex-1 items-center border-[1px] shadow`}
                                             >
