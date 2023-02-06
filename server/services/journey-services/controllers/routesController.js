@@ -1,4 +1,3 @@
-const { ObjectId } = require("mongodb")
 const Route = require("../models")
 
 const { Configuration, OpenAIApi } = require("openai");
@@ -48,7 +47,7 @@ class RoutesController {
                 }
             })
             await Route.create(payload)
-            res.status(201).json({ message: 'Success create new routes' })
+            res.status(201).json({ message: 'Success create new trip' })
         } catch (error) {
             next(error)
         }

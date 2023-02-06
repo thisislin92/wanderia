@@ -8,28 +8,10 @@ const errorHandlers = (error, req, res, next) => {
       code = 401;
       msg = "Invalid token";
       break;
-    case "SequelizeUniqueConstraintError":
-      code = 400;
-      msg = error.errors[0].message;
-      break;
-    case "SequelizeValidationError":
-      code = 400;
-      msg = error.errors[0].message;
-      break;
-    // custom error from backend
-    case "MissingEmail":
-      code = 400;
-      msg = "Email is required";
-      break;
-    case "MissingPassword":
-      code = 400;
-      msg = "Password is Required";
-      break;
     case "MissingOrInvalidJWT":
       (code = 401), (msg = "Invalid token");
       break;
     case "InvalidCredentials":
-      console.log("masuk");
       code = 401;
       msg = "Invalid email/password";
       break;

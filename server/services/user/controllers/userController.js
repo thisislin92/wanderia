@@ -56,17 +56,50 @@ class userController {
       const  {id}  = req.params;
       const dataUser = await User.findUserByPk(id);
       if (!dataUser) {
-        res.status(404).json({
-          code: 404,
-          messages: "User not found"
-        })
+        throw {
+          name: "NotFound"
+        }
       }
       
       const response = {
         ...dataUser,
         password: undefined,
         createdAt: dataUser.created_at,
-        updatedAt: null
+        updatedAt: dataUser.updated_at || null
+      }
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateUserByPk(req, res, next) {
+    try {
+      const  {id}  = req.params;
+      const { name, email, phoneNumber, address, dateOfBirth } = req.body;
+      const dataUser = await User.findUserByPk(id);
+      if (!dataUser) {
+        throw {
+          name: "NotFound"
+        }
+      }
+      const data = await User.updateUser(id, {
+        name,
+        email,
+        phoneNumber,
+        address,
+        dateOfBirth
+      });
+      const response = {
+        ...dataUser,
+        name,
+        email,
+        phoneNumber,
+        address,
+        dateOfBirth,
+        password: undefined,
+        createdAt: dataUser.created_at,
+        updatedAt: data.updated_at || null
       }
       res.status(200).json(response);
     } catch (error) {
