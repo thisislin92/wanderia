@@ -5,22 +5,21 @@ import * as Icons from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import ChatUser from './ChatUser'
 
-const BussinessInfo = () => {
+const BussinessInfo = ({markerState}) => {
   const { bussinessInfo } = useSelector((state) => state.ux)
   const navigator = useNavigation()
   const dispatcher = useDispatch()
-
   return (
     <>
-      
-      <TouchableOpacity className='fixed -top-5 items-center justify-center'
-        onPress={()=> {
-          dispatcher({type:'closeMarker'})}}>
-        <View className='h-10 w-10 bg-white items-center justify-center rounded-full border-[1px] border-gray-200'>
-          <Icons.MaterialCommunityIcons name="chevron-double-down" className='text-3xl text-gray-800 rounded-xl'/>
-        </View>
-      </TouchableOpacity>
-
+      { markerState &&
+        <TouchableOpacity className='fixed -top-5 z-50 items-center justify-center'
+          onPress={()=> {
+            dispatcher({type:'closeMarker'})}}>
+          <View className='h-10 w-10 bg-white items-center justify-center rounded-full border-[1px] border-gray-200'>
+            <Icons.MaterialCommunityIcons name="chevron-double-down" className='text-3xl text-gray-800 rounded-xl'/>
+          </View>
+        </TouchableOpacity>
+      }
       <ScrollView className='px-4'>
         <View className='flex-row gap-3 mb-4'>
           <Image source={{uri:bussinessInfo?.imageUrl}} className='w-24 h-32 rounded-xl object-contain'/>
