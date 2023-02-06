@@ -1,5 +1,7 @@
 "use strict";
 
+const { hashPassword } = require("../helpers/bcrypt");
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
@@ -12,13 +14,15 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
          */
-        const data = require("../categories.json").map(function (el) {
+        const data = require("../partner.json").map(function (el) {
+            delete el.id;
             el.createdAt = new Date();
             el.updatedAt = new Date();
+            el.password = hashPassword(el.password);
             return el;
         });
 
-        await queryInterface.bulkInsert("Categories", data, {});
+        await queryInterface.bulkInsert("Partners", data, {});
     },
 
     async down(queryInterface, Sequelize) {
@@ -28,6 +32,6 @@ module.exports = {
          * Example:
          * await queryInterface.bulkDelete('People', null, {});
          */
-        await queryInterface.bulkDelete("Categories", null, {});
+        await queryInterface.bulkDelete("Partners", null, {});
     },
 };
