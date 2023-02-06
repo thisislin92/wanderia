@@ -5,7 +5,7 @@ const request = require("supertest");
 const app = require("../../app");
 const { runConnection, getDatabase } = require("../../config/mongodb");
 
-let userIdDuringTesting
+let userIdDuringTesting;
 
 describe("Test GET /users endpoint", () => {
   it("should return an array of users with a 200 status code", async () => {
@@ -68,23 +68,68 @@ describe("Test POST /users endpoint", () => {
       address: "456 Main St",
       dateOfBirth: "1998-01-01",
     });
-  
-    expect(res.statusCode).to.equal(409);
-    // expect(res.body).to.have.property("message", "Email already exists");
-  });
 
+    expect(res.statusCode).to.equal(409);
+    // expect(res.body).to.have.property("message", "Email already exists"); // TODO: find better error message for duplicate
+  });
 });
 
+describe("Test PATCH /users/:id endpoint", () => {
+  it("should update a user and return with 200 status code and the updated user data", async () => {
+    const res = await request(app).patch(`/users/${userIdDuringTesting}`).send({
+      name: "John Doe Updated",
+      email: "johndoeupdated@example.com",
+      phoneNumber: "2345678901",
+      address: "789 Main St",
+      dateOfBirth: "2002-01-01",
+    });
+    expect(res.statusCode).to.equal(200);
+    expect(res.body).to.be.an("object");
+    expect(res.body).to.have.property("_id", userIdDuringTesting);
+    expect(res.body).to.have.property("name", "John Doe Updated");
+    expect(res.body).to.have.property("email", "johndoeupdated@example.com");
+    expect(res.body).to.not.have.property("password");
+    expect(res.body).to.have.property("phoneNumber", "2345678901");
+    expect(res.body).to.have.property("address", "789 Main St");
+    expect(res.body).to.have.property("dateOfBirth", "2002-01-01");
+    expect(res.body).to.have.property("createdAt");
+    // expect(res.body).to.have.property("updatedAt");
+  });
+  it("should return a 404 status code and an error message if the user is not found", async () => {
+    const res = await request(app)
+      .patch(`/users/63da8d0c624ef9527e594d1a`)
+      .send({
+        name: "John Doe Updated",
+        email: "johndoeupdated@example.com",
+        phoneNumber: "2345678901",
+        address: "789 Main St",
+        dateOfBirth: "2002-01-01",
+      });
+    expect(res.statusCode).to.equal(404);
+    expect(res.body).to.be.an("object");
+    expect(res.body).to.have.property("message", "Not found");
+  });
+  it("should return a 409 status code and an error message if the data is invalid", async () => {
+    const res = await request(app).patch(`/users/${userIdDuringTesting}`).send({
+      email: "herlinalim93@gmail.com", // using an existing email, to trigger unique constraint error
+    });
+    expect(res.statusCode).to.equal(409);
+    expect(res.body).to.be.an("object");
+    // expect(res.body).to.have.property("message", "Invalid data"); // TODO: find better error message for duplicate
+  });
+});
 
 describe("Test DELETE /users/:id endpoint", () => {
   it("should failed to delete by returning a 404 status code if the user is not found", async () => {
     const res = await request(app).delete("/users/63da8d0c624ef9527e594d1a");
     expect(res.statusCode).to.equal(404);
-    expect(res.body).to.have.property("code",404);
-    expect(res.body).to.have.property("message","Not found");
+    expect(res.body).to.have.property("code", 404);
+    expect(res.body).to.have.property("message", "Not found");
   });
   it("should successfully delete a user and return a 200 status code", async () => {
-    const deleteRes = await request(app).delete(`/users/${userIdDuringTesting}`);
+    const deleteRes = await request(app).delete(
+      `/users/${userIdDuringTesting}`
+    );
     expect(deleteRes.statusCode).to.equal(200);
   });
 });
