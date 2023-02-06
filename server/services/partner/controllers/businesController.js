@@ -45,7 +45,7 @@ class BusinessController {
                     },
                 }
             );
-            res.status(201).json("data berhasil di update");
+            res.status(201).json({message: "data berhasil di update"});
         } catch (error) {
             next(error);
         }
