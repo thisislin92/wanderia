@@ -63,8 +63,9 @@ const MapEatsScreen = ({ bussinessMarker }) => {
                 </View>
                 <Callout tooltip>
                   <TouchableOpacity className="h-16 w-56 bg-white rounded-xl" onPress={()=>{
-                        dispatcher(openMarker(marker.id))
-                      }}>
+                    console.log('tap <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+                    dispatcher(openMarker(marker.id))
+                  }}>
                     <View className={`border-gray-200 pl-2 h-full w-full bg-white rounded-xl flex-row flex-1 items-center border-[1px] shadow`}>
                       <Image source={{uri:marker.imageUrl}} className='h-12 w-12 rounded-xl'/>
                       <View className='flex-1 px-1'>
