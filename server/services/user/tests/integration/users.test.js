@@ -167,6 +167,18 @@ describe("Test GET /users/:id endpoint", () => {
   })
 });
 
+describe("Test GET /preferences endpoint", () => {
+  it("should return an array of preferences with a 200 status code", async () => {
+    const res = await request(app)
+      .get("/preferences/")
+    expect(res.statusCode).to.equal(200);
+    expect(res.body).to.be.an("array");
+    expect(res.body[0]).to.have.property("_id");
+    expect(res.body[0]).to.have.property("name");
+    expect(res.body[0]).to.have.property("createdAt");
+    expect(res.body[0]).to.have.property("updatedAt");
+  });
+});
 describe("Test PATCH /users/:id endpoint", () => {
   it("should update a user and return with 200 status code and the updated user data", async () => {
     const res = await request(app)

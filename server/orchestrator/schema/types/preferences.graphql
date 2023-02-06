@@ -9,15 +9,7 @@ input NewPreferences {
   name: String
 }
 
-input UpdatePreferences {
-  _id: ID!
-  name: String
-}
 
-# input UpdateUserRole {
-#   _id: ID!
-#   role: String!
-# }
 
 type Message {
   code: Int
@@ -30,6 +22,5 @@ type Query {
 
 type Mutation {
   registerNewPreferences(input: NewPreferences): Preferences
-  UpdatePreferences(input: UpdatePreferences): Preferences
   deletePreferencesById(_id: ID): Message
 }
