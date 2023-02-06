@@ -4,14 +4,18 @@ if (process.env.NODE_ENV !== "production") {
 
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
+const { partnerBusinessTypeDefs, partnerBusinessResolver } = require("./schema/partnerBusinessSchema");
+const { partnerCategoryTypeDefs, partnerCategoryResolver } = require("./schema/partnerCategorySchema");
+const { partnerPostTypeDef, partnerPostResolver } = require("./schema/partnerPostSchema");
+const { partnerUserTypeDefs, partnerUserResolver } = require("./schema/partnerUserSchema");
 const { routeTypeDefs, routeResolver } = require("./schema/routeSchema");
 const { userTypeDefs, userResolver } = require("./schema/userSchema");
 
 const port = process.env.PORT || 4000;
 
 const server = new ApolloServer({
-  typeDefs: [routeTypeDefs, userTypeDefs],
-  resolvers: [routeResolver, userResolver],
+  typeDefs: [routeTypeDefs, userTypeDefs, partnerUserTypeDefs, partnerBusinessTypeDefs, partnerCategoryTypeDefs, partnerPostTypeDef],
+  resolvers: [routeResolver, userResolver, partnerUserResolver, partnerBusinessResolver, partnerCategoryResolver, partnerPostResolver],
   introspection: true,
 });
 
@@ -22,3 +26,5 @@ startStandaloneServer(server, { listen: { port } })
   .catch((err) => {
     console.log(err);
   });
+
+module.exports = server
