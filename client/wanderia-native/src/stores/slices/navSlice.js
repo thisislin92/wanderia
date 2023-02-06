@@ -4,20 +4,21 @@ const initialState = {
     origin: null,
     destination: null,
     travelTimeInformation: null,
-    waypoints: [
-        {
-            latitude: -6.175392,
-            longitude: 106.827153,
-        },
-        {
-            latitude: -6.119633,
-            longitude: 106.86145,
-        },
-        {
-            latitude: -6.298055,
-            longitude: 106.865515,
-        },
-    ],
+    // waypoints: [
+    //     {
+    //         latitude: -6.175392,
+    //         longitude: 106.827153,
+    //     },
+    //     {
+    //         latitude: -6.119633,
+    //         longitude: 106.86145,
+    //     },
+    //     {
+    //         latitude: -6.298055,
+    //         longitude: 106.865515,
+    //     },
+    // ],
+    waypoints: [],
     locationPermission: false,
     startNavigation: false,
     selectedRide: null,

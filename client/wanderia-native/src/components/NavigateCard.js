@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useDispatch } from "react-redux";
-import { setDestination } from "../stores/slices/navSlice";
+import { setDestination, setWaypoints } from "../stores/slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 import NavFavorites from "./NavFavorites";
 import { Icon } from "react-native-elements";
