@@ -12,6 +12,7 @@ router.post("/partner/login", UserController.login);
 router.get("/", BusinessController.getAllBusinesses);
 router.get("/categories", CategoryController.readCategory);
 router.get("/business/:id", BusinessController.getOneBusiness);
+router.put("/business/:id", BusinessController.updateStatus); //super admin
 router.get("/categories/:id", CategoryController.readCategory);
 router.use(authentication);
 router.use("/post", postRouter);
