@@ -18,8 +18,9 @@ export default {
         <RouterLink to="/dashboard">
           <img
             src="https://i.imgur.com/fLn2YRT.png"
+            class="ml-20"
             alt="Wanderia"
-            width="100px"
+            width="80"
           />
         </RouterLink>
         <button
