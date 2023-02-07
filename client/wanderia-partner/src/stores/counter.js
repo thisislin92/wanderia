@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 const baseUrl = "http://localhost:4002";
+import { useQuery } from "@vue/apollo-composable";
+
 export const useCounterStore = defineStore("counter", {
   state() {
     return {

@@ -3,19 +3,24 @@ import NavbarPartner from "../components/NavbarPartner.vue";
 import { mapState, mapActions } from "pinia";
 import { useCounterStore } from "../stores/counter";
 import CardBusinesses from "../components/CardBusinesses.vue";
+import { useQuery } from "@vue/apollo-composable";
+import { PARTNERS_BUSINESS_QUERY } from "../stores/queries";
 
 export default {
   name: "Home",
+  setup() {
+    // console.log(localStorage.getItem("access_token"));
+    const { result, loading, error } = useQuery(PARTNERS_BUSINESS_QUERY, {
+      access_token: localStorage.getItem("access_token"),
+    });
+    // console.log(result.partnerBusiness);
+    return {
+      result,
+      loading,
+      error,
+    };
+  },
   components: { NavbarPartner, CardBusinesses },
-  computed: {
-    ...mapState(useCounterStore, ["businesses"]),
-  },
-  methods: {
-    ...mapActions(useCounterStore, ["fetchBusinessesPartner"]),
-  },
-  created() {
-    this.fetchBusinessesPartner();
-  },
 };
 </script>
 <template>
@@ -29,9 +34,9 @@ export default {
       </div>
       <div class="container">
         <h3>My Business</h3>
-        <div class="d-grid gap-3">
+        <div class="d-grid gap-3" v-if="result">
           <CardBusinesses
-            v-for="business in businesses"
+            v-for="business in result.partnerBusiness"
             :key="business.id"
             :business="business"
           />
