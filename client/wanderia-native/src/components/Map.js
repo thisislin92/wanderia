@@ -3,11 +3,10 @@ import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import tw from "tailwind-react-native-classnames";
 import { useSelector } from "react-redux";
-import { selectOrigin, selectDestination, selectWaypoints } from "../stores/slices/navSlice";
+import { selectOrigin, selectDestination, selectWaypoints, setBoundsWaypoint } from "../stores/slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
 import { useDispatch } from "react-redux";
 import { setTravelTimeInformation, selectStartNavigation, } from "../stores/slices/navSlice";
-import * as Location from "expo-location";
 import * as Icons from "@expo/vector-icons";
 import { mapMarkers, openMarker } from "../stores/actionCreator";
 
@@ -32,7 +31,7 @@ const Map = () => {
   useEffect(() => {
     if (!origin || !destination) return;
     mapRef.current.fitToSuppliedMarkers(
-      ["origin", "destination", "waypoint"],
+      ["origin", "destination"],
       { edgePadding: { top: 50, right: 50, bottom: 50, left: 50 } }
     );
   }, [origin, destination]);
@@ -46,6 +45,7 @@ const Map = () => {
 
   const onRegionChangeComplete = () => {
     mapRef.current.getMapBoundaries().then((map) => {
+      dispatch(setBoundsWaypoint(map));
       setBounds(map);
     });
   };
