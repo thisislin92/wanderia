@@ -1,3 +1,4 @@
+const Preferences = require("../models/preferences");
 const userPreferences = require("../models/userPreferences");
 
 class UserPreferencesController {
@@ -23,6 +24,13 @@ class UserPreferencesController {
     try {
       const UserId = req.user._id;
       const { PreferenceId } = req.body;
+
+      if(!PreferenceId) {
+        throw {
+          name: "PreferenceIdRequired",
+        }
+      }
+
       const data = await userPreferences.createUserPreferences(
         PreferenceId,
         UserId
@@ -44,22 +52,24 @@ class UserPreferencesController {
     }
   }
 
-  static async findPreferencesUserIdAndPreferenceId(req, res, next) {
+  static async findUserPreferencesByUserId(req, res, next) {
     try {
-      const { id } = req.params;
-      const dataUserPreferences = await userPreferences.findPreferencesByPk(id);
-      if (!dataUserPreferences) {
-        throw {
-          name: "NotFound",
-        };
-      }
+      const dataUserPreferences = await userPreferences.findUserPreferenceByUserId(req.user._id);
 
-      const response = {
-        ...dataUserPreferences,
-        createdAt: dataUserPreferences.created_at || null,
-        updatedAt: dataUserPreferences.updated_at || null,
-      };
-      res.status(200).json(response);
+      const finalResponse = await Promise.all(dataUserPreferences.map(async (userPreference) => {
+        const Preference = await Preferences.findPreferencesByPk(userPreference.PreferenceId);
+        return {
+          ...userPreference,
+          Preference,
+          PreferenceId: undefined,
+          created_at: undefined,
+          createdAt: userPreference.created_at || null,
+          updatedAt: userPreference.updatedAt || null,
+        }
+      }))
+
+
+      res.status(200).json(finalResponse);
     } catch (error) {
       next(error);
     }

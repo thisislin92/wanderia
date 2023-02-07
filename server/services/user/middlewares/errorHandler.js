@@ -9,6 +9,10 @@ const errorHandlers = (error, req, res, next) => {
       msg = "Invalid token";
       break;
     // error from custom error messages
+    case "PreferenceIdRequired":
+      code = 400;
+      msg = "PreferenceId is required";
+      break;
     case "NameRequired":
       code = 400;
       msg = "Name is required";

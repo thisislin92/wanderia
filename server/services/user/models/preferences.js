@@ -1,6 +1,5 @@
 const { ObjectId } = require('mongodb')
 const { getDatabase } = require('../config/mongodb')
-const userController = require('../controllers/preferencesController')
 
 
 class Preferences {
@@ -25,25 +24,6 @@ class Preferences {
             const dataPreferencesFromDb = db.collection("Preferences")
             const result = await dataPreferencesFromDb.insertOne(data)
             return result
-        } catch (error) {
-            throw error
-        }
-    }
-
-    static async updatePreferences(id, dataPreferences) {
-        try {
-            const data = {
-                ...dataPreferences,
-                updated_at: new Date()
-            }
-            const db = getDatabase()
-            const dataPreferencesFromDb = db.collection("Preferences")
-            const result = await dataPreferencesFromDb.updateOne({
-                _id: new ObjectId(id)
-            }, {
-                $set: data
-            })
-            return { ...result, updated_at: data.updated_at }
         } catch (error) {
             throw error
         }
