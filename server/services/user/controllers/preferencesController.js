@@ -8,7 +8,7 @@ class preferencesController {
         return {
           ...preference,
           created_at: undefined,
-          createdAt: preference.created_at,
+          createdAt: preference.created_at ||null,
           updatedAt: preference.updatedAt || null
         }
       })
