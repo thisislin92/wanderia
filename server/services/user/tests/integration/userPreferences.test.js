@@ -1,19 +1,32 @@
-const chai = require("chai");
-const expect = chai.expect;
 const request = require("supertest");
 const app = require("../../app");
+const { getClient, runConnection } = require("../../config/mongodb");
 
 let accessToken = "";
 let newlyCreatedUserPreferencesId = "";
 
+beforeAll(async () => {
+  await runConnection();
+
+  const loginResponse = await request(app).post("/users/login").send({
+    email: "herlinalim93@gmail.com",
+    password: "123456",
+  })
+
+  accessToken = loginResponse.body.access_token
+});
+
+beforeEach(() => {
+  jest.restoreAllMocks();
+});
+
+afterAll(async () => {
+  const client = getClient();
+  client.close();
+});
+
 describe("Test POST /userPreferences endpoint", () => {
   it("should create a user preference", async () => {
-    const accessTokenResponse = await request(app).post("/users/login").send({
-      email: "herlinalim93@gmail.com",
-      password: "123456",
-    });
-    accessToken = accessTokenResponse.body.access_token;
-
     const thePreferenceId = "63dfc05501c2fb5814358f1e";
     const res = await request(app)
       .post("/userPreferences")
@@ -22,13 +35,13 @@ describe("Test POST /userPreferences endpoint", () => {
       })
       .set("access_token", accessToken);
 
-    expect(res.statusCode).to.equal(201);
-    expect(res.body).to.be.an("object");
-    expect(res.body).to.have.property("_id");
-    expect(res.body).to.have.property("UserId");
-    expect(res.body).to.have.property("PreferenceId", thePreferenceId);
-    expect(res.body).to.have.property("createdAt");
-    expect(res.body).to.have.property("updatedAt");
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toEqual(expect.any(Object));;
+    expect(res.body).toHaveProperty("_id");
+    expect(res.body).toHaveProperty("UserId");
+    expect(res.body).toHaveProperty("PreferenceId", thePreferenceId);
+    expect(res.body).toHaveProperty("createdAt");
+    expect(res.body).toHaveProperty("updatedAt");
 
     newlyCreatedUserPreferencesId = res.body._id;
   });
@@ -38,10 +51,10 @@ describe("Test POST /userPreferences endpoint", () => {
       .post("/userPreferences")
       .set("access_token", accessToken);
 
-    expect(res.statusCode).to.equal(400);
-    expect(res.body).to.be.an("object");
-    expect(res.body).to.have.property("message");
-    expect(res.body.message).to.equal("PreferenceId is required");
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toEqual(expect.any(Object));;
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toEqual("PreferenceId is required");
   })
 
   it("should return 404 when trying to create user preferences with invalid PreferenceId", async () => {
@@ -52,10 +65,10 @@ describe("Test POST /userPreferences endpoint", () => {
       })
       .set("access_token", accessToken);
     
-    expect(res.statusCode).to.equal(404);
-    expect(res.body).to.be.an("object");
-    expect(res.body).to.have.property("message");
-    expect(res.body.message).to.equal("Not found");
+    expect(res.statusCode).toEqual(404);
+    expect(res.body).toEqual(expect.any(Object));;
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toEqual("Not found");
   })
 });
 
@@ -66,14 +79,14 @@ describe("Test GET /userPreferences endpoint", () => {
       .get(`/userPreferences`)
       .set("access_token", accessToken);
 
-    expect(res.statusCode).to.equal(200);
-    expect(res.body).to.be.an("array");
-    expect(res.body[0]).to.have.property("_id");
-    expect(res.body[0]).to.have.property("UserId");
-    expect(res.body[0]).to.not.have.property("PreferenceId");
-    expect(res.body[0]).to.have.property("Preference");
-    expect(res.body[0]).to.have.property("createdAt");
-    expect(res.body[0]).to.have.property("updatedAt");
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual(expect.any(Array));;
+    expect(res.body[0]).toHaveProperty("_id");
+    expect(res.body[0]).toHaveProperty("UserId");
+    expect(res.body[0]).not.toHaveProperty("PreferenceId");
+    expect(res.body[0]).toHaveProperty("Preference");
+    expect(res.body[0]).toHaveProperty("createdAt");
+    expect(res.body[0]).toHaveProperty("updatedAt");
   });
 });
 
@@ -83,9 +96,9 @@ describe("Test DELETE /userPreferences endpoint", () => {
       .delete(`/userPreferences/63dfc05501c2fb5814358f`)
       .set("access_token", accessToken);
       
-    expect(res.statusCode).to.equal(500);
-    expect(res.body).to.have.property("code",500)
-    expect(res.body).to.have.property("message", "Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer")
+    expect(res.statusCode).toEqual(500);
+    expect(res.body).toHaveProperty("code",500)
+    expect(res.body).toHaveProperty("message", "Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer")
   })
 
   it("should return 404 when trying to delete non-existent user preferences", async () => {
@@ -93,8 +106,8 @@ describe("Test DELETE /userPreferences endpoint", () => {
       .delete(`/userPreferences/63dfc05501c2fb5814358fff`)
       .set("access_token", accessToken);
       
-    expect(res.statusCode).to.equal(404);
-    expect(res.body).to.have.property("message", "Not found")
+    expect(res.statusCode).toEqual(404);
+    expect(res.body).toHaveProperty("message", "Not found")
   })
 
   it("should delete a user preference", async () => {
@@ -102,7 +115,7 @@ describe("Test DELETE /userPreferences endpoint", () => {
       .delete(`/userPreferences/${newlyCreatedUserPreferencesId}`)
       .set("access_token", accessToken);
 
-    expect(res.statusCode).to.equal(200);
-    expect(res.body).to.have.property("message", " Successfully Deleted")
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("message", " Successfully Deleted")
   });
 });

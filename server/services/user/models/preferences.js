@@ -4,14 +4,25 @@ const { getDatabase } = require('../config/mongodb')
 
 class Preferences {
     static async findAllPreferences() {
-        try {
+        return new Promise((resolve, reject) => {
             const db = getDatabase()
             const dataPreferencesFromDb = db.collection("Preferences")
-            let dataPreferences = await dataPreferencesFromDb.find().toArray()
-            return dataPreferences
-        } catch (error) {
-            throw error
-        }
+            dataPreferencesFromDb.find().toArray()
+                .then(dataPreferences => {
+                    resolve(dataPreferences)
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+        // try {
+        //     const db = getDatabase()
+        //     const dataPreferencesFromDb = db.collection("Preferences")
+        //     let dataPreferences = await dataPreferencesFromDb.find().toArray()
+        //     return dataPreferences
+        // } catch (error) {
+        //     throw error
+        // }
     }
 
     static async createPreferences(dataPreferences) {

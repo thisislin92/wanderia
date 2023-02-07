@@ -66,7 +66,6 @@ class preferencesController {
     }
   }
 
-
   static async deletePreferences(req, res, next) {
     try {
     const  {id}  = req.params;

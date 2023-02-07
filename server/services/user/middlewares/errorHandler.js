@@ -41,6 +41,10 @@ const errorHandlers = (error, req, res, next) => {
       code = 401;
       msg = "Unauthenticated";
       break;
+    case "InternalServerError":
+      code = 500;
+      msg = "Internal Server Error";
+      break;
     case "NotFound":
       code = 404;
       msg = "Not found";
