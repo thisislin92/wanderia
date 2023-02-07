@@ -1,5 +1,6 @@
 import actions from './actionType';
 import { dummyMarkers } from './markers.json'
+import { gql, useQuery } from '@apollo/client';
 
 export const openMarker = ( id ) => {
   return ( dispatch, getState ) => {
@@ -15,8 +16,22 @@ export const closeMarker = ( ) => {
   }
 }
 
-export const mapMarkers = (markers) => {
-  return ( dispatch, getState ) => {
+export const mapMarkers = () => {
+  return async( dispatch, getState ) => {
+    const REQ_MARKER = gql`
+      query AllBusiness($input: GetBusiness) {
+        allBusiness(input: $input) {
+          id
+          name
+          address
+          latitude
+          longitude
+        }
+      }
+    `
+    let { loading, data } = await useQuery(REQ_MARKER);
+
+
     dispatch({type:actions.mapMarkers, payload:markers?markers:dummyMarkers})
   }
 }

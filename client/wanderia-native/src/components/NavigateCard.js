@@ -23,22 +23,37 @@ const NavigateCard = () => {
   const origin = useSelector(selectOrigin);
   const boundsWaypoint = useSelector(selectBoundsWaypoint);
   const [waypoints, {data, loading, error}] = useMutation(REQ_WAYPOINT)
+  const [isBoundAvailable, setIsBoundAvailable] = useState(false)
+
+  const getWaypoints = async () => {
+    console.log('getWaypoints <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+    try {
+      await waypoints(
+        {variables: {
+          input: {
+            placeOfOrigin: origin.location.lat + ' ' + origin.location.lng,
+            destination: destination.location.lat + ' ' + destination.location.lng,
+            neLat:(boundsWaypoint.northEast.latitude).toString(),
+            neLon:(boundsWaypoint.northEast.longitude).toString(),
+            swLat:(boundsWaypoint.southWest.latitude).toString(),
+            swLon:(boundsWaypoint.southWest.longitude).toString(),
+          }
+        }})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  console.log(data, loading, error, '_____________________________________________________________________________________________')
 
   useEffect(() => {
-    console.log(boundsWaypoint,'masuk useEffect waypoints<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
-    if (destination){
-    console.log('dapet destination<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
-      waypoints({variables: {
-        input: {
-          placeOfOrigin: origin.location.address,
-          destination: destination.location.address,
-          neLat:(boundsWaypoint.northEast.latitude).toString(),
-          neLon:(boundsWaypoint.northEast.longitude).toString(),
-          swLat:(boundsWaypoint.southWest.latitude).toString(),
-          swLon:(boundsWaypoint.southWest.longitude).toString(),
-        }
-      }})
-    } else return
+    if (isBoundAvailable && destination) {
+      console.log(destination, isBoundAvailable, '_____________________________________________________________________________________________')
+      getWaypoints()
+    }
+  },[isBoundAvailable])
+
+  useEffect(()=>{
+    if (boundsWaypoint && Object.keys(boundsWaypoint).length) setIsBoundAvailable(true)
   },[boundsWaypoint])
 
   

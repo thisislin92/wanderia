@@ -63,6 +63,7 @@ const routeResolver = {
     Mutation: {
         addNewTrip: async (_, args) => {
             try {
+                console.log('masuk orchestrator @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
                 const { placeOfOrigin, destination, BussinessId, UserId } = args.input
                 const response = await axios({
                     method: "POST",

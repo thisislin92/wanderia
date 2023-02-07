@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setTravelTimeInformation, selectStartNavigation, } from "../stores/slices/navSlice";
 import * as Icons from "@expo/vector-icons";
 import { mapMarkers, openMarker } from "../stores/actionCreator";
+import { gql } from "@apollo/client";
 
 const Map = () => {
   const origin = useSelector(selectOrigin);
@@ -23,6 +24,18 @@ const Map = () => {
   const getMarkers = async () => {
     await dispatch(mapMarkers());
   };
+
+  const REQ_MARKER = gql`
+    query AllBusiness($input: GetBusiness) {
+      allBusiness(input: $input) {
+        id
+        name
+        address
+        latitude
+        longitude
+      }
+    }
+  `
 
   useLayoutEffect(() => {
       getMarkers();
@@ -110,6 +123,8 @@ const Map = () => {
           <MapViewDirections
               origin={origin.description}
               destination={destination.description}
+              // optimizeWaypoints={true}
+              // mode='TRANSIT'
               waypoints={
                 waypoints.map(el=> {return {"longitude":+el.longitude,"latitude":+el.latitude}})
               }

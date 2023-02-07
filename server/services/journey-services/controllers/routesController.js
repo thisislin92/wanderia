@@ -17,41 +17,81 @@ class RoutesController {
     }
 
     static async addRoute(req, res, next) {
-        try {
-            const { placeOfOrigin, destination, BussinessId, UserId } = req.body
+      // console.log('asdasdasd')
+      try {
+          const { placeOfOrigin, destination, dataBusiness } = req.body;
+          console.log(placeOfOrigin, "placeOfOrigin");
+          const inputBusiness = dataBusiness.map((el) => {
+              return `${el.name} ${el.latitude} ${el.longitude} ${el.address}`;
+          });
 
-            let prompt = `tunjukkan satu rute perjalanan dari ${placeOfOrigin} ke ${destination} yang indah dan banyak tempat wisatanya dengan format nama jalan dan nama kota saja tanpa tanda baca`
+          console.log(inputBusiness);
 
-            const { data } = await openai.createCompletion({
-                model: "text-davinci-003",
-                prompt: prompt,
-                temperature: 0,
-                max_tokens: 100,
-                // top_p: 1,
-                // frequency_penalty: 0,
-                // presence_penalty: 0,
-                // stop: ["\n"],
-            });
+          let input = `berikan rute perjalanan dari ${placeOfOrigin} ke ${destination} yang hanya melewati 4 tempat dari data berikut ${inputBusiness}, berikan hanya nama tempat, latitude, longitude, serta alamatnya dari masing masing tempat hanya dengan format seperti berikut, name:xxx, latitude: xxx, longitude: xxx, address: xxx`;
+          const { data } = await openai.createCompletion({
+              model: "text-davinci-003",
+              prompt: input,
+              // temperature: 0,
+              max_tokens: 3000,
+              top_p: 0.0001,
+              // frequency_penalty: 0,
+              // presence_penalty: 0,
+              // stop: ["\n"],
+          });
 
-            let splitData = (data.choices[0].text).replaceAll('\n\n', '').replaceAll(' ', '').split('-')
-            // console.log(splitData)
-            // splitData = data.choices[0].text
-            // splitData = splitData.filter((el, i) => i % 2 !== 0)
-            
-            const payload = splitData.map((el, index) => {
-                return {
-                    UserId: +UserId,
-                    routeNumber: index + 1,
-                    BussinessId: +BussinessId,
-                    destination: el
-                }
-            })
-            await Route.create(payload)
-            res.status(201).json({ message: 'Success create new trip' })
+          const result = data.choices[0].text.split("\n");
+          // console.log(result)
+          const filteredData = result.filter((el) => {
+              return el !== "";
+          });
+          console.log(filteredData);
+          const finalData = [];
+
+          for (let i = 0; i < filteredData.length; i++) {
+              const elements = filteredData[i].split(", ");
+              const name = elements[0];
+              const latitude = elements[1].split(": ")[1];
+              const longitude = elements[2].split(": ")[1];
+              const address = elements[3].split(": ")[1];
+              finalData.push({ name, latitude, longitude, address });
+          }
+
+          let id = "TRIP_" + Math.floor(1000_000 + Math.random() * 9000_000);
+          finalData.forEach((el) => {
+              el.tripId = id;
+          });
+
+          function sortCoordinates(finalData, placeOfOrigin) {
+              placeOfOrigin = placeOfOrigin.split(" ");
+              return finalData.sort((a, b) => {
+                  const distA = distanceFromOrigin(
+                      [a.latitude, a.longitude],
+                      placeOfOrigin
+                  );
+                  const distB = distanceFromOrigin(
+                      [b.latitude, b.longitude],
+                      placeOfOrigin
+                  );
+                  return distA - distB;
+              });
+          }
+
+          function distanceFromOrigin(coord, placeOfOrigin) {
+              return Math.sqrt(
+                  Math.pow(coord[1] - placeOfOrigin[1], 2) +
+                      Math.pow(coord[0] - placeOfOrigin[0], 2)
+              );
+          }
+
+          const sorted = sortCoordinates(finalData, placeOfOrigin);
+
+          console.log(sorted);
+          await Route.create(sorted);
+          res.status(201).json(sorted);
         } catch (error) {
-            next(error)
+          console.log(error);
         }
-    }
+      }
 
     static async getOneRoute(req, res) {
         try {
