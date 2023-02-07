@@ -27,7 +27,7 @@ class BusinessController {
                 longitude,
                 PartnerId,
                 imageUrl,
-                status: "pending",
+                status: "active",
                 price,
                 rating,
                 address,
@@ -61,7 +61,6 @@ class BusinessController {
             const data = await Business.update(
                 {
                     name,
-                    description,
                     CategoryId,
                     latitude,
                     longitude,
