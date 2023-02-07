@@ -32,11 +32,6 @@ routerPost.post(
     upload.array("imageUrl"),
     PostControler.createPost
 );
-
-routerPost.post('/add/:id', PostControler.createPost)
-
-
 routerPost.delete("/:id", postAuthorization, PostControler.deletePost);
-
 
 module.exports = routerPost;
