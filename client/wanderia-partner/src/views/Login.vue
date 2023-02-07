@@ -1,24 +1,77 @@
 <script>
-import { mapActions } from "pinia";
-import { useCounterStore } from "../stores/counter";
+// import { mapActions } from "pinia";
+// import { useCounterStore } from "../stores/counter";
+import { useQuery, useMutation } from "@vue/apollo-composable";
+// import { PARTNER_LOGIN_QUERY } from "../stores/queries";
+// import { gql } from "@apollo/client";
+import gql from "graphql-tag";
 
 export default {
   name: "login",
+  setup() {
+    const { mutate: login } = useMutation(
+      gql`
+        mutation login($input: InputLogin) {
+          login(input: $input) {
+            access_token
+          }
+        }
+      `
+    );
+    return {
+      login,
+    };
+  },
   data() {
     return {
-      email: "",
-      password: "",
+      input: {
+        email: "",
+        password: "",
+      },
     };
   },
   methods: {
-    ...mapActions(useCounterStore, ["login"]),
-    loginPost() {
-      let user = {
-        email: this.email,
-        password: this.password,
-      };
-      this.login(user);
+    async handleLogin() {
+      try {
+        // console.log(this.login);
+        let { data } = await this.login({
+          input: this.input,
+        });
+        localStorage.setItem("access_token", data.login.access_token);
+        this.$router.push("/dashboard");
+        // console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
     },
+    // ...mapActions(useCounterStore, ["login"]),
+    // loginPost() {
+    //   let user = {
+    //     email: this.email,
+    //     password: this.password,
+    //   };
+    //   this.login(user);
+    // },
+    // async login() {
+    // console.log(this);
+    // console.log(gql);
+    // const { data } = await this.$apollo.mutate({
+    //   mutation: gql`
+    //     mutation Mutation($input: InputLogin) {
+    //       login(input: $input) {
+    //         access_token
+    //       }
+    //     }
+    //   `,
+    //   variables: {
+    //     InputLogin: {
+    //       email: this.email,
+    //       password: this.password,
+    //     },
+    //   },
+    // });
+    // localStorage.setItem("access_token", data.access_token);
+    // },
   },
 };
 </script>
@@ -30,9 +83,9 @@ export default {
         src="../assets/logo-wanderia.png"
         class="mx-auto d-block pb-4"
         alt="Wanderia"
-        width="100px"
+        width="200"
       />
-      <form @submit.prevent="loginPost">
+      <form @submit.prevent="handleLogin">
         <h1 class="h3 mb-3 fw-normal">Sign in</h1>
 
         <div class="mb-3">
@@ -40,7 +93,7 @@ export default {
             >Email address</label
           >
           <input
-            v-model="email"
+            v-model="input.email"
             type="email"
             class="form-control"
             id="exampleInputEmail1"
@@ -50,7 +103,7 @@ export default {
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input
-            v-model="password"
+            v-model="input.password"
             type="password"
             class="form-control"
             id="exampleInputPassword1"

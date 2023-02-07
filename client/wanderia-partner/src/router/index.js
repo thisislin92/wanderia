@@ -55,21 +55,12 @@ router.beforeEach((to, from, next) => {
     } else {
       next({ name: "login" });
     }
-  } else {
-    next();
+  } else if (to.name === "login" && access_token) {
+    next("/dashboard");
   }
-
-  if (
-    to.name === "LandingPage" &&
-    to.name === "login" &&
-    to.name === "register"
-  ) {
-    if (!access_token) {
-      next();
-    } else {
-      next({ name: "home" });
-    }
-  }
+  if (to.name === "register" && access_token) next({ name: "home" });
+  if (to.name === "LandingPage" && access_token) next({ name: "home" });
+  else next();
 });
 
 export default router;

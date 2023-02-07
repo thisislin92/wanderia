@@ -22,7 +22,11 @@ router.post("/business", BusinessController.createBusiness);
 router.get("/categories", CategoryController.readCategory);
 router.get("/business/:id", BusinessController.getOneBusiness);
 
-
 router.patch("/business/:id", authorization, BusinessController.editBusiness);
+router.delete(
+    "/business/:id",
+    authorization,
+    BusinessController.deleteBusiness
+);
 
 module.exports = router;

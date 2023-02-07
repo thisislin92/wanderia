@@ -8,9 +8,19 @@ import { mapState, mapActions } from "pinia";
 import { useCounterStore } from "../stores/counter";
 import CardBusinesses from "../components/CardBusinesses.vue";
 import CardDashboard from "../components/CardDashboard.vue";
+import { useQuery } from "@vue/apollo-composable";
+import { PARTNERS_QUERY } from "../stores/queries";
 
 export default {
   name: "LandingPage",
+  setup() {
+    const { result, loading, error } = useQuery(PARTNERS_QUERY);
+    return {
+      result,
+      loading,
+      error,
+    };
+  },
   components: { Hero, About, Section, Footer, Navbar, CardDashboard },
   computed: {
     ...mapState(useCounterStore, ["businesses"]),
@@ -19,13 +29,14 @@ export default {
     ...mapActions(useCounterStore, ["fetchBusinessesLanding"]),
   },
   created() {
-    this.fetchBusinessesLanding();
+    // this.fetchBusinessesLanding();
   },
 };
 </script>
 
 <template>
   <div>
+    <!-- {{ JSON.stringify(result) }} -->
     <Navbar />
     <Hero />
 
@@ -103,7 +114,7 @@ export default {
           data-aos-delay="100"
         >
           <div class="container swiper-wrapper align-items-center">
-            <div class="row row-cols-4">
+            <div class="row row-cols-4" v-if="result">
               <!-- <div class="col swiper-slide">
                 <img
                   src="../assets/img/clients/client-1.png"
@@ -111,8 +122,9 @@ export default {
                   alt=""
                 />
               </div> -->
+
               <CardDashboard
-                v-for="business in businesses"
+                v-for="business in result.allPartnerBusiness.slice(0, 12)"
                 :key="business.id"
                 :business="business"
               />
