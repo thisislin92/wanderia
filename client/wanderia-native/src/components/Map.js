@@ -57,8 +57,8 @@ const Map = () => {
         marker.latitude <= bounds.northEast.latitude+0.005 &&
         marker.longitude >= bounds.southWest.longitude-0.005 &&
         marker.longitude <= bounds.northEast.longitude+0.005
-    );
-  };
+    )
+  }
 
   useEffect(() => {
     if (!origin || !destination) return;
@@ -144,10 +144,11 @@ const Map = () => {
       { bounds && startNavigation &&
           filterMarkers(bussinessMarker, bounds).map((marker, index) => {
             return (
-            <Marker key={'marker'+index} coordinate={{
-              latitude: +marker.latitude,
-              longitude: +marker.longitude}
-            } title={marker.name} description='origin'>
+            <Marker key={'marker'+index} 
+              coordinate={{
+                latitude: +marker.latitude,
+                longitude: +marker.longitude}
+              } title={marker.name} description='origin'>
                 <View className='p-2 bg-white rounded-full shadow border-[1px] border-gray-200'>
                   <Text className='text-3xl'>{String.fromCodePoint(parseInt (marker.icon, 16))}</Text>
                 </View>
