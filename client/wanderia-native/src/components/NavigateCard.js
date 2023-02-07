@@ -1,18 +1,45 @@
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDestination } from "../stores/slices/navSlice";
+import { setWaypoints } from "../stores/slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 import NavFavorites from "./NavFavorites";
 import { Icon } from "react-native-elements";
 import tw from "tailwind-react-native-classnames";
+import { useMutation, gql } from "@apollo/client";
 
+const REQ_WAYPOINT = gql`
+  mutation AddNewTrip($input: NewRoute) {
+  addNewTrip(input: $input) {
+    tripId
+    name
+    latitude
+    longitude
+    address
+  }
+}
+`
 
 const NavigateCard = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { destination, origin } = useSelector((state) => state.nav);
 
+  const [waypoints, {data, loading, error}] = useMutation(REQ_WAYPOINT)
+
+  useEffect(() => {
+    if (destination){
+      waypoints({variables: {
+        input: {
+          placeOfOrigin: origin.location.address,
+          destination: destination.location.address
+        }
+      }})
+    }
+  },[destination])
+  console.log(data, loading, error)
   return (
     <SafeAreaView className="bg-white flex-1">
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

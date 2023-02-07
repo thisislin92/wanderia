@@ -61,7 +61,7 @@ export const navSlice = createSlice({
       state.travelTimeInformation = actions.payload;
     },
     setWaypoints: (state, actions) => {
-      state.waypoints = actions.payload?.length?action.payload:dummyWaypoints;
+      state.waypoints = actions.payload?.length?actions.payload:dummyWaypoints;
     },
     setLocationPermission: (state, actions) => {
       state.locationPermission = actions.payload;
