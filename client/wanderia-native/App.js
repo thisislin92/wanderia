@@ -1,4 +1,3 @@
-import { KeyboardAvoidingView, Platform } from "react-native";
 import { Provider } from "react-redux";
 import store from "./src/stores/store";
 import HomeScreen from "./src/screens/HomeScreen";
@@ -16,6 +15,7 @@ import { auth } from "./config/firebase";
 import ChatScreen from "./src/screens/ChatScreen";
 import HangoutScreen from "./src/screens/HangoutScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import NavigationMap from "./src/screens/NavigationMap";
 
 const Stack = createNativeStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -38,6 +38,7 @@ function MainStack() {
             <Stack.Screen name="ChatScreen" component={ChatScreen} />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="HangoutScreen" component={HangoutScreen} />
+            <Stack.Screen name="NavigationMap" component={NavigationMap} />
         </Stack.Navigator>
     );
 }
