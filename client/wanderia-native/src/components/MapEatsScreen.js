@@ -15,7 +15,7 @@ const MapEatsScreen = ({ bussinessMarker }) => {
   const startNavigation = useSelector(selectStartNavigation);
   const navigator = useNavigation()
   const dispatcher = useDispatch()
-  const [bounds, setBounds] = useState(null);
+  const [ bounds, setBounds ] = useState(null);
   const mapRef = useRef(null);
 
   const onRegionChangeComplete = () => {
@@ -27,10 +27,10 @@ const MapEatsScreen = ({ bussinessMarker }) => {
   const filterMarkers = (bussinessMarker, bounds) => {
     return bussinessMarker.filter(
       (marker) =>
-        marker.latitude >= bounds.southWest.latitude-0.005 &&
-        marker.latitude <= bounds.northEast.latitude+0.005 &&
-        marker.longitude >= bounds.southWest.longitude-0.005 &&
-        marker.longitude <= bounds.northEast.longitude+0.005
+        marker.latitude >= sw_lat &&
+        marker.latitude <= ne_lat &&
+        marker.longitude >= sw_lon &&
+        marker.longitude <= ne_lon
     );
   };
 
