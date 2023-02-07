@@ -2,17 +2,35 @@ const { Partner, Business, Post, Category } = require("../models/index");
 class BusinessController {
     static async createBusiness(req, res, next) {
         try {
-            const { name, description, CategoryId, mapUrl, imageUrl } =
-                req.body;
-            const PartnerId = req.user.id;
-            const data = await Business.create({
+            const {
                 name,
-                description,
                 CategoryId,
                 mapUrl,
+                imageUrl,
+                price,
+                rating,
+                address,
+            } = req.body;
+            const PartnerId = req.user.id;
+            let check;
+            mapUrl.split("/").map(function (el) {
+                if (el.includes("@")) {
+                    check = el.slice(1).split(",");
+                }
+            });
+            let latitude = check[0];
+            let longitude = check[1];
+            const data = await Business.create({
+                name,
+                CategoryId,
+                latitude,
+                longitude,
                 PartnerId,
                 imageUrl,
-                status: "pending",
+                status: "active",
+                price,
+                rating,
+                address,
             });
             res.status(201).json(data);
         } catch (error) {
@@ -23,15 +41,33 @@ class BusinessController {
     static async editBusiness(req, res, next) {
         try {
             const id = req.params.id;
-            const { name, description, CategoryId, mapUrl, imageUrl } =
-                req.body;
+            const {
+                name,
+                CategoryId,
+                mapUrl,
+                imageUrl,
+                price,
+                rating,
+                address,
+            } = req.body;
+            let check;
+            mapUrl.split("/").map(function (el) {
+                if (el.includes("@")) {
+                    check = el.slice(1).split(",");
+                }
+            });
+            let latitude = check[0];
+            let longitude = check[1];
             const data = await Business.update(
                 {
                     name,
-                    description,
                     CategoryId,
-                    mapUrl,
+                    latitude,
+                    longitude,
                     imageUrl,
+                    price,
+                    rating,
+                    address,
                 },
                 {
                     where: {

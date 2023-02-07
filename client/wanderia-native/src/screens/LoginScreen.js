@@ -12,7 +12,6 @@ const LoginScreen = () => {
   const navigate = useNavigation()
   
   const handleLogin = () => {
-    // console.log(email, password)
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => console.log('success login'))
       .catch((error) => { alert(error.message) });
