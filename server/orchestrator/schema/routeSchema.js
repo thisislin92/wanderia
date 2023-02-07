@@ -94,7 +94,7 @@ const routeResolver = {
                 });
                 console.log(data.length)
                 const filteredData = data.filter((marker) => {
-                    return marker.latitude <= args.input.neLat && marker.latitude >= args.input.swLat && marker.longitude <= args.input.neLon && marker.longitude >= args.input.swLon
+                    return marker.latitude <= +args.input.neLat + 0.0005 && marker.latitude >= +args.input.swLat - 0.0005 && marker.longitude <= +args.input.neLon + 0.0005 && marker.longitude >= +args.input.swLon - 0.0005
                 })
                 console.log(filteredData.length)
                 return filteredData
@@ -105,6 +105,19 @@ const routeResolver = {
     },
     Mutation: {
         addNewTrip: async (_, args) => {
+            const origin = args.input.placeOfOrigin.split(' ')
+            const destination = args.input.destination.split(' ')
+
+            function getCorners(coord1, coord2) {
+                const left = Math.min(coord1[1], coord2[1]);
+                const right = Math.max(coord1[1], coord2[1]);
+                const bottom = Math.min(coord1[0], coord2[0]);
+                const top = Math.max(coord1[0], coord2[0]);
+              
+                return { left, right, bottom, top };
+              }
+
+              const corner = getCorners(origin, destination)
             console.log('masuk mutation')
             console.log(args.input.neLat)
             try {
@@ -114,7 +127,7 @@ const routeResolver = {
                 // console.log(response1.data, "masuk")
                 // underneath i want to filter the data from the response1.data by the nw, se, ne, sw map bounds
                 const filteredData = response1.data.filter((marker) => {
-                    return marker.latitude <= args.input.neLat && marker.latitude >= args.input.swLat && marker.longitude <= args.input.neLon && marker.longitude >= args.input.swLon
+                    return marker.latitude <= +corner.top + 0.0005 && marker.latitude >= +corner.bottom - 0.0005 && marker.longitude <= +corner.right + 0.0005 && marker.longitude >= +corner.left - 0.0005
                 })
 
                 console.log(filteredData, "filteredData")
