@@ -1,6 +1,8 @@
 **/*/.DS_Store
+**/*/.vscode
 **/*/node_modules
 **/*/.nyc*
 
 .DS_Store
 node_modules
+.vscode

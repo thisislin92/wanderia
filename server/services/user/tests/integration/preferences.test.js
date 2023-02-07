@@ -35,6 +35,17 @@ describe("Test POST /users/login endpoint", () => {
 });
 
 describe("Test POST /preferences endpoint", () => {
+  it("should return error 400 when creating preferences without name", async () => {
+    const newPreference = {};
+    const res = await request(app)
+      .post("/preferences/")
+      .send(newPreference)
+      .set("access_token", accessTokenDuringTesting);
+    expect(res.statusCode).to.equal(400);
+    expect(res.body).to.be.an("object");
+    expect(res.body).to.have.property("code", 400);
+    expect(res.body).to.have.property("message", "Name is required");
+  })
   it("should create a new preference and return it with a 201 status code", async () => {
     const newPreference = { name: "new preference" };
     const res = await request(app)
@@ -72,7 +83,7 @@ describe("Test DELETE /preferences/:id endpoint", () => {
       .delete(`/preferences/${preferencesIdDuringTesting}`)
       .set("access_token", accessTokenDuringTesting);
 
-      console.log(res.body);
     expect(res.statusCode).to.equal(200);
+    expect(res.body).to.have.property("message", " Successfully Deleted")
   });
 });

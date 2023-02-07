@@ -22,6 +22,11 @@ class preferencesController {
   static async registerPreferences(req, res, next) {
     try {
       const { name } = req.body;
+      if (!name){
+        throw {
+          name: "NameRequired"
+        }
+      }
       const data = await Preferences.createPreferences({
         name
       });
