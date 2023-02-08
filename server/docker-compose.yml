@@ -22,6 +22,7 @@ services:
   partner-service:
     build: services/partner
     environment:
+      - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/wanderia
     ports:
       - "4002:4002"
@@ -29,7 +30,6 @@ services:
       - postgres
   journey-service:
     build: services/journey-services
-    # specify the dockerfile location
     environment:
       - DATABASE_URL=mongodb+srv://akbarridho:Kidr03qbXD1opBSA@cluster0.ouruzua.mongodb.net/?retryWrites=true&w=majority
       - OPENAI_API_KEY=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
