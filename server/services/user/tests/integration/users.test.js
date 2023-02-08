@@ -1,11 +1,15 @@
-const { ObjectId } = require("mongodb");
 const request = require("supertest");
 const app = require("../../app");
 const { runConnection, getDatabase, getClient } = require("../../config/mongodb");
+const User = require("../../models/users");
 
 beforeAll(async () => {
   await runConnection()
 })
+
+beforeEach(() => {
+  jest.restoreAllMocks();
+});
 
 afterAll(async () => {
   const client = getClient()
@@ -113,6 +117,21 @@ describe("Test POST /users/login endpoint", () => {
 });
 
 describe("Test GET /users endpoint", () => {
+  test("should return an error 500 (mocked)", async () => {
+    jest.spyOn(User, "dataUserFromDb").mockImplementationOnce(() => {
+      throw {
+        name: "InternalServerError",
+      }
+    });
+
+    const res = await request(app)
+      .get("/users/")
+      .set("access_token", accessTokenDuringTesting);
+    expect(res.statusCode).toEqual(500);
+    expect(res.body).toEqual(expect.any(Object));;
+    expect(res.body).toHaveProperty("code", 500);
+    expect(res.body).toHaveProperty("message", "Internal Server Error");
+  })
   test("should return an error 401, because trying to access without token", async () => {
     const res = await request(app).get("/users/");
     expect(res.statusCode).toEqual(401);

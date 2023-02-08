@@ -3,6 +3,14 @@ const { getDatabase } = require("../config/mongodb");
 const Preferences = require("./preferences");
 
 class UserPreferences {
+  static async dataPreferencesFromDb() {
+    return new Promise((resolve) => {
+      const db = getDatabase();
+      const dataPreferencesFromDb = db.collection("User_Preferences");
+      resolve(dataPreferencesFromDb);
+    });
+  }
+
   // static async findAllUserPreferences() {
   //   try {
   //     const db = getDatabase();
@@ -21,30 +29,33 @@ class UserPreferences {
         UserId,
         created_at: new Date(),
       };
-      const preferenceFound = await Preferences.findPreferencesByPk(PreferenceId);
-      if(!preferenceFound) {
+      const preferenceFound = await Preferences.findPreferencesByPk(
+        PreferenceId
+      );
+      if (!preferenceFound) {
         throw {
           name: "NotFound",
-        }
+        };
       }
-      const db = getDatabase();
-      const dataPreferencesFromDb = db.collection("User_Preferences");
+      const dataPreferencesFromDb =
+        await UserPreferences.dataPreferencesFromDb();
       const result = await dataPreferencesFromDb.insertOne(data);
       return result;
     } catch (error) {
       throw error;
     }
   }
-  
+
   static async findUserPreferenceByUserId(userId) {
     try {
-      const db = getDatabase();
-      const dataPreferencesFromDb = db.collection("User_Preferences");
-      let dataPreferences = await dataPreferencesFromDb
+      const dataPreferencesFromDb =
+        await UserPreferences.dataPreferencesFromDb();
+
+      const dataPreferences = await dataPreferencesFromDb
         .find({
-          UserId: new ObjectId(userId)
+          UserId: new ObjectId(userId),
         })
-        .toArray()
+        .toArray();
       return dataPreferences;
     } catch (error) {
       throw error;
@@ -53,12 +64,12 @@ class UserPreferences {
 
   static async findUserPreferenceByPk(userPreferenceId) {
     try {
-      const db = getDatabase();
-      const dataPreferencesFromDb = db.collection("User_Preferences");
-      let dataPreferences = await dataPreferencesFromDb
-        .findOne({
-          _id: new ObjectId(userPreferenceId)
-        })
+      const dataPreferencesFromDb =
+        await UserPreferences.dataPreferencesFromDb();
+
+      const dataPreferences = await dataPreferencesFromDb.findOne({
+        _id: new ObjectId(userPreferenceId),
+      });
       return dataPreferences;
     } catch (error) {
       throw error;
@@ -67,10 +78,11 @@ class UserPreferences {
 
   static async deleteUserPreferences(id) {
     try {
-      const db = getDatabase();
-      const dataPreferencesFromDb = db.collection("User_Preferences");
+      const dataPreferencesFromDb =
+        await UserPreferences.dataPreferencesFromDb();
+
       const data = await dataPreferencesFromDb.deleteOne({
-        _id: new ObjectId(id)
+        _id: new ObjectId(id),
       });
       return data;
     } catch (error) {

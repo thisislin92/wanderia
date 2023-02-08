@@ -86,7 +86,7 @@ class UserPreferencesController {
           name: "NotFound",
         };
       }
-      const data = await userPreferences.deleteUserPreferences(id);
+      await userPreferences.deleteUserPreferences(id);
       res.status(200).json({ message: " Successfully Deleted" });
     } catch (error) {
       next(error);

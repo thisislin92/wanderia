@@ -1,6 +1,8 @@
 const request = require("supertest");
 const app = require("../../app");
 const { getClient, runConnection } = require("../../config/mongodb");
+const UserPreferences = require("../../models/userPreferences");
+const userPreferences = require("../../models/userPreferences");
 
 let accessToken = "";
 let newlyCreatedUserPreferencesId = "";
@@ -88,12 +90,50 @@ describe("Test GET /userPreferences endpoint", () => {
     expect(res.body[0]).toHaveProperty("createdAt");
     expect(res.body[0]).toHaveProperty("updatedAt");
   });
+
+  it("should return 500 status code and an error message (mocked)", async () => {
+    jest
+      .spyOn(UserPreferences, "dataPreferencesFromDb")
+      .mockImplementationOnce(() => {
+        throw {
+          name: "InternalServerError"
+        }
+      });
+
+    const res = await request(app)
+      .get(`/userPreferences`)
+      .set("access_token", accessToken);
+    expect(res.statusCode).toEqual(500);
+    expect(res.body).toEqual(expect.any(Object));
+    expect(res.body).toHaveProperty("code", 500);
+    expect(res.body).toHaveProperty("message", "Internal Server Error");
+  });
+
 });
 
 describe("Test DELETE /userPreferences endpoint", () => {
+  it("should return 500 status code and an error message (mocked)", async () => {
+    jest
+      .spyOn(UserPreferences, "dataPreferencesFromDb")
+      .mockImplementationOnce(() => {
+        throw {
+          name: "InternalServerError"
+        }
+      });
+
+    const res = await request(app)
+      .delete(`/userPreferences/${newlyCreatedUserPreferencesId}`)
+      .set("access_token", accessToken);
+    
+    expect(res.statusCode).toEqual(500);
+    expect(res.body).toEqual(expect.any(Object));
+    expect(res.body).toHaveProperty("code", 500);
+    expect(res.body).toHaveProperty("message", "Internal Server Error");
+  });
+
   it("should return 500 when trying to delete invalid user preferences id", async () => {
     const res = await request(app)
-      .delete(`/userPreferences/63dfc05501c2fb5814358f`)
+      .delete(`/userPreferences/123123`)
       .set("access_token", accessToken);
       
     expect(res.statusCode).toEqual(500);
