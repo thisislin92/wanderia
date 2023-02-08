@@ -128,6 +128,25 @@ class BusinessController {
             next(error);
         }
     }
+
+    static async updateStatus(req, res, next) {
+        try {
+            const { status } = req.body;
+            const { id } = req.params;
+            Business.update(
+                {
+                    status,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                }
+            );
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = BusinessController;

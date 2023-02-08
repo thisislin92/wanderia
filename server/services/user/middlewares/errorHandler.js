@@ -9,6 +9,14 @@ const errorHandlers = (error, req, res, next) => {
       msg = "Invalid token";
       break;
     // error from custom error messages
+    case "PreferenceIdRequired":
+      code = 400;
+      msg = "PreferenceId is required";
+      break;
+    case "NameRequired":
+      code = 400;
+      msg = "Name is required";
+      break;
     case "EmailRequired":
       code = 400;
       msg = "Email is required";
@@ -32,6 +40,10 @@ const errorHandlers = (error, req, res, next) => {
     case "Unauthenticated":
       code = 401;
       msg = "Unauthenticated";
+      break;
+    case "InternalServerError":
+      code = 500;
+      msg = "Internal Server Error";
       break;
     case "NotFound":
       code = 404;

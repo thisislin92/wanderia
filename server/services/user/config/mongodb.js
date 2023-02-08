@@ -31,4 +31,8 @@ function getDatabase() {
   return db;
 }
 
-module.exports = { runConnection, getDatabase };
+function getClient() {
+  return client;
+}
+
+module.exports = { runConnection, getDatabase, getClient };

@@ -22,6 +22,11 @@ class preferencesController {
   static async registerPreferences(req, res, next) {
     try {
       const { name } = req.body;
+      if (!name){
+        throw {
+          name: "NameRequired"
+        }
+      }
       const data = await Preferences.createPreferences({
         name
       });
@@ -52,33 +57,8 @@ class preferencesController {
       
       const response = {
         ...dataPreferences,
-        createdAt: dataPreferences.created_at,
+        createdAt: dataPreferences.created_at ||null,
         updatedAt: dataPreferences.updated_at || null
-      }
-      res.status(200).json(response);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async updatePreferencesByPk(req, res, next) {
-    try {
-      const  {id}  = req.params;
-      const { name } = req.body;
-      const dataPreferences = await Preferences.findPreferencesByPk(id);
-      if (!dataPreferences) {
-        throw {
-          name: "NotFound"
-        }
-      }
-      const data = await Preferences.updatePreferences(id, {
-        name,
-      });
-      const response = {
-        ...dataPreferences,
-        name,
-        createdAt: dataPreferences.created_at,
-        updatedAt: data.updated_at || null
       }
       res.status(200).json(response);
     } catch (error) {
@@ -95,7 +75,7 @@ class preferencesController {
             name:"NotFound"
         }
     }
-    const data = await Preferences.deleteUser(id)
+    const data = await Preferences.deletePreferences(id)
     res.status(200).json({message:" Successfully Deleted"})
       
     } catch (error) {
