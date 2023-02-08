@@ -95,6 +95,7 @@ class BusinessController {
     }
 
     static async getAllBusinesses(req, res, next) {
+        console.log('masuk get all business')
         try {
             const data = await Business.findAll({
                 include: [
@@ -116,6 +117,7 @@ class BusinessController {
             });
             res.status(200).json(data);
         } catch (error) {
+            console.log(error)
             next(error);
         }
     }

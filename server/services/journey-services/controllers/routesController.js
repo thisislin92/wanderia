@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: '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',
 });
 const openai = new OpenAIApi(configuration);
 
@@ -22,40 +22,51 @@ class RoutesController {
         try {
             const { placeOfOrigin, destination, dataBusiness } = req.body;
             console.log(placeOfOrigin, "placeOfOrigin");
-            const inputBusiness = dataBusiness.map((el) => {
-                return `${el.name} ${el.latitude} ${el.longitude} ${el.address}`;
-            });
+            console.log(destination, "destination");
+            // const inputBusiness = dataBusiness.map((el) => {
+            //     return `${el.name} ${el.latitude} ${el.longitude} ${el.address}`;
+            // });
 
-            console.log(inputBusiness);
+            // console.log(inputBusiness);
 
-            let input = `berikan rute perjalanan dari ${placeOfOrigin} ke ${destination} yang hanya melewati 4 tempat dari data berikut ${inputBusiness}, berikan hanya nama tempat, latitude, longitude, serta alamatnya dari masing masing tempat hanya dengan format seperti berikut, name:xxx, latitude: xxx, longitude: xxx, address: xxx`;
-            const { data } = await openai.createCompletion({
-                model: "text-davinci-003",
-                prompt: input,
-                // temperature: 0,
-                max_tokens: 3000,
-                top_p: 0.0001,
-                // frequency_penalty: 0,
-                // presence_penalty: 0,
-                // stop: ["\n"],
-            });
+            // let input = `berikan rute perjalanan dari ${placeOfOrigin} ke ${destination} yang hanya melewati 4 tempat dari data berikut ${inputBusiness}, berikan hanya nama tempat, latitude, longitude, serta alamatnya dari masing masing tempat hanya dengan format seperti berikut, name:xxx, latitude: xxx, longitude: xxx, address: xxx`;
+            // const { data } = await openai.createCompletion({
+            //     model: "text-davinci-003",
+            //     prompt: input,
+            //     // temperature: 0,
+            //     max_tokens: 3000,
+            //     top_p: 0.0001,
+            //     // frequency_penalty: 0,
+            //     // presence_penalty: 0,
+            //     // stop: ["\n"],
+            // });
 
-            const result = data.choices[0].text.split("\n");
+            // const result = data.choices[0].text.split("\n");
             // console.log(result)
-            const filteredData = result.filter((el) => {
-                return el !== "";
-            });
-            console.log(filteredData);
-            const finalData = [];
+            // const filteredData = result.filter((el) => {
+            //     return el !== "";
+            // });
+            // console.log(filteredData);
+            // const finalData = [];
 
-            for (let i = 0; i < filteredData.length; i++) {
-                const elements = filteredData[i].split(", ");
-                const name = elements[0];
-                const latitude = elements[1].split(": ")[1];
-                const longitude = elements[2].split(": ")[1];
-                const address = elements[3].split(": ")[1];
-                finalData.push({ name, latitude, longitude, address });
+            // for (let i = 0; i < filteredData.length; i++) {
+            //     const elements = filteredData[i].split(", ");
+            //     const name = elements[0];
+            //     const latitude = elements[1].split(": ")[1];
+            //     const longitude = elements[2].split(": ")[1];
+            //     const address = elements[3].split(": ")[1];
+            //     finalData.push({ name, latitude, longitude, address });
+            // }
+
+            const finalData = []
+
+            for (let i = 0; i < 4; i++) {
+                const randomIndex = Math.floor(Math.random() * dataBusiness.length)
+                finalData.push(dataBusiness[randomIndex])
+                dataBusiness.splice(finalData, 1)
             }
+
+            console.log(finalData, "finalData 2");
 
             let id = "TRIP_" + Math.floor(1000_000 + Math.random() * 9000_000);
             finalData.forEach((el) => {
