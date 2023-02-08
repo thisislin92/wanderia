@@ -62,6 +62,19 @@ class User {
         }
     }
 
+    static async findUserByEmail(email) {
+        try {
+            const db = getDatabase()
+            const dataUserFromDb = db.collection("Users")
+            const data = await dataUserFromDb.findOne({
+                email
+            })
+            return data
+    } catch (error) {
+            throw error
+        }
+    }
+
     static async deleteUser(id) {
         try {
             const db = getDatabase()

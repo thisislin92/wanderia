@@ -15,3 +15,6 @@ app.use(handleError);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+// const data = require("./markers.json");
+// console.log(data.dummyMarkers.length);

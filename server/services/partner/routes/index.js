@@ -13,6 +13,8 @@ router.get("/categories", CategoryController.readCategory);
 router.get("/business/:id", BusinessController.getOneBusiness);
 // router.put("/business/:id", BusinessController.updateStatus); //super admin
 router.get("/categories/:id", CategoryController.readCategoryId);
+router.put("/business/:id", BusinessController.updateStatus); //super admin
+router.get("/categories/:id", CategoryController.readCategoryId);
 router.use("/post", postRouter);
 router.use(authentication);
 router.get("/business", BusinessController.getPartnerBusiness);
@@ -24,5 +26,12 @@ router.patch("/business/:id", authorization, BusinessController.editBusiness);
 //     authorization,
 //     BusinessController.deleteBusiness
 // );
+
+router.patch("/business/:id", authorization, BusinessController.editBusiness);
+router.delete(
+    "/business/:id",
+    authorization,
+    BusinessController.deleteBusiness
+);
 
 module.exports = router;
