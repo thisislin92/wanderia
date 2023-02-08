@@ -9,7 +9,7 @@ const data = [
     {
         id: "1",
         title: "Wander",
-        image: "https://links.papareact.com/3pn",
+        image: "https://png.vector.me/files/images/3/2/323821/my_gto_preview",
         screen: "MapScreen",
         height: 120,
         width: 120,
@@ -17,7 +17,7 @@ const data = [
     {
         id: "2",
         title: "Chat",
-        image: "https://cdn-icons-png.flaticon.com/512/2939/2939460.png",
+        image: "https://cdn-icons-png.flaticon.com/512/3214/3214461.png",
         screen: "ConversationScreen",
         height: 80,
         width: 80,
