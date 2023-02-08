@@ -38,8 +38,6 @@ services:
       - "4003:4003"
   redis:
     image: "redis:alpine"
-    ports:
-      - "6379:6379"
   postgres:
     image: "postgres:13.2"
     ports:
@@ -48,3 +46,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=wanderia
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
