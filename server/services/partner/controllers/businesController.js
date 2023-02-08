@@ -2,17 +2,38 @@ const { Partner, Business, Post, Category } = require("../models/index");
 class BusinessController {
     static async createBusiness(req, res, next) {
         try {
-            const { name, description, CategoryId, mapUrl, imageUrl } =
-                req.body;
-            const PartnerId = req.user.id;
-            const data = await Business.create({
+            const {
                 name,
-                description,
                 CategoryId,
                 mapUrl,
+                imageUrl,
+                price,
+                rating,
+                address,
+            } = req.body;
+            const PartnerId = req.user.id;
+            let check;
+            if (!mapUrl || mapUrl.split.length <= 0) {
+                res.status(400).json({ message: "mapUrl is required" });
+            }
+            mapUrl.split("/").map(function (el) {
+                if (el.includes("@")) {
+                    check = el.slice(1).split(",");
+                }
+            });
+            let latitude = check[0];
+            let longitude = check[1];
+            const data = await Business.create({
+                name,
+                CategoryId,
+                latitude,
+                longitude,
                 PartnerId,
                 imageUrl,
-                status: "pending",
+                status: "active",
+                price,
+                rating,
+                address,
             });
             res.status(201).json(data);
         } catch (error) {
@@ -23,15 +44,33 @@ class BusinessController {
     static async editBusiness(req, res, next) {
         try {
             const id = req.params.id;
-            const { name, description, CategoryId, mapUrl, imageUrl } =
-                req.body;
+            const {
+                name,
+                CategoryId,
+                // mapUrl,
+                imageUrl,
+                price,
+                rating,
+                address,
+            } = req.body;
+            // let check;
+            // mapUrl.split("/").map(function (el) {
+            //     if (el.includes("@")) {
+            //         check = el.slice(1).split(",");
+            //     }
+            // });
+            // let latitude = check[0];
+            // let longitude = check[1];
             const data = await Business.update(
                 {
                     name,
-                    description,
                     CategoryId,
-                    mapUrl,
+                    // latitude,
+                    // longitude,
                     imageUrl,
+                    price,
+                    rating,
+                    address,
                 },
                 {
                     where: {
@@ -39,13 +78,25 @@ class BusinessController {
                     },
                 }
             );
-            res.status(201).json("data berhasil di update");
+            res.status(201).json({ message: "data berhasil di update" });
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
+
+    static async deleteBusiness(req, res, next) {
+        try {
+            const id = req.params.id;
+            await Business.destroy({ where: { id } });
+            res.status(200).json({ message: "Success to Delete" });
         } catch (error) {
             next(error);
         }
     }
 
     static async getAllBusinesses(req, res, next) {
+        console.log('masuk get all business')
         try {
             const data = await Business.findAll({
                 include: [
@@ -67,6 +118,7 @@ class BusinessController {
             });
             res.status(200).json(data);
         } catch (error) {
+            console.log(error)
             next(error);
         }
     }
@@ -124,6 +176,25 @@ class BusinessController {
                 order: [["name", "ASC"]],
             });
             res.status(200).json(data);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async updateStatus(req, res, next) {
+        try {
+            const { status } = req.body;
+            const { id } = req.params;
+            Business.update(
+                {
+                    status,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                }
+            );
         } catch (error) {
             next(error);
         }

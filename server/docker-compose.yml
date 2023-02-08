@@ -1,18 +1,53 @@
 version: "3.9"
 services:
   gateway:
-    build: server/gateway
+    build: orchestrator
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - USER_URL=user-service:4001
+      - PARTNER_URL=partner-service:4002
+      - JOURNEY_URL=journey-service:4003
     ports:
-      - "3000:3000"
-  app-service:
-    build: server/app
+      - "4000:4000"
+    depends_on:
+      - redis
+      - user-service
+      - partner-service
+      - journey-service
+  user-service:
+    build: services/user
     ports:
       - "4001:4001"
-  user-service:
-    build: server/user
+  partner-service:
+    build: services/partner
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/wanderia
     ports:
       - "4002:4002"
+    depends_on:
+      - postgres
+  journey-service:
+    build: services/journey-services
+    environment:
+      - DATABASE_URL=mongodb+srv://akbarridho:Kidr03qbXD1opBSA@cluster0.ouruzua.mongodb.net/?retryWrites=true&w=majority
+      - OPENAI_API_KEY=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
+      - GOOGLE_API_KEY=AIzaSyDyR0h23wRzww-WoRxAYAernH9Ll9We7ZY
+    ports:
+      - "4003:4003"
   redis:
     image: "redis:alpine"
+  postgres:
+    image: "postgres:13.2"
     ports:
-      - "6379:6379"
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=wanderia
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

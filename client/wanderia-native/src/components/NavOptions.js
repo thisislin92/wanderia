@@ -16,7 +16,7 @@ const data = [
         id: "2",
         title: "Chat",
         image: "https://links.papareact.com/28w",
-        screen: "ChatScreen",
+        screen: "ConversationScreen",
     },
     {
         id: "3",

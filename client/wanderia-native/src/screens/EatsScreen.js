@@ -1,21 +1,26 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
-import { GOOGLE_MAPS_APIKEY } from '@env'
-import MapEatsScreen from '../components/MapEatsScreen'
-import MapView, { Marker } from 'react-native-maps'
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import React from "react";
+import ChatHeader from "../components/ChatHeader";
+import ChatInput from "../components/ChatInput";
+import ChatList from "../components/ChatList";
 
-const EatScreen = () => {
-  return (
-    <View className='flex-1 flex-col-reverse bg-black'>
-      <View className='h-64 w-full bg-white'>
+const EatsScreen = ({ navigation, route }) => {
+    return (
+        <SafeAreaView className="flex-1">
+            <View style={{ flex: 1 }}>
+                <ChatHeader
+                    onPress={() => {}}
+                    username={"username"}
+                    bio={"bio"}
+                    picture={"https://picsum.photos/200/300"}
+                    onlineStatus={"online"}
+                />
+                <ChatList />
+            </View>
+        </SafeAreaView>
+    );
+};
 
-      </View>
-      <View className='flex-1 w-full bg-gray-400'>
-        <MapEatsScreen />
-      </View>
-    </View>
-  )
-}
+export default EatsScreen;
 
-export default EatScreen
+const styles = StyleSheet.create({});

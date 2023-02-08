@@ -1,0 +1,25 @@
+name: Deploy AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-orchestrator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to AWS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd wanderia/server
+            git pull
+            docker compose rm -f
+            docker compose up -d --build
+            docker compose logs
+            docker compose ps
