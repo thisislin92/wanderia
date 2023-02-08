@@ -58,13 +58,34 @@ class RoutesController {
             //     finalData.push({ name, latitude, longitude, address });
             // }
 
-            const finalData = []
+            // const finalData = []
 
-            for (let i = 0; i < 4; i++) {
-                const randomIndex = Math.floor(Math.random() * dataBusiness.length)
-                finalData.push(dataBusiness[randomIndex])
-                dataBusiness.splice(finalData, 1)
+            // for (let i = 0; i < 4; i++) {
+            //     const randomIndex = Math.floor(Math.random() * dataBusiness.length)
+            //     finalData.push(dataBusiness[randomIndex])
+            //     dataBusiness.splice(finalData, 1)
+            // }
+
+            function selectRandomUnique(array, count=4) {
+              if (array.length <= count) {
+                return array;
+              }
+              
+              let result = [];
+              let selected = new Set();
+            
+              while (result.length < count) {
+                let randomIndex = Math.floor(Math.random() * array.length);
+                if (!selected.has(randomIndex)) {
+                  selected.add(randomIndex);
+                  result.push(array[randomIndex]);
+                }
+              }
+            
+              return result;
             }
+
+            const finalData = selectRandomUnique(dataBusiness)
 
             console.log(finalData, "finalData 2");
 

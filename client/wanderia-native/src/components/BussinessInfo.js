@@ -11,13 +11,10 @@ const BussinessInfo = () => {
     const navigator = useNavigation();
     const dispatcher = useDispatch();
 
-    const getMarkers = async () => {
-      await dispatcher(mapMarkers());
-    }
-
-    useLayoutEffect(() => {
-      getMarkers();
-    }, [])
+    useEffect(() => {
+      console.log('masuk bisnis info')
+      console.log(bussinessInfo)
+    },[])
 
     return (
       <View className={`${markerState?'h-full':'h-0'}`}>
@@ -38,7 +35,7 @@ const BussinessInfo = () => {
             <Image source={{ uri: bussinessInfo?.imageUrl }} className="w-24 h-32 rounded-xl object-contain"/>
             <View className="gap-1 flex-1">
               <Text className="text-2xl font-semibold">{bussinessInfo?.name}</Text>
-              <Text className="text-lg">{bussinessInfo?.category}</Text>
+              {/* <Text className="text-lg">{bussinessInfo?.category.name}</Text> */}
               <Text className="text-gray-400">{bussinessInfo?.address}</Text>
               <View className="flex-row gap-x-1">
                 {bussinessInfo?.rating && (
@@ -50,7 +47,7 @@ const BussinessInfo = () => {
                 {bussinessInfo?.price && (
                   <View className="flex-row gap-1 items-center">
                     <Text className="text-lg">Price:</Text>
-                    { bussinessInfo?.price.split("").map((el) => (<Icons.FontAwesome5 name="money-bill-wave" className="text-lg"/>)) }
+                    { bussinessInfo?.price.split("").map((el, index) => (<Icons.FontAwesome5 name="money-bill-wave" className="text-lg" key={index}/>)) }
                   </View>
                 )}
               </View>

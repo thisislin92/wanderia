@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setTravelTimeInformation, selectStartNavigation, } from "../stores/slices/navSlice";
 import * as Icons from "@expo/vector-icons";
 import { mapMarkers, openMarker } from "../stores/actionCreator";
+import { gql, useQuery } from "@apollo/client";
 
 const Map = () => {
   const origin = useSelector(selectOrigin);
@@ -20,13 +21,59 @@ const Map = () => {
   const [ bounds, setBounds ] = useState(null);
   const { markerState, markers: bussinessMarker } = useSelector((state) => state.ux)
 
-  const getMarkers = async () => {
-    await dispatch(mapMarkers());
-  };
+  const REQ_MARKER = gql`
+    query AllBusiness($input: GetBusiness) {
+      allBusiness(input: $input) {
+        name
+        id
+        address
+        latitude
+        longitude
+        imageUrl
+        price
+        rating
+        category {
+          symbol
+        }
+        posts {
+          link
+          name
+          imageUrl
+        }
+      }
+    }
+  `
+  let { loading, data, error, refetch } = useQuery(REQ_MARKER, { 
+      variables: {
+          input: {
+          "neLat": (bounds? bounds.northEast.latitude:origin.location.lat+0.1).toString(),
+          "swLat": (bounds? bounds.southWest.latitude:origin.location.lat-0.1).toString(),
+          "neLon": (bounds? bounds.northEast.longitude:origin.location.lng+0.1).toString(),
+          "swLon": (bounds? bounds.southWest.longitude:origin.location.lng-0.1).toString()
+        }
+      }
+    }
+  )
 
-  useLayoutEffect(() => {
-      getMarkers();
-  }, []);
+  console.log(bounds?'bounds':'origin',{
+    neLat: (bounds? bounds.northEast.latitude:origin.location.lat+0.1).toString(),
+    swLat: (bounds? bounds.southWest.latitude:origin.location.lat-0.1).toString(),
+    neLon: (bounds? bounds.northEast.longitude:origin.location.lng+0.1).toString(),
+    swLon: (bounds? bounds.southWest.longitude:origin.location.lng-0.1).toString()
+  })
+
+  useEffect(() => {
+    if (data && startNavigation) {
+      console.log(data, 'di effect_____________________________________________')
+      dispatch(mapMarkers(data.allBusiness))
+    }
+  },[data])
+
+  useEffect(()=>{
+    if (bounds) {
+      refetch()
+    };
+  }, [bounds])
 
   useEffect(() => {
     if (!origin || !destination) return;
@@ -45,20 +92,10 @@ const Map = () => {
 
   const onRegionChangeComplete = () => {
     mapRef.current.getMapBoundaries().then((map) => {
-      dispatch(setBoundsWaypoint(map));
-      setBounds(map);
+      dispatch(setBoundsWaypoint(map))
+      setBounds(map)
     });
   };
-
-  const filterMarkers = (bussinessMarker, bounds) => {
-    return bussinessMarker.filter(
-      (marker) =>
-        marker.latitude >= bounds.southWest.latitude-0.005 &&
-        marker.latitude <= bounds.northEast.latitude+0.005 &&
-        marker.longitude >= bounds.southWest.longitude-0.005 &&
-        marker.longitude <= bounds.northEast.longitude+0.005
-    )
-  }
 
   useEffect(() => {
     if (!origin || !destination) return;
@@ -75,6 +112,7 @@ const Map = () => {
   return (
     <MapView
       ref={mapRef}
+      // onMapLoaded=
       onRegionChangeComplete={onRegionChangeComplete}
       style={tw`h-full w-full`}
       mapType="mutedStandard"
@@ -110,12 +148,14 @@ const Map = () => {
           <MapViewDirections
               origin={origin.description}
               destination={destination.description}
+              // optimizeWaypoints={true}
+              // mode='TRANSIT'
               waypoints={
                 waypoints.map(el=> {return {"longitude":+el.longitude,"latitude":+el.latitude}})
               }
               apikey="AIzaSyCPqKoUKVc1aUxhG4vGluGxF3OOr8ProL4"
-              strokeWidth={3}
-              strokeColor="blue"
+              strokeWidth={4}
+              strokeColor="purple"
           />
       )}
 
@@ -123,41 +163,67 @@ const Map = () => {
         origin?.location && 
         <Marker title="Origin" description={origin.description} identifier="origin"
           coordinate={{ latitude: origin.location.lat, longitude: origin.location.lng }}
-        />
+        >
+          <View className='px-1 bg-blue-600 rounded-full shadow border-[1px] border-gray-200'>
+            <Icons.MaterialIcons name='trip-origin' className='text-lg text-white'/> 
+          </View>
+        </Marker>
       }
 
       {
         destination?.location && 
         <Marker title="Destination" description={destination.description} identifier="destination"
           coordinate={{ latitude: destination.location.lat, longitude: destination.location.lng }}
-        />
+          >
+          <View className='px-1 bg-red-600 rounded-full shadow border-[1px] border-gray-200'>
+            <Icons.MaterialIcons name='trip-origin' className='text-lg text-white'/> 
+          </View>
+        </Marker>
       }
 
       {
-        waypoints?.map((waypoint, index) => { return (
-          <Marker key={index} title="Waypoint" description={waypoint.description} identifier="waypoint"
+        waypoints?.map((waypoint, index) => { 
+          return (
+          <Marker key={index} title={waypoint.name} description={waypoint.address} identifier={waypoint.id}
             coordinate={{ latitude: +waypoint.latitude, longitude: +waypoint.longitude }}
-          />
+          >
+            <View className='p-2 bg-white rounded-full shadow border-[1px] border-gray-200'>
+              <Text className='text-3xl'>{String.fromCodePoint(parseInt (waypoint.category.symbol, 16))}</Text>
+            </View>
+            <Callout tooltip>
+              <View className="h-16 w-56 bg-white rounded-xl">
+                <View className='pl-2 h-full w-full bg-white rounded-xl flex-row flex-1 items-center border-[1px] border-gray-200 shadow'>
+                  <Image source={{uri:waypoint.imageUrl}} className='h-12 w-12 rounded-xl'/>
+                  <View className='flex-1 px-1'>
+                    <View>
+                      <Text className='text-lg'>{waypoint.name?.length>20?waypoint.name.slice(0,17)+'...':waypoint.name}</Text>
+                      <Text className='text-xs font-light text-gray-500'>{waypoint.address?.length>20?waypoint.address.slice(0,20)+'...':waypoint.address}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </Callout>
+          </Marker>
         )})
       }
-
+      
       { bounds && startNavigation &&
-          filterMarkers(bussinessMarker, bounds).map((marker, index) => {
+          bussinessMarker?.map((marker, index) => {
             return (
-            <Marker key={'marker'+index} 
+            <Marker key={'marker'+marker.id} 
               coordinate={{
                 latitude: +marker.latitude,
                 longitude: +marker.longitude}
               } title={marker.name} description='origin'>
                 <View className='p-2 bg-white rounded-full shadow border-[1px] border-gray-200'>
-                  <Text className='text-3xl'>{String.fromCodePoint(parseInt (marker.icon, 16))}</Text>
+                  <Text className='text-3xl'>{String.fromCodePoint(parseInt (marker.category.symbol, 16))}</Text>
                 </View>
                 <Callout tooltip>
                   <View className="h-16 w-56 bg-white rounded-xl">
                     <TouchableOpacity className='pl-2 h-full w-full bg-white rounded-xl flex-row flex-1 items-center border-[1px] border-gray-200 shadow'
                       onPress={()=>{
                         console.log('tap >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-                        dispatch(openMarker(marker.id))
+                        dispatch(openMarker(marker))
                       }}>
                       <Image source={{uri:marker.imageUrl}} className='h-12 w-12 rounded-xl'/>
                       <View className='flex-1 px-1'>

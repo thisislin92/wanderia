@@ -25,48 +25,71 @@ import tw from "tailwind-react-native-classnames";
 import { useMutation, gql } from "@apollo/client";
 
 const REQ_WAYPOINT = gql`
-    mutation AddNewTrip($input: NewRoute) {
-        addNewTrip(input: $input) {
-            tripId
-            name
-            latitude
-            longitude
-            address
-        }
+  mutation Mutation($input: NewRoute) {
+  addNewTrip(input: $input) {
+    tripId
+    name
+    address
+    latitude
+    longitude
+    imageUrl
+    category {
+      symbol
     }
-`;
+    posts {
+      imageUrl
+      name
+      link
+    }
+  }
+}
+`
 
 const NavigateCard = () => {
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
-    const destination = useSelector(selectDestination);
-    const origin = useSelector(selectOrigin);
-    const boundsWaypoint = useSelector(selectBoundsWaypoint);
-    const [waypoints, { data, loading, error }] = useMutation(REQ_WAYPOINT);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const destination = useSelector(selectDestination);
+  const origin = useSelector(selectOrigin);
+  const boundsWaypoint = useSelector(selectBoundsWaypoint);
+  const [waypoints, {data, loading, error}] = useMutation(REQ_WAYPOINT)
+  const [isBoundAvailable, setIsBoundAvailable] = useState(false)
 
-    useEffect(() => {
-        console.log(
-            boundsWaypoint,
-            "masuk useEffect waypoints<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-        );
-        if (destination) {
-            console.log(
-                "dapet destination<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-            );
-            waypoints({
-                variables: {
-                    input: {
-                        placeOfOrigin: origin.location.address,
-                        destination: destination.location.address,
-                        neLat: boundsWaypoint.northEast.latitude.toString(),
-                        neLon: boundsWaypoint.northEast.longitude.toString(),
-                        swLat: boundsWaypoint.southWest.latitude.toString(),
-                        swLon: boundsWaypoint.southWest.longitude.toString(),
-                    },
-                },
-            });
-        } else return;
-    }, [boundsWaypoint]);
+  const getWaypoints = async () => {
+    try {
+      await waypoints(
+        {variables: {
+          input: {
+            placeOfOrigin: origin.location.lat + ' ' + origin.location.lng,
+            destination: destination.location.lat + ' ' + destination.location.lng,
+            neLat:(boundsWaypoint.northEast.latitude).toString(),
+            neLon:(boundsWaypoint.northEast.longitude).toString(),
+            swLat:(boundsWaypoint.southWest.latitude).toString(),
+            swLon:(boundsWaypoint.southWest.longitude).toString(),
+          }
+        }})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  useEffect(() => {
+    if (isBoundAvailable && destination) {
+      getWaypoints()
+    }
+  },[isBoundAvailable])
+
+  useEffect(()=>{
+    if (boundsWaypoint && Object.keys(boundsWaypoint).length) setIsBoundAvailable(true)
+  },[boundsWaypoint])
+
+  
+  useEffect(() => {
+    // const payload = data?.addNewTrip?.map(el=> {return {name:el.name, longitude:+el.longitude, latitude:+el.latitude,}})
+    if (data?.addNewTrip){
+      const payload = data?.addNewTrip
+      dispatch(setWaypoints(payload))
+    }
+  },[data])
 
     useEffect(() => {
         const payload = data?.addNewTrip?.map((el) => {

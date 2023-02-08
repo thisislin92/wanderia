@@ -92,10 +92,7 @@ const RideOptionsCard = () => {
                             </Text>
                         </View>
                         <Text className="text-xl">
-                            {(travelTimeInformation?.duration?.value *
-                                SURGE_CHARAGE_RATE *
-                                multiplier) /
-                                100}
+                            {(travelTimeInformation?.duration?.value * SURGE_CHARAGE_RATE * multiplier) / 100}
                         </Text>
                     </TouchableOpacity>
                 )}

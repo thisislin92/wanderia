@@ -25,36 +25,35 @@ const HomeScreen = () => {
           return;
       }
       dispatch(setLocationPermission(true));
-      let location = await Location.getCurrentPositionAsync({});
+      // let location = await Location.getCurrentPositionAsync({});
       // console.log("location", location);
 
-      let reverseGeoCode = await Location.reverseGeocodeAsync({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-      });
+      // let reverseGeoCode = await Location.reverseGeocodeAsync({
+      //     latitude: location.coords.latitude,
+      //     longitude: location.coords.longitude,
+      // });
 
-      let address = `${reverseGeoCode[0].district?reverseGeoCode[0].district:''} ${reverseGeoCode[0].subregion?reverseGeoCode[0].subregion:''} ${reverseGeoCode[0].region?reverseGeoCode[0].region:''} ${reverseGeoCode[0].country?reverseGeoCode[0].country:''}`;
-      // console.log("address", address);
-      setAddress(address);
+      // let address = `${reverseGeoCode[0].district?reverseGeoCode[0].district:''} ${reverseGeoCode[0].subregion?reverseGeoCode[0].subregion:''} ${reverseGeoCode[0].region?reverseGeoCode[0].region:''} ${reverseGeoCode[0].country?reverseGeoCode[0].country:''}`;
+      // // console.log("address", address);
+      // setAddress(address);
 
-      setLocation({
-          location: {
-            lat: location.coords.latitude,
-            lng: location.coords.longitude,
-          },
-          description: address,
-      });
-      const payload = {
-          location: {
-            lat: location.coords.latitude,
-            lng: location.coords.longitude,
-          },
-          description: address,
-      }
-      console.log(payload)
-      dispatch(
-          setOrigin(payload)
-      );
+      // setLocation({
+      //     location: {
+      //       lat: location.coords.latitude,
+      //       lng: location.coords.longitude,
+      //     },
+      //     description: address,
+      // });
+      // const payload = {
+      //     location: {
+      //       lat: location.coords.latitude,
+      //       lng: location.coords.longitude,
+      //     },
+      //     description: address,
+      // }
+      // console.log(payload)
+      // dispatch(setOrigin(payload));
+      dispatch(setOrigin({"description": "Hacktiv8 Pondok Indah Jakarta Indonesia", "location": {"lat": -6.260860377182514, "lng": 106.7815750399413}}))
   };
 
   useEffect(() => {
@@ -63,6 +62,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
       dispatch(setOrigin(location));
+      // dispatch(setOrigin({"description": "Hacktiv8 Pondok Indah Jakarta Indonesia", "location": {"lat": -6.260860377182514, "lng": 106.7815750399413}}))
   }, [address]);
 
   return (
