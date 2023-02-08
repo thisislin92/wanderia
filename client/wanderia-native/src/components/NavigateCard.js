@@ -137,49 +137,42 @@ const NavigateCard = () => {
                     <NavFavorites className="mt-10" />
                 </View>
 
-                <View className="flex-row bg-white justify-evenly py-2 mt-auto border-t border-gray-100">
-                    {!destination ? (
-                        <View className="bg-gray-400 w-48 py-4 px-4 rounded-full flex flex-row items-center justify-center gap-x-2 ">
-                            {loading ? (
-                                <ActivityIndicator size="large" color="white" />
-                            ) : (
-                                <>
-                                    <Icon
-                                        name="car"
-                                        type="font-awesome"
-                                        color="white"
-                                        className=""
-                                    />
-                                    <Text
-                                        style={tw`text-center text-white text-xl font-semibold`}
-                                    >
-                                        Rides
-                                    </Text>
-                                </>
-                            )}
-                        </View>
-                    ) : (
-                        <TouchableOpacity
-                            className="bg-[#4a388e] w-48 py-4 px-4 rounded-full flex flex-row items-center justify-center gap-x-2 "
-                            onPress={() => navigation.navigate("ConfirmRide")}
-                        >
-                            <Icon
-                                name="car"
-                                type="font-awesome"
-                                color="white"
-                                className=""
-                            />
-                            <Text
-                                style={tw`text-center text-white text-xl font-semibold`}
-                            >
-                                Rides
-                            </Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
-    );
+        {/* <View className="flex-row bg-white justify-evenly py-2 mt-auto border-t border-gray-100">
+          { !destination?
+            <View className="bg-gray-400 w-48 py-4 px-4 rounded-full flex flex-row items-center justify-center gap-x-2 ">
+              {
+                loading ? <ActivityIndicator size="large" color="white" /> :
+                <>
+                  <Icon name="car" type="font-awesome" color="white" className=''/>
+                  <Text style={tw`text-center text-white text-xl font-semibold`}>Rides</Text>
+                </>
+              }
+            </View>:
+            <TouchableOpacity className="bg-black w-48 py-4 px-4 rounded-full flex flex-row items-center justify-center gap-x-2 " onPress={() => navigation.navigate("RideOptionsCard")}>
+              <Icon name="car" type="font-awesome" color="white" className='' />
+              <Text style={tw`text-center text-white text-xl font-semibold`}>Rides</Text>
+            </TouchableOpacity>
+          }
+        </View> */}
+
+        <View style={tw`mt-auto border-t border-gray-200`}>
+          <TouchableOpacity
+              style={tw`bg-black py-3 m-3 rounded-full ${
+                  !loading && `bg-gray-300`
+              }`}
+              disabled={loading}
+              onPress={() => {
+                  navigation.navigate("ConfirmRide");
+              }}
+          >
+              <Text className="text-center text-xl text-white">
+                  Choose
+              </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 };
 
 export default NavigateCard;

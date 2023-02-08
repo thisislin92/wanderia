@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React, { useState } from 'react'
 import { Input, Button } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
@@ -16,9 +16,13 @@ const LoginScreen = () => {
       .then((userCredential) => console.log('success login'))
       .catch((error) => { alert(error.message) });
   }
+  
 
   return (
     <View className='flex-1 items-center justify-center p-4'>
+      <View>
+        <Image style={{ width: 150, height: 150, resizeMode: "contain", marginTop: 20, }} source={{ uri: "https://i.imgur.com/fLn2YRT.png" }}/>
+      </View>
       <Input 
         placeholder='Enter your email'
         label='Email'

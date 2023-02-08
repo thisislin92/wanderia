@@ -77,38 +77,21 @@ export default {
 </script>
 
 <template>
-  <div class="d-flex align-self-center">
+  <div class="d-flex align-self-center h-full ">
     <main class="form-signin w-100 m-auto">
       <RouterLink to="/">
-        <img
-          src="../assets/logo-wanderia.png"
-          class="mx-auto d-block pb-4"
-          alt="Wanderia"
-          width="200"
-        />
+        <img src="../assets/logo-wanderia.png" class="mx-auto d-block pb-4" alt="Wanderia" width="200" />
       </RouterLink>
       <form @submit.prevent="handleLogin">
         <h1 class="h3 mb-3 fw-normal">Login</h1>
 
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label"
-            >Email address</label
-          >
-          <input
-            v-model="input.email"
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-          />
+          <label for="exampleInputEmail1" class="form-label" >Email address</label>
+          <input v-model="input.email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input
-            v-model="input.password"
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
+          <input v-model="input.password" type="password" class="form-control" id="exampleInputPassword1"
           />
         </div>
 

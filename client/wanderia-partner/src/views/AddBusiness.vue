@@ -1,27 +1,27 @@
 <script>
 import { useMutation, useQuery } from "@vue/apollo-composable";
 import gql from "graphql-tag";
+import NavbarPartner from "../components/NavbarPartner.vue";
 import { ALL_CATEGORIES } from "../stores/queries";
 
 export default {
-  name: "AddBusiness",
-  data() {
-    return {
-      input: {
-        name: "",
-        CategoryId: 0,
-        mapUrl: "",
-        imageUrl: "",
-        price: "",
-        rating: "",
-        address: "",
-        access_token: localStorage.getItem("access_token"),
-      },
-    };
-  },
-  setup() {
-    const { mutate: addNewPartnerBusiness } = useMutation(
-      gql`
+    name: "AddBusiness",
+    data() {
+      return {
+        input: {
+          name: "",
+          CategoryId: 0,
+          mapUrl: "",
+          imageUrl: "",
+          price: "",
+          rating: "",
+          address: "",
+          access_token: localStorage.getItem("access_token"),
+        },
+      };
+    },
+    setup() {
+        const { mutate: addNewPartnerBusiness } = useMutation(gql `
         mutation addNewPartnerBusiness($input: NewPartnerBusiness) {
           addNewPartnerBusiness(input: $input) {
             id
@@ -37,32 +37,34 @@ export default {
             price
           }
         }
-      `
-    );
-    const { result, loading, error } = useQuery(ALL_CATEGORIES);
-    return {
-      addNewPartnerBusiness,
-      result,
-      loading,
-      error,
-    };
-  },
-  methods: {
-    async handleAddBusiness() {
-      try {
-        let { data } = await this.addNewPartnerBusiness({
-          input: this.input,
-        });
-        this.$router.push("/dashboard");
-      } catch (error) {
-        console.log(error);
-      }
+      `);
+        const { result, loading, error } = useQuery(ALL_CATEGORIES);
+        return {
+            addNewPartnerBusiness,
+            result,
+            loading,
+            error,
+        };
     },
-  },
+    methods: {
+        async handleAddBusiness() {
+            try {
+                let { data } = await this.addNewPartnerBusiness({
+                    input: this.input,
+                });
+                this.$router.push("/dashboard");
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+    },
+    components: { NavbarPartner }
 };
 </script>
 
 <template>
+  <NavbarPartner />
   <div class="d-flex align-self-center">
     <main class="form-register w-100 m-auto">
       <img

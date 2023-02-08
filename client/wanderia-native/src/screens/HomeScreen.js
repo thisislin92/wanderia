@@ -66,63 +66,49 @@ const HomeScreen = () => {
   }, [address]);
 
   return (
-      <SafeAreaView className="bg-white h-full">
-          <View className="p-5">
-              <View className="flex-row items-center justify-between">
-                  <View>
-                      <Image style={{ width: 150, height: 150, resizeMode: "contain", marginTop: 20, }} source={{ uri: "https://i.imgur.com/fLn2YRT.png" }}/>
-                  </View>
-                  <View>
-                      <TouchableOpacity onPress={() => navigator.navigate("ProfileScreen")}>
-                          {auth.currentUser.photoURL ? (
-                              <Image
-                                  source={{ uri: auth.currentUser.photoURL }}
-                                  className="w-10 h-10 bg-black rounded-full"
-                              />
-                          ) : (
-                              <Icons.FontAwesome5
-                                  name="user-circle"
-                                  className="text-3xl"
-                              />
-                          )}
-                      </TouchableOpacity>
-                  </View>
-              </View>
-              <GooglePlacesAutocomplete
-                  placeholder="Where from?"
-                  styles={{
-                      container: { flex: 0 },
-                      textInput: { fontSize: 18 },
-                  }}
-                  query={{
-                      key: "AIzaSyCPqKoUKVc1aUxhG4vGluGxF3OOr8ProL4",
-                      language: "en",
-                  }}
-                  onPress={(data, details = null) => {
-                      console.log(data.description, "<<<<<<<<");
-                      console.log(details.geometry.location, "<<<<<<<<");
-                      // console.log(setOrigin, "setOrigin");
-                      dispatch(
-                          setOrigin({
-                              location: details.geometry.location,
-                              description: data.description,
-                          })
-                      );
-
-                      dispatch(setDestination(null));
-                  }}
-                  fetchDetails={true}
-                  enablePoweredByContainer={false}
-                  returnKeyType={"search"}
-                  minLength={2}
-                  nearbyPlacesAPI="GooglePlacesSearch"
-                  debounce={400}
-              />
-
-              <NavOptions />
-              <NavFavorites />
+    <SafeAreaView className="bg-white h-full">
+      <View className="p-5">
+        <View className="flex-row items-center justify-between">
+          <View>
+            <Image style={{ width: 150, height: 150, resizeMode: "contain", marginTop: 10, }} source={{ uri: "https://i.imgur.com/fLn2YRT.png" }}/>
           </View>
-      </SafeAreaView>
+          <View>
+            <TouchableOpacity onPress={() => navigator.navigate("ProfileScreen")}>
+              {auth.currentUser.photoURL ? (
+                  <Image source={{ uri: auth.currentUser.photoURL }} className="w-10 h-10 bg-black rounded-full"/>
+              ) : (
+                  <Icons.FontAwesome5 name="user-circle" className="text-3xl" />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View className="border-b-[1px] border-b-gray-200 mb-2">
+          <View>
+            <GooglePlacesAutocomplete
+              placeholder="Jl. Arteri Pd. Indah No.7, RT.5/RW.9, Kby. Lama Sel., Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12240"
+              styles={{ container: { flex: 0 }, textInput: { fontSize: 18 } }}
+              query={{ key: "AIzaSyCPqKoUKVc1aUxhG4vGluGxF3OOr8ProL4", language: "en",}}
+              onPress={(data, details = null) => {
+                dispatch(setOrigin({ location: details.geometry.location, description: data.description }) );
+                dispatch(setDestination(null));
+              }}
+              fetchDetails={true}
+              enablePoweredByContainer={false}
+              returnKeyType={"search"}
+              minLength={2}
+              nearbyPlacesAPI="GooglePlacesSearch"
+              debounce={400}
+            />
+          </View>
+        </View>
+
+          <NavOptions />
+          <View className='p-4'>
+            <Text className='text-2xl font-semibold'>Favorite routes</Text>
+            <NavFavorites/>
+          </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

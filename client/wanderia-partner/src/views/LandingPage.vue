@@ -41,7 +41,6 @@ export default {
     <Hero />
 
     <main id="main">
-      <About />
 
       <!-- ======= Services Section ======= -->
       <Section
@@ -113,20 +112,16 @@ export default {
           data-aos-delay="100"
         >
           <div class="container swiper-wrapper align-items-center">
-            <div class="row row-cols-4" v-if="result">
-              <!-- <div class="col swiper-slide">
-                <img
-                  src="../assets/img/clients/client-1.png"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div> -->
+            <div class="gap-4 d-flex flex-wrap w-full" v-if="result">
 
-              <CardDashboard
-                v-for="business in result.allPartnerBusiness.slice(0, 12)"
-                :key="business.id"
-                :business="business"
-              />
+              <!-- <div class="row row-cols-2"> -->
+                <CardDashboard
+                  v-for="business in result.allPartnerBusiness.slice(0, 12)"
+                  :key="business.id"
+                  :business="business"
+                  style="margin: 10px;"
+                />
+              <!-- </div>  -->
             </div>
           </div>
           <div class="swiper-pagination"></div>
@@ -160,15 +155,9 @@ export default {
               <div class="pic">
                 <img src="../assets/img/team-1.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Argi Bramantya</h4>
                 <span>Chief Executive Officer</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -178,15 +167,9 @@ export default {
               <div class="pic">
                 <img src="../assets/img/team-2.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Herlina Lim</h4>
                 <span>Product Manager</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -196,15 +179,9 @@ export default {
               <div class="pic">
                 <img src="../assets/img/team-3.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>M. Akbar Ridho Rizqullah</h4>
                 <span>CTO</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -214,15 +191,9 @@ export default {
               <div class="pic">
                 <img src="../assets/img/team-4.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Mukhammad Fahmi Fachrizal</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -232,15 +203,9 @@ export default {
               <div class="pic">
                 <img src="../assets/img/team-4.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Raihan Qowi Liansu</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -250,15 +215,9 @@ export default {
               <div class="pic">
                 <img src="../assets/img/team-4.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Reza Dhia Ulhaq</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -318,11 +277,5 @@ export default {
 
     <!-- ======= Footer ======= -->
     <Footer />
-
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
   </div>
 </template>
