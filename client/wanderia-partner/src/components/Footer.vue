@@ -8,10 +8,7 @@ export default {
   <footer id="footer">
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong>Wanderia</strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        &copy; Copyright <strong>Wanderia</strong>. Enjoy Dengan Bisnismu
       </div>
     </div>
   </footer>
