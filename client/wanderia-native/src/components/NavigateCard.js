@@ -1,8 +1,22 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
+    ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useDispatch, useSelector } from "react-redux";
-import { selectBoundsWaypoint, selectDestination, selectOrigin, setDestination } from "../stores/slices/navSlice";
+import {
+    selectBoundsWaypoint,
+    selectDestination,
+    selectOrigin,
+    setDestination,
+} from "../stores/slices/navSlice";
 import { setWaypoints } from "../stores/slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 import NavFavorites from "./NavFavorites";
@@ -77,29 +91,40 @@ const NavigateCard = () => {
     }
   },[data])
 
-  return (
-    <SafeAreaView className="bg-white flex-1">
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <Text className="text-center py-2 text-xl">Where do you want to wander ? </Text>
-        <View className="flex-shrink">
-          <View className='mb-4'>
-            <GooglePlacesAutocomplete
-              placeholder="Where to?"
-              styles={toInputBoxStyles}
-              fetchDetails={true}
-              enablePoweredByContainer={false}
-              onPress={(data, details = null) => {
-                  dispatch( setDestination({ location: details.geometry.location, description: data.description }));
-                  // navigation.navigate("RideOptionsCard");
-              }}
-
-              query={{ key: "AIzaSyCPqKoUKVc1aUxhG4vGluGxF3OOr8ProL4", language: "en" }}
-              nearbyPlacesAPI="GooglePlacesSearch"
-              debounce={400}
-            />
-          </View>
-          <NavFavorites className='mt-10'/>
-        </View>
+    return (
+        <SafeAreaView className="bg-white flex-1">
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+                <Text className="text-center py-2 text-xl">
+                    Where do you want to wander ?{" "}
+                </Text>
+                <View className="flex-shrink">
+                    <View className="mb-4">
+                        <GooglePlacesAutocomplete
+                            placeholder="Where to?"
+                            styles={toInputBoxStyles}
+                            fetchDetails={true}
+                            enablePoweredByContainer={false}
+                            onPress={(data, details = null) => {
+                                dispatch(
+                                    setDestination({
+                                        location: details.geometry.location,
+                                        description: data.description,
+                                    })
+                                );
+                                // navigation.navigate("RideOptionsCard");
+                            }}
+                            query={{
+                                key: "AIzaSyCPqKoUKVc1aUxhG4vGluGxF3OOr8ProL4",
+                                language: "en",
+                            }}
+                            nearbyPlacesAPI="GooglePlacesSearch"
+                            debounce={400}
+                        />
+                    </View>
+                    <NavFavorites className="mt-10" />
+                </View>
 
         {/* <View className="flex-row bg-white justify-evenly py-2 mt-auto border-t border-gray-100">
           { !destination?
