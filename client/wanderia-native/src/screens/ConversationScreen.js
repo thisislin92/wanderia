@@ -1,31 +1,41 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-    ScrollView,
-    TouchableOpacity,
-} from "react-native";
+import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import ConversationList from "../components/ConversationList";
 import { Avatar } from "react-native-elements";
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
-import { database } from "../../config/firebase";
+// import { database } from "../../config/firebase";
+import firebase from "firebase/app";
+import {
+  collection,
+  setCollections,
+  addDoc,
+  orderBy,
+  query,
+  onSnapshot,
+} from "firebase/firestore";
 
 const ConversationScreen = ({ navigation }) => {
-    const [chats, setChats] = useState([]);
+  
+  const db = firebase.firestore();
 
-    // useEffect(() => {
-    //     const unsubscribe = database.collection("chat").onSnapshot((snapshot) =>
-    //         setChats(
-    //             snapshot.docs.map((doc) => ({
-    //                 id: doc.id,
-    //                 data: doc.data(),
-    //             }))
-    //         )
-    //     );
-    //     return unsubscribe;
-    // }, []);
+  const [chats, setChats] = useState([]);
+  
+    useEffect(() => {
+      db.collection("chats")
+      .get()
+      .then((querySnapshot) => {
+        const chats = [];
+        querySnapshot.forEach((doc) => {
+          chats.push({ id: doc.id, ...doc.data() });
+        });
+        setChats(chats);
+      }) 
+
+      // const unsubscribe = database.collection("chats").onSnapshot((snapshot) =>
+      // setChats( snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })) )
+      // );
+      // return unsubscribe;
+    }, []);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -79,14 +89,21 @@ const ConversationScreen = ({ navigation }) => {
     }, [navigation]);
 
     return (
-        <SafeAreaView>
-            <ScrollView>
-                <ConversationList />
-            </ScrollView>
+        <SafeAreaView className='flex-1'>
+          <ScrollView>
+          <View>
+            <View className="drawer">
+              
+                {chats.map((chat) => (
+                  <View key={chat.id}>{chat.name}</View>
+                ))}
+              
+            </View>
+          </View>
+            <ConversationList />
+          </ScrollView>
         </SafeAreaView>
     );
 };
 
 export default ConversationScreen;
-
-const styles = StyleSheet.create({});
