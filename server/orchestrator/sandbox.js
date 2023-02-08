@@ -36,8 +36,9 @@ try-catch block for handling actual image upload
           public_id: "",
 /*creates a folder called "your_folder_name" where images will be stored.
 */
-          folder: "your_folder_name",
+          folder: "Wanderia",
         });
+        console.log(result.url)
         return `Successful-Photo URL: ${result.url}`;
       } catch (e) {
 //returns an error message on image upload failure.
