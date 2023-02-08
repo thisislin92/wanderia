@@ -11,23 +11,12 @@ router.post("/partner/login", UserController.login);
 router.get("/", BusinessController.getAllBusinesses);
 router.get("/categories", CategoryController.readCategory);
 router.get("/business/:id", BusinessController.getOneBusiness);
-// router.put("/business/:id", BusinessController.updateStatus); //super admin
-router.get("/categories/:id", CategoryController.readCategoryId);
 router.put("/business/:id", BusinessController.updateStatus); //super admin
 router.get("/categories/:id", CategoryController.readCategoryId);
-// router.use("/post", postRouter);
+router.use("/post", postRouter);
 router.use(authentication);
 router.get("/business", BusinessController.getPartnerBusiness);
 router.post("/business", BusinessController.createBusiness);
-
-router.patch("/business/:id", authorization, BusinessController.editBusiness);
-// router.delete(
-//     "/business/:id",
-//     authorization,
-//     BusinessController.deleteBusiness
-// );
-router.get("/categories", CategoryController.readCategory);
-router.get("/business/:id", BusinessController.getOneBusiness);
 
 router.patch("/business/:id", authorization, BusinessController.editBusiness);
 router.delete(

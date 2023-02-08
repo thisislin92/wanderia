@@ -35,7 +35,6 @@ const BussinessInfo = () => {
             <Image source={{ uri: bussinessInfo?.imageUrl }} className="w-24 h-32 rounded-xl object-contain"/>
             <View className="gap-1 flex-1">
               <Text className="text-2xl font-semibold">{bussinessInfo?.name}</Text>
-              {/* <Text className="text-lg">{bussinessInfo?.category.name}</Text> */}
               <Text className="text-gray-400">{bussinessInfo?.address}</Text>
               <View className="flex-row gap-x-1">
                 {bussinessInfo?.rating && (

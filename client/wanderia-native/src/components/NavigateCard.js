@@ -101,7 +101,7 @@ const NavigateCard = () => {
           <NavFavorites className='mt-10'/>
         </View>
 
-        <View className="flex-row bg-white justify-evenly py-2 mt-auto border-t border-gray-100">
+        {/* <View className="flex-row bg-white justify-evenly py-2 mt-auto border-t border-gray-100">
           { !destination?
             <View className="bg-gray-400 w-48 py-4 px-4 rounded-full flex flex-row items-center justify-center gap-x-2 ">
               {
@@ -117,6 +117,22 @@ const NavigateCard = () => {
               <Text style={tw`text-center text-white text-xl font-semibold`}>Rides</Text>
             </TouchableOpacity>
           }
+        </View> */}
+
+        <View style={tw`mt-auto border-t border-gray-200`}>
+          <TouchableOpacity
+              style={tw`bg-black py-3 m-3 rounded-full ${
+                  !loading && `bg-gray-300`
+              }`}
+              disabled={loading}
+              onPress={() => {
+                  navigation.navigate("ConfirmRide");
+              }}
+          >
+              <Text className="text-center text-xl text-white">
+                  Choose
+              </Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

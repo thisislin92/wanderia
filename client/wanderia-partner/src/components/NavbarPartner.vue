@@ -12,15 +12,14 @@ export default {
 </script>
 
 <template>
-  <div>
-    <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-50">
+    <!-- <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-50">
       <div class="container-fluid gap-4">
         <RouterLink to="/dashboard">
           <img
-            src="https://i.imgur.com/fLn2YRT.png"
-            class="ml-20"
+            src="../assets/wanderia.png"
+            class="mx-auto d-block pb-4"
             alt="Wanderia"
-            width="80"
+            width="100"
           />
         </RouterLink>
         <button
@@ -49,9 +48,6 @@ export default {
                 >Add Business</RouterLink
               >
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
           </ul>
           <span class="navbar-text">
             <a
@@ -66,6 +62,25 @@ export default {
           </span>
         </div>
       </div>
-    </nav>
-  </div>
+    </nav> -->
+    <header id="header" class="d-flex align-items-center bg-[#000] align-items-center">
+      <div class="container d-flex justify-content-between">
+        <div id="logo">
+          <a href="/">
+            <img src="../assets/wanderia.png" class="mx-auto d-block " alt="Wanderia" width="100"/>
+          </a>
+        </div>
+
+        <nav id="navbar" class="navbar container">
+          <ul>
+            <li><RouterLink class="nav-link active" aria-current="page" to="/dashboard">Home</RouterLink></li>
+            <li><RouterLink class="nav-link" to="/addbusiness">Add Business</RouterLink></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+          <button type="button" class="btn btn-secondary" @click.prevent="logout">
+            Log Out
+          </button>
+        </nav>
+      </div>
+    </header>
 </template>

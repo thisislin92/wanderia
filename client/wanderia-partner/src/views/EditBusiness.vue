@@ -1,70 +1,92 @@
 <script>
 import { useMutation, useQuery } from "@vue/apollo-composable";
 import gql from "graphql-tag";
-import NavbarPartner from "../components/NavbarPartner.vue";
-import { ALL_CATEGORIES } from "../stores/queries";
+import { useRoute } from "vue-router";
+import { ALL_CATEGORIES, ONE_BUSINESS } from "../stores/queries";
 
 export default {
-    name: "AddBusiness",
-    data() {
-      return {
-        input: {
-          name: "",
-          CategoryId: 0,
-          mapUrl: "",
-          imageUrl: "",
-          price: "",
-          rating: "",
-          address: "",
-          access_token: localStorage.getItem("access_token"),
-        },
-      };
+  name: "EditBusiness",
+  watch: {
+    result1(newResult1, oldResult1) {
+      this.setResultToInput(newResult1);
     },
-    setup() {
-        const { mutate: addNewPartnerBusiness } = useMutation(gql `
-        mutation addNewPartnerBusiness($input: NewPartnerBusiness) {
-          addNewPartnerBusiness(input: $input) {
-            id
-            name
-            latitude
-            longitude
-            address
-            CategoryId
-            PartnerId
-            status
-            imageUrl
-            rating
-            price
+  },
+  data() {
+    return {
+      input: {
+        id: 0,
+        name: "",
+        CategoryId: 0,
+        imageUrl: "",
+        price: "",
+        rating: "",
+        address: "",
+        access_token: "",
+      },
+    };
+  },
+  setup() {
+    const route = useRoute();
+    const { mutate: editPartnerBusiness } = useMutation(
+      gql`
+        mutation editPartnerBusiness($input: EditPartnerBusiness) {
+          editPartnerBusiness(input: $input) {
+            message
           }
         }
-      `);
-        const { result, loading, error } = useQuery(ALL_CATEGORIES);
-        return {
-            addNewPartnerBusiness,
-            result,
-            loading,
-            error,
-        };
+      `
+    );
+    const { result, loading, error } = useQuery(ALL_CATEGORIES);
+    const {
+      result: result1,
+      loading: loading1,
+      error: error1,
+    } = useQuery(ONE_BUSINESS, {
+      onePartnerBusinessId: route.params.id,
+    });
+    return {
+      editPartnerBusiness,
+      result,
+      loading,
+      error,
+      result1,
+      loading1,
+      error1,
+    };
+  },
+  methods: {
+    async handleEditBusiness() {
+      try {
+        let { data } = await this.editPartnerBusiness({
+          input: {
+            id: this.input.id,
+            name: this.input.name,
+            CategoryId: this.input.CategoryId,
+            imageUrl: this.input.imageUrl,
+            price: this.input.price,
+            rating: this.input.rating,
+            address: this.input.address,
+            access_token: this.input.access_token,
+          },
+        });
+        // console.log(this.input)
+        this.$router.push("/dashboard");
+      } catch (error) {
+        console.log(error);
+      }
     },
-    methods: {
-        async handleAddBusiness() {
-            try {
-                let { data } = await this.addNewPartnerBusiness({
-                    input: this.input,
-                });
-                this.$router.push("/dashboard");
-            }
-            catch (error) {
-                console.log(error);
-            }
-        },
+    setResultToInput() {
+      this.input = {
+        ...this.result1.onePartnerBusiness,
+        id: +this.$route.params.id,
+        access_token: localStorage.access_token,
+      };
     },
-    components: { NavbarPartner }
+  },
 };
 </script>
 
 <template>
-  <NavbarPartner />
   <div class="d-flex align-self-center">
     <main class="form-register w-100 m-auto">
       <img
@@ -73,8 +95,8 @@ export default {
         alt="Wanderia"
         width="100px"
       />
-      <form @submit.prevent="handleAddBusiness">
-        <h1 class="h3 mb-3 fw-normal">Add Business</h1>
+      <form @submit.prevent="handleEditBusiness">
+        <h1 class="h3 mb-3 fw-normal">Edit Business</h1>
 
         <div class="mb-3 row">
           <label for="name" class="col-sm-2 col-form-label">Name</label>
@@ -130,30 +152,23 @@ export default {
               class="form-select"
               aria-label="Default select example"
             >
-              <option disabled value="0">Open this select menu</option>
+              <!-- <option disabled value="0">Open this select menu</option> -->
               <option
                 v-for="category in result.allPartnerCategories"
-                :key="`${category.id}-1`"
+                :key="`${category.id}-2`"
                 :value="+category.id"
               >
                 {{ category.name }}
               </option>
-              <!-- <option value="2">Two</option>
-              <option value="3">Three</option> -->
             </select>
           </div>
         </div>
-        <div class="mb-3 row">
-          <label for="mapUrl" class="col-sm-2 col-form-label">Map URL</label>
-          <div class="col-sm-10">
-            <input
-              type="text"
-              v-model="input.mapUrl"
-              class="form-control"
-              id="mapUrl"
-            />
-          </div>
-        </div>
+        <!-- <div class="mb-3 row">
+                    <label for="mapUrl" class="col-sm-2 col-form-label">Map URL</label>
+                    <div class="col-sm-10">
+                        <input type="text" v-model="input.mapUrl" class="form-control" id="mapUrl" />
+                    </div>
+                </div> -->
         <div class="mb-3 row">
           <label for="imageUrl" class="col-sm-2 col-form-label">Image</label>
           <div class="col-sm-10">
@@ -166,12 +181,18 @@ export default {
           </div>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit">
+        <button
+          class="w-100 btn btn-lg btn-primary"
+          type="submit"
+          style="margin-bottom: 10px"
+        >
           Submit
         </button>
-        <a href="/dashboard" class="w-100 btn btn-lg btn-danger mt-2">
-          Cancel
-        </a>
+        <RouterLink to="/dashboard">
+          <button class="w-100 btn btn-lg btn-danger" type="button">
+            Cancel
+          </button>
+        </RouterLink>
       </form>
     </main>
   </div>
