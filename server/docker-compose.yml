@@ -23,7 +23,6 @@ services:
     build: services/partner
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/wanderia
-      - NODE_ENV=development
     ports:
       - "4002:4002"
     depends_on:
