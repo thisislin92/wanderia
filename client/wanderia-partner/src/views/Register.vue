@@ -48,12 +48,14 @@ export default {
 <template>
   <div class="d-flex align-self-center">
     <main class="form-register w-100 m-auto">
-      <img
-        src="../assets/logo-wanderia.png"
-        class="mx-auto d-block pb-4"
-        alt="Wanderia"
-        width="200"
-      />
+      <RouterLink to="/">
+        <img
+          src="../assets/logo-wanderia.png"
+          class="mx-auto d-block pb-4"
+          alt="Wanderia"
+          width="200"
+        />
+      </RouterLink>
       <form @submit.prevent="handleRegister">
         <h1 class="h3 mb-3 fw-normal">Register</h1>
 
@@ -93,9 +95,12 @@ export default {
           </div>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit">
+        <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">
           Register
         </button>
+        <center>
+          <p>Sudah punya akun? <a href="/login">Login</a></p>
+        </center>
       </form>
     </main>
   </div>

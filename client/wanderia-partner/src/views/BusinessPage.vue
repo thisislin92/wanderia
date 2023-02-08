@@ -1,19 +1,41 @@
 <script>
+import { useQuery } from "@vue/apollo-composable";
+import { ONE_BUSINESS } from "../stores/queries";
+import { useRoute } from "vue-router";
+import PostCard from "../components/PostCard.vue";
 export default {
   name: "BusinessPage",
+  setup() {
+    const route = useRoute();
+    const { result, loading, error, refetch } = useQuery(ONE_BUSINESS, {
+      onePartnerBusinessId: route.params.id,
+    });
+    return {
+      result,
+      loading,
+      error,
+      refetch,
+    };
+  },
+  created() {
+    this.refetch();
+  },
+  components: { PostCard },
 };
 </script>
 <template>
-  <main id="main">
+  <main id="main" v-if="result">
     <!-- ======= Breadcrumbs Section ======= -->
     <section class="breadcrumbs">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Portfolio Details</h2>
+          <h1>{{ result.onePartnerBusiness.name }}</h1>
           <ol>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
-            <li>Portfolio Details</li>
+            <li>
+              <button type="button" class="btn btn-warning">
+                <RouterLink to="/dashboard">Dashboard</RouterLink>
+              </button>
+            </li>
           </ol>
         </div>
       </div>
@@ -29,21 +51,8 @@ export default {
               <div class="swiper-wrapper align-items-center">
                 <div class="swiper-slide">
                   <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
-                    alt=""
-                  />
-                </div>
-
-                <div class="swiper-slide">
-                  <img
-                    src="assets/img/portfolio/portfolio-details-2.jpg"
-                    alt=""
-                  />
-                </div>
-
-                <div class="swiper-slide">
-                  <img
-                    src="assets/img/portfolio/portfolio-details-3.jpg"
+                    style="height: 500px; width: 800px"
+                    :src="result.onePartnerBusiness.imageUrl"
                     alt=""
                   />
                 </div>
@@ -54,28 +63,59 @@ export default {
 
           <div class="col-lg-4">
             <div class="portfolio-info">
-              <h3>Project information</h3>
+              <h3>Informasi Bisnis</h3>
               <ul>
-                <li><strong>Category</strong>: Web design</li>
-                <li><strong>Client</strong>: ASU Company</li>
-                <li><strong>Project date</strong>: 01 March, 2020</li>
                 <li>
-                  <strong>Project URL</strong>: <a href="#">www.example.com</a>
+                  <strong>Nama Business</strong>:
+                  {{ result.onePartnerBusiness.name }}
+                </li>
+                <li>
+                  <strong>Kategori</strong>:
+                  {{ result.onePartnerBusiness.category.name }}
+                </li>
+                <li>
+                  <strong>Owner</strong>:
+                  {{ result.onePartnerBusiness.author.name }}
+                </li>
+                <li>
+                  <strong>Tanggal Didirikan</strong>:
+                  {{
+                    new Date(
+                      result.onePartnerBusiness.createdAt
+                    ).toLocaleDateString("id", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  }}
+                </li>
+                <li>
+                  <strong>Rating</strong>:
+                  {{ result.onePartnerBusiness.rating }}
+                </li>
+                <li>
+                  <button type="button" class="btn btn-warning">
+                    <RouterLink :to="`/addpost/${result.onePartnerBusiness.id}`"
+                      >Add Post</RouterLink
+                    >
+                  </button>
                 </li>
               </ul>
             </div>
-            <div class="portfolio-description">
-              <h2>This is an example of portfolio detail</h2>
-              <p>
-                Autem ipsum nam porro corporis rerum. Quis eos dolorem eos
-                itaque inventore commodi labore quia quia. Exercitationem
-                repudiandae officiis neque suscipit non officia eaque itaque
-                enim. Voluptatem officia accusantium nesciunt est omnis tempora
-                consectetur dignissimos. Sequi nulla at esse enim cum deserunt
-                eius.
-              </p>
-            </div>
           </div>
+        </div>
+      </div>
+      <div class="container swiper-wrapper align-items-center">
+        <div
+          class="row row-cols-4 gap-5"
+          v-if="result.onePartnerBusiness.posts.length > 0"
+        >
+          <PostCard
+            v-for="post in result.onePartnerBusiness.posts"
+            :key="post.id"
+            :post="post"
+          />
         </div>
       </div>
     </section>
@@ -87,16 +127,7 @@ export default {
   <footer id="footer">
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong>Reveal</strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!--
-        All the links in the footer should remain intact.
-        You can delete the links only if you purchased the pro version.
-        Licensing information: https://bootstrapmade.com/license/
-        Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Reveal
-      -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        &copy; Copyright <strong>Wanderia</strong>. Enjoy Dengan Bisnismu
       </div>
     </div>
   </footer>

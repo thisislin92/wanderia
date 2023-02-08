@@ -7,8 +7,9 @@ export const PARTNERS_QUERY = gql`
       name
       latitude
       longitude
-      description
-      mapUrl
+      address
+      price
+      rating
       CategoryId
       PartnerId
       status
@@ -24,12 +25,58 @@ export const PARTNERS_BUSINESS_QUERY = gql`
       name
       latitude
       longitude
-      description
-      mapUrl
+      address
+      price
+      rating
       CategoryId
       PartnerId
       status
       imageUrl
+    }
+  }
+`;
+
+export const ONE_BUSINESS = gql`
+  query Query($onePartnerBusinessId: ID) {
+    onePartnerBusiness(id: $onePartnerBusinessId) {
+      CategoryId
+      PartnerId
+      address
+      id
+      author {
+        id
+        name
+        email
+      }
+      category {
+        id
+        name
+        symbol
+      }
+      createdAt
+      imageUrl
+      latitude
+      longitude
+      name
+      posts {
+        id
+        name
+        imageUrl
+        link
+      }
+      price
+      rating
+      status
+    }
+  }
+`;
+
+export const ALL_CATEGORIES = gql`
+  query Query {
+    allPartnerCategories {
+      id
+      name
+      symbol
     }
   }
 `;
