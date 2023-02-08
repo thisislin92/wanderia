@@ -17,10 +17,10 @@ export default {
       <div class="container-fluid gap-4">
         <RouterLink to="/dashboard">
           <img
-            src="https://i.imgur.com/fLn2YRT.png"
-            class="ml-20"
+            src="../assets/wanderia.png"
+            class="mx-auto d-block pb-4"
             alt="Wanderia"
-            width="80"
+            width="100"
           />
         </RouterLink>
         <button
@@ -48,9 +48,6 @@ export default {
               <RouterLink class="nav-link" to="/addbusiness"
                 >Add Business</RouterLink
               >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
             </li>
           </ul>
           <span class="navbar-text">

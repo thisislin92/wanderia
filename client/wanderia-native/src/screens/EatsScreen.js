@@ -1,40 +1,26 @@
-import {
-    View
-} from "react-native";
-import React, { useLayoutEffect, useState } from "react";
-import MapEatsScreen from "../components/MapEatsScreen";
-import { useDispatch, useSelector } from "react-redux";
-import BussinessInfo from "../components/BussinessInfo";
-import { mapMarkers, openMarker } from "../stores/actionCreator";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import React from "react";
+import ChatHeader from "../components/ChatHeader";
+import ChatInput from "../components/ChatInput";
+import ChatList from "../components/ChatList";
 
-const EatScreen = () => {
-    const dispatcher = useDispatch();
-    const { markerState, markers: bussinessMarker } = useSelector(
-        (state) => state.ux
-    );
-
-    const getMarkers = async () => {
-        await dispatcher(mapMarkers());
-    };
-
-    useLayoutEffect(() => {
-        getMarkers();
-    }, []);
-
+const EatsScreen = ({ navigation, route }) => {
     return (
-        <View className="flex-1 flex-col relative">
-            <View className="flex-1 w-full">
-                <MapEatsScreen bussinessMarker={bussinessMarker} />
+        <SafeAreaView className="flex-1">
+            <View style={{ flex: 1 }}>
+                <ChatHeader
+                    onPress={() => {}}
+                    username={"username"}
+                    bio={"bio"}
+                    picture={"https://picsum.photos/200/300"}
+                    onlineStatus={"online"}
+                />
+                <ChatList />
             </View>
-            <View
-                className={`${
-                    markerState ? `h-1/2` : `h-0`
-                } duration-200 w-full bg-white `}
-            >
-                {/* <BussinessInfo markerState={markerState} /> */}
-            </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
-export default EatScreen;
+export default EatsScreen;
+
+const styles = StyleSheet.create({});

@@ -4,6 +4,7 @@ import AddBusiness from "../views/AddBusiness.vue";
 import AddPost from "../views/AddPost.vue";
 import BusinessPage from "../views/BusinessPage.vue";
 import Home from "../views/Home.vue";
+import EditBusiness from "../views/EditBusiness.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +30,12 @@ const router = createRouter({
       component: AddBusiness,
     },
     {
-      path: "/addpost",
+      path: "/editbusiness/:id",
+      name: "editbusiness",
+      component: EditBusiness,
+    },
+    {
+      path: "/addpost/:id",
       name: "addpost",
       component: AddPost,
     },

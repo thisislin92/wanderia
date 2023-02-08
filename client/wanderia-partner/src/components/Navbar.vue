@@ -39,9 +39,10 @@ export default {
           <!-- Uncomment below if you prefer to use an image logo -->
           <a href="/">
             <img
-              src="https://i.imgur.com/fLn2YRT.png"
+              src="../assets/wanderia.png"
+              class="mx-auto d-block pb-4"
               alt="Wanderia"
-              width="100px"
+              width="100"
             />
           </a>
         </div>

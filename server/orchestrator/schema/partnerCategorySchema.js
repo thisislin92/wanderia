@@ -3,40 +3,37 @@ const redis = require("../configs/ioredis");
 
 const partnerCategoryTypeDefs = `#graphql
     type PartnerCategory {
+        id: ID,
         name: String,
         symbol: String
     }
 
     type Query {
-        allPartnerCategory(access_token: String): [PartnerCategory]
+        allPartnerCategories: [PartnerCategory]
     }
 `;
 
 const partnerCategoryResolver = {
     Query: {
-        allPartnerCategory: async (_, args) => {
+        allPartnerCategories: async (_, args) => {
             try {
-                const { access_token } = args
-                const cache = await redis.get("partnerCategories")
+                const cache = await redis.get("partnerCategories");
                 if (cache) {
-                    const data = await JSON.parse(cache)
-                    return data
+                    const data = await JSON.parse(cache);
+                    return data;
                 } else {
                     const { data } = await axios({
-                        method: 'GET',
+                        method: "GET",
                         url: `${process.env.PARTNER_URL}/categories`,
-                        headers: {
-                            access_token
-                        }
-                    })
-                    await redis.set("partnerCategories", JSON.stringify(data))
-                    return data
+                    });
+                    await redis.set("partnerCategories", JSON.stringify(data));
+                    return data;
                 }
             } catch (error) {
-                throw error.response.data
+                throw error.response.data;
             }
-        }
-    }
+        },
+    },
 };
 
-module.exports = { partnerCategoryTypeDefs, partnerCategoryResolver }
+module.exports = { partnerCategoryTypeDefs, partnerCategoryResolver };

@@ -79,14 +79,16 @@ export default {
 <template>
   <div class="d-flex align-self-center">
     <main class="form-signin w-100 m-auto">
-      <img
-        src="../assets/logo-wanderia.png"
-        class="mx-auto d-block pb-4"
-        alt="Wanderia"
-        width="200"
-      />
+      <RouterLink to="/">
+        <img
+          src="../assets/logo-wanderia.png"
+          class="mx-auto d-block pb-4"
+          alt="Wanderia"
+          width="200"
+        />
+      </RouterLink>
       <form @submit.prevent="handleLogin">
-        <h1 class="h3 mb-3 fw-normal">Sign in</h1>
+        <h1 class="h3 mb-3 fw-normal">Login</h1>
 
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label"
@@ -115,9 +117,12 @@ export default {
             <input type="checkbox" value="remember-me" /> Remember me
           </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">
+        <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">
           Sign in
         </button>
+        <center>
+          <p>Belum punya akun? <a href="/register">Register</a></p>
+        </center>
       </form>
     </main>
   </div>

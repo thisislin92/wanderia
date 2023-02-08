@@ -9,7 +9,7 @@ export default {
     <div class="hero-content" data-aos="fade-up">
       <h2>Mari <span>daftarkan bisnis anda</span><br />segera!</h2>
       <div>
-        <a href="/register" class="btn-get-started scrollto">Get Started</a>
+        <a href="/register" class="btn-get-started scrollto">Daftar</a>
       </div>
     </div>
 
@@ -17,13 +17,17 @@ export default {
       <div class="swiper-wrapper">
         <div
           class="swiper-slide"
-          style="background-image: url('../assets/img/hero-carousel/1.jpg')"
+          style="
+            background-image: url('https://akcdn.detik.net.id/visual/2022/12/29/galfot-atlet-terbaik-2022_169.jpeg?w=650');
+          "
         ></div>
         <div
           class="swiper-slide"
-          style="background-image: url('../assets/img/hero-carousel/2.jpg')"
+          style="
+            background-image: url('https://sm.imgix.net/22/44/lionel-messi.jpeg?w=640&h=480&auto=compress,format&fit=clip');
+          "
         ></div>
-        <div
+        <!-- <div
           class="swiper-slide"
           style="background-image: url('../assets/img/hero-carousel/3.jpg')"
         ></div>
@@ -34,7 +38,7 @@ export default {
         <div
           class="swiper-slide"
           style="background-image: url('../assets/img/hero-carousel/5.jpg')"
-        ></div>
+        ></div> -->
       </div>
     </div>
   </section>
