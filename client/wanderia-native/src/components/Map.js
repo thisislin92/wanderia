@@ -21,10 +21,6 @@ const Map = () => {
   const [ bounds, setBounds ] = useState(null);
   const { markerState, markers: bussinessMarker } = useSelector((state) => state.ux)
 
-  const getMarkers = async () => {
-    await dispatch(mapMarkers());
-  };
-
   const REQ_MARKER = gql`
     query AllBusiness($input: GetBusiness) {
       allBusiness(input: $input) {
@@ -37,8 +33,23 @@ const Map = () => {
     }
   `
 
-  useLayoutEffect(() => {
-      getMarkers();
+
+
+const getMarkers = async () => {
+  let { loading, data, error } = await useQuery(REQ_MARKER, { 
+    variables: {
+      "neLat": bounds.northEast.latitude,
+      "swLat": bounds.southWest.latitude,
+      "neLon": bounds.northEast.longitude,
+      "swLon": bounds.southWest.longitude
+    }
+  });
+  console.log(loading, data, error)
+  await dispatch(mapMarkers(data));
+};
+
+useLayoutEffect(() => {
+  getMarkers();
   }, []);
 
   useEffect(() => {
@@ -85,6 +96,7 @@ const Map = () => {
     getTravelTime();
   }, [origin, destination]);
 
+  console.log(bounds, startNavigation, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,')
   return (
     <MapView
       ref={mapRef}
@@ -129,8 +141,8 @@ const Map = () => {
                 waypoints.map(el=> {return {"longitude":+el.longitude,"latitude":+el.latitude}})
               }
               apikey="AIzaSyCPqKoUKVc1aUxhG4vGluGxF3OOr8ProL4"
-              strokeWidth={3}
-              strokeColor="blue"
+              strokeWidth={4}
+              strokeColor="purple"
           />
       )}
 
@@ -155,7 +167,7 @@ const Map = () => {
           />
         )})
       }
-
+      
       { bounds && startNavigation &&
           filterMarkers(bussinessMarker, bounds).map((marker, index) => {
             return (

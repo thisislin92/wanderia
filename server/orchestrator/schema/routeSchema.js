@@ -117,15 +117,11 @@ const routeResolver = {
                 return { left, right, bottom, top };
               }
 
-              const corner = getCorners(origin, destination)
-            console.log('masuk mutation')
-            console.log(args.input.neLat)
+            const corner = getCorners(origin, destination)
             try {
                 const response1 = await axios({
                     url: `${process.env.PARTNER_URL}`,
                 });
-                // console.log(response1.data, "masuk")
-                // underneath i want to filter the data from the response1.data by the nw, se, ne, sw map bounds
                 const filteredData = response1.data.filter((marker) => {
                     return marker.latitude <= +corner.top + 0.0005 && marker.latitude >= +corner.bottom - 0.0005 && marker.longitude <= +corner.right + 0.0005 && marker.longitude >= +corner.left - 0.0005
                 })
@@ -166,7 +162,7 @@ const routeResolver = {
                     url: `http://localhost:4003/routes`,
                     data: { placeOfOrigin, destination, dataBusiness: randomItems },
                 })
-                // console.log(response)
+                console.log(response)
                 return response.data
             } catch (error) {
                 console.log(error)

@@ -15,7 +15,7 @@ router.get("/business/:id", BusinessController.getOneBusiness);
 router.get("/categories/:id", CategoryController.readCategoryId);
 router.put("/business/:id", BusinessController.updateStatus); //super admin
 router.get("/categories/:id", CategoryController.readCategoryId);
-router.use("/post", postRouter);
+// router.use("/post", postRouter);
 router.use(authentication);
 router.get("/business", BusinessController.getPartnerBusiness);
 router.post("/business", BusinessController.createBusiness);

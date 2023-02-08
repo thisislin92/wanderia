@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "setupdb": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
     "dev": "nodemon app.js"
-    "setupdb": "npx sequelize-cli db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "keywords": [],
   "author": "",
