@@ -18,6 +18,18 @@ router.use(authentication);
 router.get("/business", BusinessController.getPartnerBusiness);
 router.post("/business", BusinessController.createBusiness);
 
+<<<<<<< HEAD
+=======
+router.patch("/business/:id", authorization, BusinessController.editBusiness);
+// router.delete(
+//     "/business/:id",
+//     authorization,
+//     BusinessController.deleteBusiness
+// );
+router.get("/categories", CategoryController.readCategory);
+router.get("/business/:id", BusinessController.getOneBusiness);
+
+>>>>>>> f2aa8808b3bfec793559a549826e08522fe2b815
 router.patch("/business/:id", authorization, BusinessController.editBusiness);
 router.delete(
     "/business/:id",

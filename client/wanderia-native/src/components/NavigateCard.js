@@ -91,6 +91,17 @@ const NavigateCard = () => {
     }
   },[data])
 
+    useEffect(() => {
+        const payload = data?.addNewTrip?.map((el) => {
+            return {
+                name: el.name,
+                longitude: +el.longitude,
+                latitude: +el.latitude,
+            };
+        });
+        dispatch(setWaypoints(payload));
+    }, [data]);
+
     return (
         <SafeAreaView className="bg-white flex-1">
             <KeyboardAvoidingView
