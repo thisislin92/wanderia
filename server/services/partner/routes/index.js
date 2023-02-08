@@ -26,6 +26,8 @@ router.patch("/business/:id", authorization, BusinessController.editBusiness);
 //     authorization,
 //     BusinessController.deleteBusiness
 // );
+router.get("/categories", CategoryController.readCategory);
+router.get("/business/:id", BusinessController.getOneBusiness);
 
 router.patch("/business/:id", authorization, BusinessController.editBusiness);
 router.delete(

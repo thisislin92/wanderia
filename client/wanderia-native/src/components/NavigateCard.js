@@ -11,8 +11,23 @@ import tw from "tailwind-react-native-classnames";
 import { useMutation, gql } from "@apollo/client";
 
 const REQ_WAYPOINT = gql`
-  mutation AddNewTrip($input: NewRoute) {
-  addNewTrip(input: $input) { tripId, name, latitude, longitude, address }
+  mutation Mutation($input: NewRoute) {
+  addNewTrip(input: $input) {
+    tripId
+    name
+    address
+    latitude
+    longitude
+    imageUrl
+    category {
+      symbol
+    }
+    posts {
+      imageUrl
+      name
+      link
+    }
+  }
 }
 `
 
@@ -26,7 +41,6 @@ const NavigateCard = () => {
   const [isBoundAvailable, setIsBoundAvailable] = useState(false)
 
   const getWaypoints = async () => {
-    console.log('getWaypoints <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
     try {
       await waypoints(
         {variables: {
@@ -43,11 +57,9 @@ const NavigateCard = () => {
       console.log(error)
     }
   }
-  console.log(data, loading, error, '_____________________________________________________________________________________________')
-
+  
   useEffect(() => {
     if (isBoundAvailable && destination) {
-      console.log(destination, isBoundAvailable, '_____________________________________________________________________________________________')
       getWaypoints()
     }
   },[isBoundAvailable])
@@ -58,8 +70,11 @@ const NavigateCard = () => {
 
   
   useEffect(() => {
-    const payload = data?.addNewTrip?.map(el=> {return {name:el.name, longitude:+el.longitude, latitude:+el.latitude}})
-    dispatch(setWaypoints(payload))
+    // const payload = data?.addNewTrip?.map(el=> {return {name:el.name, longitude:+el.longitude, latitude:+el.latitude,}})
+    if (data?.addNewTrip){
+      const payload = data?.addNewTrip
+      dispatch(setWaypoints(payload))
+    }
   },[data])
 
   return (

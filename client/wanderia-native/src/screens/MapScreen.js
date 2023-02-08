@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import { selectStartNavigation, setStartNavigation } from "../stores/slices/navSlice";
+import { selectStartNavigation, setDestination, setStartNavigation, setWaypoints } from "../stores/slices/navSlice";
 import { useSelector, useDispatch } from "react-redux";
 import React from "react";
 import tw from "tailwind-react-native-classnames";
@@ -24,6 +24,8 @@ const MapScreen = () => {
       <View className='h-full w-full'>
         <View className='absolute top-16 left-5 z-50 w-10 h-10 items-center justify-center bg-white rounded-full shadow border-[1px] border-gray-200'>
           <TouchableOpacity className='flex-row justify-between' onPress={()=>{
+            dispatch(setWaypoints(null))
+            dispatch(setDestination(null))
             dispatch(setStartNavigation(false))
             navigation.navigate('HomeScreen')
           }}>

@@ -95,6 +95,7 @@ class BusinessController {
     }
 
     static async getAllBusinesses(req, res, next) {
+        console.log('masuk get all business')
         try {
           console.log('masuk <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
             const data = await Business.findAll({
@@ -119,6 +120,7 @@ class BusinessController {
         } catch (error) {
           console.log(error,'error <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
+            console.log(error)
             next(error);
         }
     }

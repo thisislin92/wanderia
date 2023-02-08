@@ -2,11 +2,25 @@ import actions from './actionType';
 import { dummyMarkers } from './markers.json'
 import { gql, useQuery } from '@apollo/client';
 
-export const openMarker = (id) => {
+export const openMarker = (data) => {
     return (dispatch, getState) => {
-        console.log("diaction <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        const data = getState().ux.markers.filter((marker) => marker.id === id);
-        dispatch({ type: actions.openMarker, payload: data });
+      console.log(data, "diaction <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+      const dataMarker = {
+            id: data.id,
+            name: data.name,
+            address: data.address,
+            price: data.price,
+            rating: data.rating,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            posts: data.posts,
+            // category: data.category,
+            imageUrl: data.imageUrl
+          }
+        console.log(dataMarker, "diaction <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+        dispatch({ type: actions.openMarker, payload: dataMarker });
     };
 };
 
@@ -16,22 +30,9 @@ export const closeMarker = () => {
     };
 };
 
-export const mapMarkers = () => {
+export const mapMarkers = (markers) => {
   return async( dispatch, getState ) => {
-    const REQ_MARKER = gql`
-      query AllBusiness($input: GetBusiness) {
-        allBusiness(input: $input) {
-          id
-          name
-          address
-          latitude
-          longitude
-        }
-      }
-    `
-    let { loading, data } = await useQuery(REQ_MARKER);
-
-
-    dispatch({type:actions.mapMarkers, payload:markers?markers:dummyMarkers})
+    // console.log(markers, 'diactions<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,')
+    dispatch({ type: actions.mapMarkers, payload: markers })
   }
 }
