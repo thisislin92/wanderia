@@ -8,7 +8,7 @@ import tw from "tailwind-react-native-classnames";
 const data = [
     {
         id: "1",
-        title: "Get a ride",
+        title: "Wander",
         image: "https://links.papareact.com/3pn",
         screen: "MapScreen",
         height: 120,
@@ -19,8 +19,8 @@ const data = [
         title: "Chat",
         image: "https://cdn-icons-png.flaticon.com/512/2939/2939460.png",
         screen: "ConversationScreen",
-        height: 85,
-        width: 85,
+        height: 80,
+        width: 80,
     },
 ];
 

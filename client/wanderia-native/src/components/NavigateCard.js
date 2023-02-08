@@ -137,7 +137,7 @@ const NavigateCard = () => {
                         </View>
                     ) : (
                         <TouchableOpacity
-                            className="bg-black w-48 py-4 px-4 rounded-full flex flex-row items-center justify-center gap-x-2 "
+                            className="bg-[#4a388e] w-48 py-4 px-4 rounded-full flex flex-row items-center justify-center gap-x-2 "
                             onPress={() => navigation.navigate("ConfirmRide")}
                         >
                             <Icon
