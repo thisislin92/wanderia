@@ -32,6 +32,7 @@ export default {
   methods: {
     async handleRegister() {
       try {
+        console.log('masuk handle register')
         let { data } = await this.addNewUser({
           input: this.input,
         });

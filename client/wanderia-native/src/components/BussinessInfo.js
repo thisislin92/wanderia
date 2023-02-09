@@ -9,6 +9,7 @@ import { mapMarkers, openMarker } from "../stores/actionCreator";
 const BussinessInfo = () => {
     const { bussinessInfo, markerState } = useSelector((state) => state.ux);
     const navigator = useNavigation();
+    
     const dispatcher = useDispatch();
 
     useEffect(() => {
@@ -37,7 +38,8 @@ const BussinessInfo = () => {
               <Text className="text-2xl font-semibold">{bussinessInfo?.name}</Text>
               <Text className="text-gray-400">{bussinessInfo?.address}</Text>
               <View className="flex-row gap-x-1">
-                {bussinessInfo?.rating && (
+                {
+                  bussinessInfo?.rating && (
                   <View className="flex-row gap-1 items-center">
                     <Text className="text-lg">{bussinessInfo?.rating}</Text>
                     <Icons.MaterialCommunityIcons name="star" className="text-lg"/>
@@ -53,7 +55,7 @@ const BussinessInfo = () => {
             </View>
           </View>
           <View className="mb-2">
-            <TouchableOpacity className="flex-row justify-between" onPress={() => navigator.navigate("HangoutScreen")}>
+            <TouchableOpacity className="flex-row justify-between" onPress={() => navigator.navigate("HangoutScreen", {bussinessName:bussinessInfo?.name})}>
               <Text className="text-2xl font-semibold mb-1">Hangouts</Text>
               <Icons.Feather name="arrow-right" className="text-xl" />
             </TouchableOpacity>
@@ -61,31 +63,24 @@ const BussinessInfo = () => {
               <TouchableOpacity onPress={()=>navigator.navigate('ChatScreen',{username:'fahmifachrizal'})}>
                 <ChatUser username={"fahmifachrizal"} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={()=>navigator.navigate('ChatScreen',{username:'userbaru1'})}>
-                <ChatUser username={"userbaru1"} />
+              <TouchableOpacity onPress={()=>navigator.navigate('ChatScreen',{username:bussinessInfo?.name=='Kopi Kosan'?'Argi Bramantya':'Reza Dul Haq'})}>
+                <ChatUser username={bussinessInfo?.name=='Kopi Kosan'?'Argi Bramantya':'Reza Dul Haq'} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={()=>navigator.navigate('ChatScreen',{username:'user2'})}>
-                <ChatUser username={"user2"} />
+              <TouchableOpacity onPress={()=>navigator.navigate('ChatScreen',{username:bussinessInfo?.name=='Restaurant Garuda (Padang cuisine)'?'Herlina Lim':'Akbar Ridho'})}>
+                <ChatUser username={bussinessInfo?.name=='Restaurant Garuda (Padang cuisine)'?'Herlina Lim':'Akbar Ridho'} />
               </TouchableOpacity>
+              { bussinessInfo?.name=='Kopi Kosan' &&
+                <TouchableOpacity onPress={()=>navigator.navigate('ChatScreen',{username:'Raihan Qowi'})}>
+                  <ChatUser username='Raihan Qowi' />
+                </TouchableOpacity>
+              }
             </ScrollView>
           </View>
           <View>
             <Text className="text-2xl font-semibold mb-1">Events & Promos</Text>
             <ScrollView horizontal className="gap-2">
               <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
+                <Image source={{ uri: "https://i.postimg.cc/C12p2RCp/discount20.jpg" }} className="w-24 h-24 rounded-xl"/>
               </TouchableOpacity>
             </ScrollView>
           </View>
