@@ -58,7 +58,7 @@ export default {
           </div>
 
           <div class="col-lg-4">
-            <div class="portfolio-info">
+            <div class="portfolio-details">
               <h3>Informasi Bisnis</h3>
               <ul>
                 <li>
@@ -90,20 +90,10 @@ export default {
                   <strong>Rating</strong>:
                   {{ result.onePartnerBusiness.rating }}
                 </li>
-                <li>
-                  <button
-                    type="button"
-                    class="btn btn-warning border border-dark"
-                    style="background-color: #4a388e"
-                  >
-                    <RouterLink
-                      :to="`/addpost/${result.onePartnerBusiness.id}`"
-                      class="text-white"
-                      >Add Post</RouterLink
-                    >
-                  </button>
-                </li>
               </ul>
+              <button type="button" class="btn btn-warning border border-dark" style="background-color: #4a388e">
+                <RouterLink :to="`/addpost/${result.onePartnerBusiness.id}`" class="text-white" >Add Post</RouterLink>
+              </button>
             </div>
           </div>
         </div>
