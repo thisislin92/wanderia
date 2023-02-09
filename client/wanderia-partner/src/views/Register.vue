@@ -32,6 +32,7 @@ export default {
   methods: {
     async handleRegister() {
       try {
+        console.log('masuk handle register')
         let { data } = await this.addNewUser({
           input: this.input,
         });
@@ -51,7 +52,7 @@ export default {
       <RouterLink to="/">
         <img src="../assets/logo-wanderia.png" class="mx-auto d-block pb-4" alt="Wanderia" width="200" />
       </RouterLink>
-      <form @submit.prevent="handleLogin">
+      <form @submit.prevent="handleRegister">
         <h1 class="h3 mb-3 fw-normal">Register</h1>
 
         <div class="mb-3">
@@ -74,7 +75,7 @@ export default {
           </label>
         </div>
         <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">
-          Login
+          Register
         </button>
         <center>
           <p>Punya akun? <a href="/register">Masuk</a></p>

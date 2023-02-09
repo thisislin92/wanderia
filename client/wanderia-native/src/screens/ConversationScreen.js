@@ -19,7 +19,7 @@ const navigator = useNavigation();
       navigation.setOptions({
           headerShown: false,
       });
-      setChats([{id:1,name:'Argi Bramantya'},{id:2,name:'Raihan Qowi'},{id:3,name:'Akbar Ridho'},{id:4,name:'Herlina Lim'},{id:5,name:'Reza Dul Haq'}])
+      setChats([{id:7,name:'Kopi Kosan'},{id:6,name:'Restaurant Garuda (Padang cuisine)'},{id:1,name:'Argi Bramantya'},{id:2,name:'Raihan Qowi'},{id:3,name:'Akbar Ridho'},{id:4,name:'Herlina Lim'},{id:5,name:'Reza Dul Haq'}])
     }, [navigation]);
 
     return (
