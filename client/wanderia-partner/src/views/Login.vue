@@ -77,7 +77,7 @@ export default {
 </script>
 
 <template>
-  <div class="d-flex align-self-center h-full ">
+  <div class="d-flex align-self-center vh-100">
     <main class="form-signin w-100 m-auto">
       <RouterLink to="/">
         <img src="../assets/logo-wanderia.png" class="mx-auto d-block pb-4" alt="Wanderia" width="200" />
