@@ -51,20 +51,17 @@ export default {
         <div class="row gy-4">
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="box">
-              <div class="icon"><i class="bi bi-briefcase"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-ai.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Usaha Lebih Terkenal</a></h4>
               <p class="description">
-                Traveller yang menggunakan aplikasi wanderia jika menggunakan
-                rute yang melewati usaha anda maka aplikasi akan menampilkan
-                usaha anda pada daftar object yang akan dilalui oleh pengguna
-                aplikasi.
+                Aplikasi perjalanan yang memanfaatkan kecerdasan buatan untuk menghadirkan destinasi-destinasi menakjubkan sebagai rekomendasi perjalananmu.
               </p>
             </div>
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <div class="box">
-              <div class="icon"><i class="bi bi-card-checklist"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-promote.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Promosi Usaha</a></h4>
               <p class="description">
                 Anda dapat melakukan promosi usaha anda secara mandiri, yaitu
@@ -76,7 +73,7 @@ export default {
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
             <div class="box">
-              <div class="icon"><i class="bi bi-bar-chart"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-popular.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Popularitas</a></h4>
               <p class="description">
                 Semakin banyak pengunjung yang melewati rute yang melewati atau
@@ -88,7 +85,7 @@ export default {
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
             <div class="box">
-              <div class="icon"><i class="bi bi-binoculars"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-franchise.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Banyak Bisnis</a></h4>
               <p class="description">
                 Anda dapat mendaftarkan beberapa bisnis sekaligus, sehingga anda
@@ -153,7 +150,7 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-1.jpg" alt="" />
+                <img src="../assets/img/clients/s-argi.jpg" alt="" />
               </div>
               <div class="details" style="height: 100px;">
                 <h4>Argi Bramantya</h4>
@@ -165,7 +162,7 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-2.jpg" alt="" />
+                <img src="../assets/img/clients/s-lina.jpg" alt="" />
               </div>
               <div class="details" style="height: 100px;">
                 <h4>Herlina Lim</h4>
@@ -177,7 +174,7 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-3.jpg" alt="" />
+                <img src="../assets/img/clients/s-akbar.jpg" alt="" />
               </div>
               <div class="details" style="height: 100px;">
                 <h4>M. Akbar Ridho Rizqullah</h4>
@@ -189,7 +186,7 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-fahmi.jpg" alt="" />
               </div>
               <div class="details" style="height: 100px;">
                 <h4>Mukhammad Fahmi Fachrizal</h4>
@@ -201,7 +198,7 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-qowi.jpg" alt="" />
               </div>
               <div class="details" style="height: 100px;">
                 <h4>Raihan Qowi Liansu</h4>
@@ -213,7 +210,7 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-reza.jpg" alt="" />
               </div>
               <div class="details" style="height: 100px;">
                 <h4>Reza Dhia Ulhaq</h4>

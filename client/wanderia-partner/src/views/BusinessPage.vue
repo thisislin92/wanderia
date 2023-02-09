@@ -3,6 +3,7 @@ import { useQuery } from "@vue/apollo-composable";
 import { ONE_BUSINESS } from "../stores/queries";
 import { useRoute } from "vue-router";
 import PostCard from "../components/PostCard.vue";
+import NavbarPartner from "../components/NavbarPartner.vue";
 export default {
   name: "BusinessPage",
   setup() {
@@ -20,23 +21,17 @@ export default {
   created() {
     this.refetch();
   },
-  components: { PostCard },
+  components: { PostCard, NavbarPartner },
 };
 </script>
 <template>
   <main id="main" v-if="result">
+    <NavbarPartner />
     <!-- ======= Breadcrumbs Section ======= -->
-    <section class="breadcrumbs">
+    <section class="breadcrumbs mt-10">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-          <h1>{{ result.onePartnerBusiness.name }}</h1>
-          <ol>
-            <li>
-              <button type="button" class="btn btn-warning">
-                <RouterLink to="/dashboard">Dashboard</RouterLink>
-              </button>
-            </li>
-          </ol>
+          <h3>{{ result.onePartnerBusiness.name }}</h3>
         </div>
       </div>
     </section>
@@ -44,7 +39,7 @@ export default {
 
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
-      <div class="container">
+      <div class="container card mb-5 pt-3">
         <div class="row gy-4">
           <div class="col-lg-8">
             <div class="portfolio-details-slider swiper">
@@ -52,6 +47,7 @@ export default {
                 <div class="swiper-slide">
                   <img
                     style="height: 500px; width: 800px"
+                    class=""
                     :src="result.onePartnerBusiness.imageUrl"
                     alt=""
                   />
@@ -95,8 +91,14 @@ export default {
                   {{ result.onePartnerBusiness.rating }}
                 </li>
                 <li>
-                  <button type="button" class="btn btn-warning">
-                    <RouterLink :to="`/addpost/${result.onePartnerBusiness.id}`"
+                  <button
+                    type="button"
+                    class="btn btn-warning border border-dark"
+                    style="background-color: #4a388e"
+                  >
+                    <RouterLink
+                      :to="`/addpost/${result.onePartnerBusiness.id}`"
+                      class="text-white"
                       >Add Post</RouterLink
                     >
                   </button>
@@ -107,6 +109,9 @@ export default {
         </div>
       </div>
       <div class="container swiper-wrapper align-items-center">
+        <div>
+          <h2>Posts</h2>
+        </div>
         <div
           class="row row-cols-4 gap-5"
           v-if="result.onePartnerBusiness.posts.length > 0"
@@ -116,6 +121,9 @@ export default {
             :key="post.id"
             :post="post"
           />
+        </div>
+        <div v-else>
+          <center><h3>No posts yet...</h3></center>
         </div>
       </div>
     </section>

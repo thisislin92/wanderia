@@ -80,19 +80,7 @@ const BussinessInfo = () => {
             <Text className="text-2xl font-semibold mb-1">Events & Promos</Text>
             <ScrollView horizontal className="gap-2">
               <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={{ uri: "https://i.pravatar.cc/300" }} className="w-24 h-24 rounded-xl"/>
+                <Image source={{ uri: "https://i.postimg.cc/C12p2RCp/discount20.jpg" }} className="w-24 h-24 rounded-xl"/>
               </TouchableOpacity>
             </ScrollView>
           </View>
