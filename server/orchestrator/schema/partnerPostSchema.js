@@ -3,28 +3,39 @@ const redis = require("../configs/ioredis");
 
 const cloudinary = require("cloudinary");
 
-
 const partnerPostTypeDef = `#graphql
     type PartnerPost {
         id: ID,
         name: String,
         imageUrl: String,
-        BusinessId: Int
+        BusinessId: Int,
+        link: String
     }
 
     type Query {
         allPartnerPost(access_token: String): [PartnerPost] 
     }
 
+    type Message {
+        message: String
+    }
+
+    input DeletePost {
+        id: Int,
+        access_token: String
+    }
+
     input NewPartnerPost {
         name: String,
         BusinessId: Int,
         access_token: String,
-        photo: String
+        photo: String,
+        link: String
     }
 
     type Mutation {
-        uploadPhoto(input: NewPartnerPost): PartnerPost
+        uploadPhoto(input: NewPartnerPost): PartnerPost,
+        deletePost(input: DeletePost): Message
     }
 `;
 
@@ -32,72 +43,71 @@ const partnerPostResolver = {
     Query: {
         allPartnerPost: async (_, args) => {
             try {
-                const { access_token } = args
-                const cache = await redis.get("partnerPost")
+                const { access_token } = args;
+                const cache = await redis.get("partnerPost");
                 if (cache) {
-                    const data = await JSON.parse(cache)
-                    return data
+                    const data = await JSON.parse(cache);
+                    return data;
                 } else {
                     const { data } = await axios({
-                        method: 'GET',
+                        method: "GET",
                         url: `${process.env.PARTNER_URL}/post`,
                         headers: {
-                            access_token
-                        }
-                    })
-                    await redis.set("partnerPost", JSON.stringify(data))
-                    return data
+                            access_token,
+                        },
+                    });
+                    await redis.set("partnerPost", JSON.stringify(data));
+                    return data;
                 }
             } catch (error) {
-                throw error.response.data
+                throw error.response.data;
             }
-        }
+        },
     },
     Mutation: {
-        // addNewPartnerPost: async (_, args) => {
-        //     try {
-        //         const { name, BusinessId, access_token } = args.input
-        //         const response = await axios({
-        //             method: "POST",
-        //             url: `${process.env.PARTNER_URL}/add-post/${BusinessId}`,
-        //             data: { name },
-        //             headers: {
-        //                 access_token
-        //             }
-        //         })
-
-        //     } catch (error) {
-        //         throw error.response.data
-        //     }
-        // }
         uploadPhoto: async (_, args) => {
-            const { name, BusinessId, access_token, photo } = args.input
-            cloudinary.config({
-                cloud_name: process.env.CLOUDINARY_NAME,
-                api_key: process.env.CLOUDINARY_API_KEY,
-                api_secret: process.env.CLOUDINARY_API_SECRET,
-            });
+            const { name, BusinessId, access_token, photo, link } = args.input;
+            // let result;
+
             try {
+                cloudinary.config({
+                    cloud_name: process.env.CLOUDINARY_NAME,
+                    api_key: process.env.CLOUDINARY_API_KEY,
+                    api_secret: process.env.CLOUDINARY_API_SECRET,
+                });
                 const result = await cloudinary.v2.uploader.upload(photo, {
-                    allowed_formats: ["jpg", "png"],
                     public_id: "",
                     folder: "Wanderia",
                 });
-                // return `Successful-Photo URL: ${result.url}`;
                 const response = await axios({
-                    method: 'POST',
+                    method: "POST",
                     url: `${process.env.PARTNER_URL}/post/add/${BusinessId}`,
-                    data: { name, imageUrl: result.url },
+                    data: { name, link, imageUrl: result ? result.url : "" },
                     headers: {
-                        access_token
-                    }
-                })
+                        access_token,
+                    },
+                });
                 return response.data;
             } catch (error) {
                 return `Image could not be uploaded:${error.message}`;
             }
-        }
-    }
-}
+        },
+        deletePost: async (_, args) => {
+            try {
+                const { id, access_token } = args.input;
+                const response = await axios({
+                    method: "DELETE",
+                    url: `${process.env.PARTNER_URL}/post/${id}`,
+                    headers: {
+                        access_token,
+                    },
+                });
+                return response.data;
+            } catch (error) {
+                throw error.response.data;
+            }
+        },
+    },
+};
 
-module.exports = { partnerPostTypeDef, partnerPostResolver }
+module.exports = { partnerPostTypeDef, partnerPostResolver };

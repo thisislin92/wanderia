@@ -5,8 +5,10 @@ export default {
 };
 </script>
 <template>
-  <div class="col swiper-slide">
-    <img :src="business.imageUrl" class="img-fluid" :alt="business.name" />
-    <p>{{ business.name }}</p>
+  <div class="card" style="width: 10rem;">
+  <img :src="business.imageUrl" :alt="business.name" class="card-img-top" style="width:200px; height: 200px;">
+  <div class="card-body">
+    <a href="#" class="card-link">{{ business.name }}</a>
   </div>
+</div>
 </template>

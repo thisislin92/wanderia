@@ -47,7 +47,6 @@ const partnerUserResolver = {
         },
         login: async (_, args) => {
             try {
-                console.log(args);
                 const { email, password } = args.input;
                 const response = await axios({
                     method: "POST",

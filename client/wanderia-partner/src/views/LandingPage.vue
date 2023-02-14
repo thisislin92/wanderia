@@ -41,58 +41,56 @@ export default {
     <Hero />
 
     <main id="main">
-      <About />
 
       <!-- ======= Services Section ======= -->
       <Section
         id="services"
         title="Services"
-        content="Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam enim exports quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum velit exports irure minim illum fore"
+        content="Berikut keuntungan yang akan anda dapatkan jika bisnis atau usaha anda bekerjasama dengan Wanderia"
       >
         <div class="row gy-4">
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="box">
-              <div class="icon"><i class="bi bi-briefcase"></i></div>
-              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-ai.jpg" style="height:100px; width: 100px;"/></div>
+              <h4 class="title"><a href="">Usaha Lebih Terkenal</a></h4>
               <p class="description">
-                Voluptatum deleniti atque corrupti quos dolores et quas
-                molestias excepturi sint occaecati cupiditate non provident
-                etiro rabeta lingo.
+                Aplikasi perjalanan yang memanfaatkan kecerdasan buatan untuk menghadirkan destinasi-destinasi menakjubkan sebagai rekomendasi perjalananmu.
               </p>
             </div>
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <div class="box">
-              <div class="icon"><i class="bi bi-card-checklist"></i></div>
-              <h4 class="title"><a href="">Dolor Sitema</a></h4>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-promote.jpg" style="height:100px; width: 100px;"/></div>
+              <h4 class="title"><a href="">Promosi Usaha</a></h4>
               <p class="description">
-                Minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat tarad limino ata nodera clas.
+                Anda dapat melakukan promosi usaha anda secara mandiri, yaitu
+                dengan cara mengupload postingan promosi atau diskon yang dapat
+                mengundang pengunjung ke usaha anda
               </p>
             </div>
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
             <div class="box">
-              <div class="icon"><i class="bi bi-bar-chart"></i></div>
-              <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-popular.jpg" style="height:100px; width: 100px;"/></div>
+              <h4 class="title"><a href="">Popularitas</a></h4>
               <p class="description">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur trinige zareta lobur
-                trade.
+                Semakin banyak pengunjung yang melewati rute yang melewati atau
+                dekat dengan usaha anda maka semakin sering usaha anda muncul
+                pada aplikasi pengunjung.
               </p>
             </div>
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
             <div class="box">
-              <div class="icon"><i class="bi bi-binoculars"></i></div>
-              <h4 class="title"><a href="">Magni Dolores</a></h4>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-franchise.jpg" style="height:100px; width: 100px;"/></div>
+              <h4 class="title"><a href="">Banyak Bisnis</a></h4>
               <p class="description">
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit anim id est laborum rideta zanox
-                satirente madera
+                Anda dapat mendaftarkan beberapa bisnis sekaligus, sehingga anda
+                dapat mempromosikan berbagai bisnis yang anda geluti disini
+                dalam satu akun saja.
               </p>
             </div>
           </div>
@@ -103,10 +101,7 @@ export default {
       <Section
         id="clients"
         title="Clients"
-        content="Sed tamen tempor magna labore dolore dolor sint tempor duis magna
-              elit veniam aliqua esse amet veniam enim export quid quid veniam
-              aliqua eram noster malis nulla duis fugiat culpa esse aute nulla
-              ipsum velit export irure minim illum fore"
+        content="Berikut daftar partner bisnis yang telah bergabung bersama wanderia"
       >
         <div
           class="clients-slider swiper"
@@ -114,184 +109,17 @@ export default {
           data-aos-delay="100"
         >
           <div class="container swiper-wrapper align-items-center">
-            <div class="row row-cols-4" v-if="result">
-              <!-- <div class="col swiper-slide">
-                <img
-                  src="../assets/img/clients/client-1.png"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div> -->
+            <div class="gap-4 d-flex flex-wrap w-full" v-if="result">
 
-              <CardDashboard
-                v-for="business in result.allPartnerBusiness.slice(0, 12)"
-                :key="business.id"
-                :business="business"
-              />
-            </div>
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </Section>
-
-      <!-- ======= Testimonials Section ======= -->
-      <Section
-        id="testimonials"
-        title="Testimonials"
-        content="Sed tamen tempor magna labore dolore dolor sint tempor duis magna
-              elit veniam aliqua esse amet veniam enim export quid quid veniam
-              aliqua eram noster malis nulla duis fugiat culpa esse aute nulla
-              ipsum velit export irure minim illum fore"
-      >
-        <div
-          class="testimonials-slider swiper"
-          data-aos="fade-up"
-          data-aos-delay="100"
-        >
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <img
-                    src="../assets/img/quote-sign-left.png"
-                    class="quote-sign-left"
-                    alt=""
-                  />
-                  Proin iaculis purus consequat sem cure digni ssim donec
-                  porttitora entum suscipit rhoncus. Accusantium quam, ultricies
-                  eget id, aliquam eget nibh et. Maecen aliquam, risus at
-                  semper.
-                  <img
-                    src="../assets/img/quote-sign-right.png"
-                    class="quote-sign-right"
-                    alt=""
-                  />
-                </p>
-                <img
-                  src="../assets/img/testimonial-1.jpg"
-                  class="testimonial-img"
-                  alt=""
+              <!-- <div class="row row-cols-2"> -->
+                <CardDashboard
+                  v-for="business in result.allPartnerBusiness.slice(0, 12)"
+                  :key="business.id"
+                  :business="business"
+                  style="margin: 10px;"
                 />
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
-              </div>
+              <!-- </div>  -->
             </div>
-            <!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <img
-                    src="../assets/img/quote-sign-left.png"
-                    class="quote-sign-left"
-                    alt=""
-                  />
-                  Export tempor illum tamen malis malis eram quae irure esse
-                  labore quem cillum quid cillum eram malis quorum velit fore
-                  eram velit sunt aliqua noster fugiat irure amet legam anim
-                  culpa.
-                  <img
-                    src="../assets/img/quote-sign-right.png"
-                    class="quote-sign-right"
-                    alt=""
-                  />
-                </p>
-                <img
-                  src="../assets/img/testimonial-2.jpg"
-                  class="testimonial-img"
-                  alt=""
-                />
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
-              </div>
-            </div>
-            <!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <img
-                    src="../assets/img/quote-sign-left.png"
-                    class="quote-sign-left"
-                    alt=""
-                  />
-                  Enim nisi quem export duis labore cillum quae magna enim sint
-                  quorum nulla quem veniam duis minim tempor labore quem eram
-                  duis noster aute amet eram fore quis sint minim.
-                  <img
-                    src="../assets/img/quote-sign-right.png"
-                    class="quote-sign-right"
-                    alt=""
-                  />
-                </p>
-                <img
-                  src="../assets/img/testimonial-3.jpg"
-                  class="testimonial-img"
-                  alt=""
-                />
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-              </div>
-            </div>
-            <!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <img
-                    src="../assets/img/quote-sign-left.png"
-                    class="quote-sign-left"
-                    alt=""
-                  />
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa
-                  multos export minim fugiat minim velit minim dolor enim duis
-                  veniam ipsum anim magna sunt elit fore quem dolore labore
-                  illum veniam.
-                  <img
-                    src="../assets/img/quote-sign-right.png"
-                    class="quote-sign-right"
-                    alt=""
-                  />
-                </p>
-                <img
-                  src="../assets/img/testimonial-4.jpg"
-                  class="testimonial-img"
-                  alt=""
-                />
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-              </div>
-            </div>
-            <!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <img
-                    src="../assets/img/quote-sign-left.png"
-                    class="quote-sign-left"
-                    alt=""
-                  />
-                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua
-                  veniam tempor noster veniam enim culpa labore duis sunt culpa
-                  nulla illum cillum fugiat legam esse veniam culpa fore nisi
-                  cillum quid.
-                  <img
-                    src="../assets/img/quote-sign-right.png"
-                    class="quote-sign-right"
-                    alt=""
-                  />
-                </p>
-                <img
-                  src="../assets/img/testimonial-5.jpg"
-                  class="testimonial-img"
-                  alt=""
-                />
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
-              </div>
-            </div>
-            <!-- End testimonial item -->
           </div>
           <div class="swiper-pagination"></div>
         </div>
@@ -302,16 +130,14 @@ export default {
         <div class="container" data-aos="zoom-out">
           <div class="row">
             <div class="col-lg-9 text-center text-lg-start">
-              <h3 class="cta-title">Call To Action</h3>
+              <h3 class="cta-title">Gabung Bersama Kami</h3>
               <p class="cta-text">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
+                Daftarkan segera usaha anda bersama kami, sehingga traveller
+                dapat dengan mudah menemukan lokasi usaha anda
               </p>
             </div>
             <div class="col-lg-3 cta-btn-container text-center">
-              <a class="cta-btn align-middle" href="#">Call To Action</a>
+              <a class="cta-btn align-middle" href="#">Gabung Bersama Kami</a>
             </div>
           </div>
         </div>
@@ -324,17 +150,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-1.jpg" alt="" />
+                <img src="../assets/img/clients/s-argi.jpg" alt="" />
               </div>
-              <div class="details">
-                <h4>Walter White</h4>
+              <div class="details" style="height: 100px;">
+                <h4>Argi Bramantya</h4>
                 <span>Chief Executive Officer</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -342,17 +162,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-2.jpg" alt="" />
+                <img src="../assets/img/clients/s-lina.jpg" alt="" />
               </div>
-              <div class="details">
-                <h4>Sarah Jhinson</h4>
+              <div class="details" style="height: 100px;">
+                <h4>Herlina Lim</h4>
                 <span>Product Manager</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -360,17 +174,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-3.jpg" alt="" />
+                <img src="../assets/img/clients/s-akbar.jpg" alt="" />
               </div>
-              <div class="details">
-                <h4>William Anderson</h4>
+              <div class="details" style="height: 100px;">
+                <h4>M. Akbar Ridho Rizqullah</h4>
                 <span>CTO</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -378,17 +186,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-fahmi.jpg" alt="" />
               </div>
-              <div class="details">
-                <h4>Amanda Jepson</h4>
+              <div class="details" style="height: 100px;">
+                <h4>Mukhammad Fahmi Fachrizal</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -396,17 +198,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-qowi.jpg" alt="" />
               </div>
-              <div class="details">
-                <h4>Amanda Jepson</h4>
+              <div class="details" style="height: 100px;">
+                <h4>Raihan Qowi Liansu</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -414,17 +210,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-reza.jpg" alt="" />
               </div>
-              <div class="details">
-                <h4>Amanda Jepson</h4>
+              <div class="details" style="height: 100px;">
+                <h4>Reza Dhia Ulhaq</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -435,10 +225,7 @@ export default {
       <Section
         id="contact"
         title="Contact Us"
-        content="Sed tamen tempor magna labore dolore dolor sint tempor duis magna
-              elit veniam aliqua esse amet veniam enim export quid quid veniam
-              aliqua eram noster malis nulla duis fugiat culpa esse aute nulla
-              ipsum velit export irure minim illum fore"
+        content="Jika ingin bertanya lebih lanjut mengenai wanderia partnership anda dapat menemukan lokasi kami, atau anda juga dapat menghubungi kami dengan telepon sebagai berikut."
       >
         <div class="row contact-info">
           <div class="col-md-4">
@@ -487,11 +274,5 @@ export default {
 
     <!-- ======= Footer ======= -->
     <Footer />
-
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
   </div>
 </template>

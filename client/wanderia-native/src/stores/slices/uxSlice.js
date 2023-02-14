@@ -7,17 +7,16 @@ const initialState = {
 const markerReducer = (state = initialState, action) => {
     switch (action.type) {
         case "openMarker":
-            console.log(action.payload[0]);
+            console.log(action.payload, 'di global state <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             return {
                 ...state,
                 markerState: true,
-                bussinessInfo: action.payload[0],
+                bussinessInfo: action.payload,
             };
         case "closeMarker":
             return {
                 ...state,
-                markerState: false,
-                // bussinessInfo:{}
+                markerState: false
             };
         case "mapMarkers":
             return {

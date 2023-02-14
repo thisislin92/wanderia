@@ -47,26 +47,26 @@ class BusinessController {
             const {
                 name,
                 CategoryId,
-                mapUrl,
+                // mapUrl,
                 imageUrl,
                 price,
                 rating,
                 address,
             } = req.body;
-            let check;
-            mapUrl.split("/").map(function (el) {
-                if (el.includes("@")) {
-                    check = el.slice(1).split(",");
-                }
-            });
-            let latitude = check[0];
-            let longitude = check[1];
+            // let check;
+            // mapUrl.split("/").map(function (el) {
+            //     if (el.includes("@")) {
+            //         check = el.slice(1).split(",");
+            //     }
+            // });
+            // let latitude = check[0];
+            // let longitude = check[1];
             const data = await Business.update(
                 {
                     name,
                     CategoryId,
-                    latitude,
-                    longitude,
+                    // latitude,
+                    // longitude,
                     imageUrl,
                     price,
                     rating,
@@ -80,6 +80,7 @@ class BusinessController {
             );
             res.status(201).json({ message: "data berhasil di update" });
         } catch (error) {
+            console.log(error);
             next(error);
         }
     }
@@ -95,7 +96,9 @@ class BusinessController {
     }
 
     static async getAllBusinesses(req, res, next) {
+        console.log('masuk get all business')
         try {
+          console.log('masuk <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
             const data = await Business.findAll({
                 include: [
                     {
@@ -116,6 +119,9 @@ class BusinessController {
             });
             res.status(200).json(data);
         } catch (error) {
+          console.log(error,'error <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+
+            console.log(error)
             next(error);
         }
     }

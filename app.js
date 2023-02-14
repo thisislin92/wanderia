@@ -33,7 +33,7 @@ app.post('/', async (req, res, next) => {
 
         const filterWords = ["di", "dan", "yang", "untuk", "dengan", "dari", "ke", "ini", "karena", "itu", "tidak", "pada", "ada", "adalah", "seperti", "atau", "jika", "memiliki", "telah", "yaitu"];
 
-        // const filteredKeyWords = keyWords.filter(word => !filterWords.includes(word));
+        const filteredKeyWords = keyWords.filter(word => !filterWords.includes(word));
         // console.log(response.data.choices);
 
         // res.status(200).send(filteredKeyWords)

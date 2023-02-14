@@ -5,24 +5,34 @@ export default {
 };
 </script>
 <template>
-  <div class="card border border-dark border-2">
-    <div class="card-header">{{ business.name }}</div>
-    <div class="card-body d-flex flex-row">
-      <div class="me-3">
-        <img :src="business.imageUrl" alt="ini gambar apa" width="200" />
-      </div>
-      <div class="d-flex flex-column justify-content-between w-100">
-        <div>
-          <h5 class="card-title">Alamat</h5>
-          <p class="card-text">
-            {{ business.address }}
-          </p>
-        </div>
-        <div class="d-flex justify-content-end">
-          <a href="#" class="btn btn-primary me-3 btn-lg">Detail</a>
-          <a href="#" class="btn btn-primary btn-lg">Edit</a>
-        </div>
-      </div>
+  <div class="card border border-secondary" style="width: 18rem">
+    <img
+      class="card-img-top mt-2"
+      style="height: 200px"
+      :src="business.imageUrl"
+      alt="Card image cap"
+    />
+    <div class="card-body">
+      <h4 class="card-title font-weight-bold">
+        <b>{{ business.name }}</b>
+      </h4>
+      <p class="card-text">{{ business.address }}</p>
+    </div>
+    <div class="d-flex justify-content-around mb-4">
+      <RouterLink
+        :to="`/business/${business.id}`"
+        class="btn text-white"
+        style="background-color: #4a388e"
+        >Detail</RouterLink
+      >
+      <RouterLink
+        :to="`/editbusiness/${business.id}`"
+        class="btn text-white"
+        style="background-color: #893189"
+      >
+        Edit
+      </RouterLink>
+      <a href="#" class="btn btn-danger">Delete</a>
     </div>
   </div>
 </template>
