@@ -8,21 +8,19 @@ import tw from "tailwind-react-native-classnames";
 const data = [
     {
         id: "1",
-        title: "Get a ride",
-        image: "https://links.papareact.com/3pn",
+        title: "Wander",
+        image: "https://png.vector.me/files/images/3/2/323821/my_gto_preview",
         screen: "MapScreen",
+        height: 120,
+        width: 120,
     },
     {
         id: "2",
         title: "Chat",
-        image: "https://links.papareact.com/28w",
-        screen: "EatsScreen",
-    },
-    {
-        id: "3",
-        title: "Login",
-        image: "https://links.papareact.com/28w",
-        screen: "LoginScreen",
+        image: "https://cdn-icons-png.flaticon.com/512/3214/3214461.png",
+        screen: "ConversationScreen",
+        height: 80,
+        width: 80,
     },
 ];
 
@@ -38,14 +36,13 @@ const NavOptions = () => {
                 <TouchableOpacity
                     className="p-2 pl-6 pb-8 pt-4 bg-gray-200 m-2 w-40 rounded-lg"
                     onPress={() => navigation.navigate(item.screen)}
-                    // disabled={!origin}
+                    disabled={!origin}
                 >
-                    {/* <View style={tw`${!origin && "opacity-20"}`}> */}
-                    <View>
+                    <View style={tw`${!origin && "opacity-20"} my-auto`}>
                         <Image
                             style={{
-                                width: 120,
-                                height: 120,
+                                width: item.width,
+                                height: item.height,
                                 resizeMode: "contain",
                             }}
                             source={{ uri: item.image }}

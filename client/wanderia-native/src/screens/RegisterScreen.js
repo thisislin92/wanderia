@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import React, { useState } from 'react'
 import { Input, Button } from 'react-native-elements'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
@@ -23,6 +23,9 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <View className='flex-1 items-center justify-center p-4'>
+      <View>
+        <Image style={{ width: 150, height: 150, resizeMode: "contain", marginTop: 20, }} source={{ uri: "https://i.imgur.com/fLn2YRT.png" }}/>
+      </View>
       <Input 
         placeholder='Enter your username'
         label='username'

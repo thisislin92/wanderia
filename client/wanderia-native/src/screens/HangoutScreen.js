@@ -8,7 +8,8 @@ import { auth, database } from '../../config/firebase';
 import { useNavigation } from '@react-navigation/native';
 import ChatUser from '../components/ChatUser';
 
-const HangoutScreen = () => {
+const HangoutScreen = ({route}) => {
+  const { bussinessName } = route.params
   const navigator = useNavigation()
   const [messages, setMessages] = useState([])
   
@@ -46,7 +47,7 @@ const HangoutScreen = () => {
           <Icons.Feather name='arrow-left' className='text-2xl'/>
         </TouchableOpacity>
         <View className=''>
-          <Text className='text-xl font-semibold'>Bussiness Name</Text>
+          <Text className='text-xl font-semibold'>{bussinessName}</Text>
         </View>
         <View className='w-8 h-8'>
           {/* Hollow space to make space-between */}
@@ -61,18 +62,20 @@ const HangoutScreen = () => {
           </View>
           <View className='mt-3'>
             <ScrollView horizontal className='gap-2'>
-              <View className='bg-[#3982F7] rounded-xl flex-row items-center gap-x-1 px-1 text-white border-[1px]'>
-                <Text className='py-1 pr-1 text-white'>You</Text>
-              </View>
               <View>
                 <ChatUser username={'fahmifachrizal'}/>
               </View>
               <View>
-                <ChatUser username={'user1'}/>
+                <ChatUser username={bussinessName=='Kopi Kosan'?'Argi Bramantya':'Reza Dul Haq'}/>
               </View>
               <View>
-                <ChatUser username={'user2'}/>
+                <ChatUser username={bussinessName=='Restaurant Garuda (Padang cuisine)'?'Herlina Lim':'Akbar Ridho'}/>
               </View>
+              { bussinessName=='Kopi Kosan' &&
+                <View>
+                  <ChatUser username={'Raihan Qowi'}/>
+                </View>
+              }
             </ScrollView>
           </View>
         </View>

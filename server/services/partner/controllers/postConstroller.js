@@ -10,24 +10,30 @@ class PostControler {
         }
     }
 
+    static async getPostBusiness(req, res, next) {
+        try {
+            const { BusinessId } = req.params;
+            const data = await Post.findAll({
+                where: {
+                    BusinessId,
+                },
+            });
+            res.status(200).json(data);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     static async createPost(req, res, next) {
         try {
-            // let { name } = req.body;
-            // let images = req.files;
             const { id } = req.params;
-
-            // const postImagesData = images.map((image) => {
-            //     return {
-            //         name,
-            //         imageUrl: image.path,
-            //         BusinessId: id,
-            //     };
-            // });
-
-            // const dataPost = await Post.bulkCreate(postImagesData);
-            // res.status(201).json(dataPost);
-            const { name, imageUrl } = req.body
-            const dataPost = await Post.create({ name, imageUrl, BusinessId: id });
+            const { name, imageUrl, link } = req.body;
+            const dataPost = await Post.create({
+                name,
+                imageUrl,
+                link,
+                BusinessId: id,
+            });
             res.status(201).json(dataPost);
         } catch (error) {
             next(error);
