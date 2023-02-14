@@ -41,7 +41,6 @@ export default {
     <Hero />
 
     <main id="main">
-      <About />
 
       <!-- ======= Services Section ======= -->
       <Section
@@ -52,20 +51,17 @@ export default {
         <div class="row gy-4">
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="box">
-              <div class="icon"><i class="bi bi-briefcase"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-ai.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Usaha Lebih Terkenal</a></h4>
               <p class="description">
-                Traveller yang menggunakan aplikasi wanderia jika menggunakan
-                rute yang melewati usaha anda maka aplikasi akan menampilkan
-                usaha anda pada daftar object yang akan dilalui oleh pengguna
-                aplikasi.
+                Aplikasi perjalanan yang memanfaatkan kecerdasan buatan untuk menghadirkan destinasi-destinasi menakjubkan sebagai rekomendasi perjalananmu.
               </p>
             </div>
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <div class="box">
-              <div class="icon"><i class="bi bi-card-checklist"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-promote.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Promosi Usaha</a></h4>
               <p class="description">
                 Anda dapat melakukan promosi usaha anda secara mandiri, yaitu
@@ -77,7 +73,7 @@ export default {
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
             <div class="box">
-              <div class="icon"><i class="bi bi-bar-chart"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-popular.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Popularitas</a></h4>
               <p class="description">
                 Semakin banyak pengunjung yang melewati rute yang melewati atau
@@ -89,7 +85,7 @@ export default {
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
             <div class="box">
-              <div class="icon"><i class="bi bi-binoculars"></i></div>
+              <div class="icon" style="margin-right:20px"><img src="../assets/img/info-franchise.jpg" style="height:100px; width: 100px;"/></div>
               <h4 class="title"><a href="">Banyak Bisnis</a></h4>
               <p class="description">
                 Anda dapat mendaftarkan beberapa bisnis sekaligus, sehingga anda
@@ -113,20 +109,16 @@ export default {
           data-aos-delay="100"
         >
           <div class="container swiper-wrapper align-items-center">
-            <div class="row row-cols-4" v-if="result">
-              <!-- <div class="col swiper-slide">
-                <img
-                  src="../assets/img/clients/client-1.png"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div> -->
+            <div class="gap-4 d-flex flex-wrap w-full" v-if="result">
 
-              <CardDashboard
-                v-for="business in result.allPartnerBusiness.slice(0, 12)"
-                :key="business.id"
-                :business="business"
-              />
+              <!-- <div class="row row-cols-2"> -->
+                <CardDashboard
+                  v-for="business in result.allPartnerBusiness.slice(0, 12)"
+                  :key="business.id"
+                  :business="business"
+                  style="margin: 10px;"
+                />
+              <!-- </div>  -->
             </div>
           </div>
           <div class="swiper-pagination"></div>
@@ -158,17 +150,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-1.jpg" alt="" />
+                <img src="../assets/img/clients/s-argi.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Argi Bramantya</h4>
                 <span>Chief Executive Officer</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -176,17 +162,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-2.jpg" alt="" />
+                <img src="../assets/img/clients/s-lina.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Herlina Lim</h4>
                 <span>Product Manager</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -194,17 +174,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-3.jpg" alt="" />
+                <img src="../assets/img/clients/s-akbar.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>M. Akbar Ridho Rizqullah</h4>
                 <span>CTO</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -212,17 +186,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-fahmi.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Mukhammad Fahmi Fachrizal</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -230,17 +198,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-qowi.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Raihan Qowi Liansu</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -248,17 +210,11 @@ export default {
           <div class="col">
             <div class="member">
               <div class="pic">
-                <img src="../assets/img/team-4.jpg" alt="" />
+                <img src="../assets/img/clients/s-reza.jpg" alt="" />
               </div>
-              <div class="details">
+              <div class="details" style="height: 100px;">
                 <h4>Reza Dhia Ulhaq</h4>
                 <span>Accountant</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -318,11 +274,5 @@ export default {
 
     <!-- ======= Footer ======= -->
     <Footer />
-
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
   </div>
 </template>

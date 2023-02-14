@@ -80,10 +80,8 @@ export default {
 </script>
 
 <template>
-  <div>
-    <main
-      class="form-signin w-100 position-absolute top-50 start-50 translate-middle border border-secondary border-2 rounded-4 shadow p-3 bg-body-tertiary rounded"
-    >
+  <div class="d-flex align-self-center vh-100">
+    <main class="form-signin w-100 m-auto">
       <RouterLink to="/">
         <img
           src="../assets/logo-wanderia.png"
@@ -102,7 +100,7 @@ export default {
           <input
             v-model="input.email"
             type="email"
-            class="form-control border border-secondary"
+            class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
           />
@@ -112,7 +110,7 @@ export default {
           <input
             v-model="input.password"
             type="password"
-            class="form-control border border-secondary"
+            class="form-control"
             id="exampleInputPassword1"
           />
         </div>

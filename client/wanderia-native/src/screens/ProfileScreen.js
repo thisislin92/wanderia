@@ -5,12 +5,13 @@ import {
     View,
     TouchableOpacity,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Input, Button } from "react-native-elements";
 import { signOut, updateProfile } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import * as Icons from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import tw from "tailwind-react-native-classnames";
 
 const ProfileScreen = () => {
     const navigator = useNavigation();
@@ -18,6 +19,7 @@ const ProfileScreen = () => {
     const [imgUrl, setImgUrl] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [updateButton, setUpdateButton] = useState(false);
 
     const handleUpdate = () => {
         updateProfile(auth.currentUser, {
@@ -38,7 +40,6 @@ const ProfileScreen = () => {
         setUsername(auth.currentUser.displayName);
         setEmail(auth.currentUser.email);
         setImgUrl(auth.currentUser.photoURL);
-        // setPassword(auth.currentUser.password)
     }, []);
 
     return (
@@ -99,13 +100,14 @@ const ProfileScreen = () => {
                 />
                 <Input
                     placeholder="Enter your old password"
-                    label="Old password"
+                    label="Enter your password"
                     value={password}
                     leftIcon={{ type: "material", name: "lock" }}
                     onChangeText={(text) => setPassword(text)}
+                    secureTextEntry={true}
                 />
-                <View className="flex-row gap-4">
-                    <Button
+                <View className="flex-row gap-4 mx-auto">
+                    {/* <Button
                         title="Update"
                         onPress={handleUpdate}
                         disabled={
@@ -113,7 +115,19 @@ const ProfileScreen = () => {
                                 ? false
                                 : true
                         }
-                    />
+                        className="w-48"
+                    /> */}
+                    <TouchableOpacity
+                        className="w-48 h-10 bg-[#4a388e] rounded-lg items-center justify-center"
+                        onPress={handleUpdate}
+                        disabled={
+                            password === auth.currentUser.password
+                                ? false
+                                : true
+                        }
+                    >
+                        <Text className="text-white">Update</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>

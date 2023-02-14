@@ -3,6 +3,7 @@ import { useQuery } from "@vue/apollo-composable";
 import { ONE_BUSINESS } from "../stores/queries";
 import { useRoute } from "vue-router";
 import PostCard from "../components/PostCard.vue";
+import NavbarPartner from "../components/NavbarPartner.vue";
 export default {
   name: "BusinessPage",
   setup() {
@@ -20,29 +21,17 @@ export default {
   created() {
     this.refetch();
   },
-  components: { PostCard },
+  components: { PostCard, NavbarPartner },
 };
 </script>
 <template>
   <main id="main" v-if="result">
+    <NavbarPartner />
     <!-- ======= Breadcrumbs Section ======= -->
-    <section class="breadcrumbs">
+    <section class="breadcrumbs mt-10">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-          <h1>{{ result.onePartnerBusiness.name }}</h1>
-          <ol>
-            <li>
-              <button
-                type="button"
-                class="btn btn-warning border border-dark"
-                style="background-color: #4a388e"
-              >
-                <RouterLink to="/dashboard" class="text-white"
-                  >Dashboard</RouterLink
-                >
-              </button>
-            </li>
-          </ol>
+          <h3>{{ result.onePartnerBusiness.name }}</h3>
         </div>
       </div>
     </section>
@@ -58,7 +47,7 @@ export default {
                 <div class="swiper-slide">
                   <img
                     style="height: 500px; width: 800px"
-                    class="border border-secondary"
+                    class=""
                     :src="result.onePartnerBusiness.imageUrl"
                     alt=""
                   />
@@ -69,7 +58,7 @@ export default {
           </div>
 
           <div class="col-lg-4">
-            <div class="portfolio-info">
+            <div class="portfolio-details">
               <h3>Informasi Bisnis</h3>
               <ul>
                 <li>
@@ -101,20 +90,18 @@ export default {
                   <strong>Rating</strong>:
                   {{ result.onePartnerBusiness.rating }}
                 </li>
-                <li>
-                  <button
-                    type="button"
-                    class="btn btn-warning border border-dark"
-                    style="background-color: #4a388e"
-                  >
-                    <RouterLink
-                      :to="`/addpost/${result.onePartnerBusiness.id}`"
-                      class="text-white"
-                      >Add Post</RouterLink
-                    >
-                  </button>
-                </li>
               </ul>
+              <button
+                type="button"
+                class="btn btn-warning border border-dark"
+                style="background-color: #4a388e"
+              >
+                <RouterLink
+                  :to="`/addpost/${result.onePartnerBusiness.id}`"
+                  class="text-white"
+                  >Add Post</RouterLink
+                >
+              </button>
             </div>
           </div>
         </div>

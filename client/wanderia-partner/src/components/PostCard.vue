@@ -1,7 +1,6 @@
 <script>
 import { useMutation } from "@vue/apollo-composable";
 import gql from "graphql-tag";
-
 export default {
   name: "PostCard",
   props: ["post"],

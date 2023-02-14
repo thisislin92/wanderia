@@ -1,4 +1,3 @@
-import { KeyboardAvoidingView, Platform } from "react-native";
 import { Provider } from "react-redux";
 import store from "./src/stores/store";
 import HomeScreen from "./src/screens/HomeScreen";
@@ -6,6 +5,8 @@ import MapScreen from "./src/screens/MapScreen";
 import EatsScreen from "./src/screens/EatsScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
+import client from "./config/apollo";
+import { ApolloProvider } from "@apollo/client";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -16,6 +17,9 @@ import { auth } from "./config/firebase";
 import ChatScreen from "./src/screens/ChatScreen";
 import HangoutScreen from "./src/screens/HangoutScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import NavigationMap from "./src/screens/NavigationMap";
+import ConversationScreen from "./src/screens/ConversationScreen";
+import AddChatScreen from "./src/screens/AddChatScreen";
 
 const Stack = createNativeStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -31,13 +35,26 @@ const AuthenticatedUserProvider = ({ children }) => {
 
 function MainStack() {
     return (
-        <Stack.Navigator defaultScreenOptions={HomeScreen} screenOptions={{headerShown:false}}>
+        <Stack.Navigator
+            defaultScreenOptions={HomeScreen}
+            screenOptions={{ headerShown: false }}
+        >
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="MapScreen" component={MapScreen} />
-            <Stack.Screen name="EatsScreen" component={EatsScreen} />
+            <Stack.Screen
+                name="ConversationScreen"
+                component={ConversationScreen}
+                options={{ headerShown: true }}
+            />
             <Stack.Screen name="ChatScreen" component={ChatScreen} />
+            <Stack.Screen
+                name="AddChat"
+                component={AddChatScreen}
+                options={{ headerShown: true }}
+            />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="HangoutScreen" component={HangoutScreen} />
+            <Stack.Screen name="NavigationMap" component={NavigationMap} />
         </Stack.Navigator>
     );
 }
@@ -89,12 +106,14 @@ function RootNavigator() {
 
 export default function App() {
     return (
-      <AuthenticatedUserProvider>
-          <SafeAreaProvider>
-              <Provider store={store}>
-                <RootNavigator />
-              </Provider>
-          </SafeAreaProvider>
-      </AuthenticatedUserProvider>
+        <ApolloProvider client={client}>
+            <AuthenticatedUserProvider>
+                <SafeAreaProvider>
+                    <Provider store={store}>
+                        <RootNavigator />
+                    </Provider>
+                </SafeAreaProvider>
+            </AuthenticatedUserProvider>
+        </ApolloProvider>
     );
 }

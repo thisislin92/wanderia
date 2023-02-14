@@ -2,6 +2,7 @@
 import { useMutation, useQuery } from "@vue/apollo-composable";
 import gql from "graphql-tag";
 import { useRoute } from "vue-router";
+import NavbarPartner from "../components/NavbarPartner.vue";
 import { ALL_CATEGORIES } from "../stores/queries";
 
 export default {
@@ -17,19 +18,17 @@ export default {
     };
   },
   setup() {
-    const { mutate: UploadPhoto } = useMutation(
-      gql`
-        mutation UploadPhoto($input: NewPartnerPost) {
-          uploadPhoto(input: $input) {
-            BusinessId
-            id
-            imageUrl
-            link
-            name
-          }
+    const { mutate: UploadPhoto } = useMutation(gql`
+      mutation UploadPhoto($input: NewPartnerPost) {
+        uploadPhoto(input: $input) {
+          BusinessId
+          id
+          imageUrl
+          link
+          name
         }
-      `
-    );
+      }
+    `);
     const { result, loading, error } = useQuery(ALL_CATEGORIES);
     return {
       UploadPhoto,
@@ -50,7 +49,6 @@ export default {
       var image = new Image();
       var reader = new FileReader();
       var vm = this;
-
       reader.onload = (e) => {
         vm.input.photo = e.target.result;
       };
@@ -77,11 +75,13 @@ export default {
       }
     },
   },
+  components: { NavbarPartner },
 };
 </script>
 
 <template>
   <div>
+    <NavbarPartner />
     <main
       class="form-register w-100 position-absolute top-50 start-50 translate-middle"
     >

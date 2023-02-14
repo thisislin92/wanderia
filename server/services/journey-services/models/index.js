@@ -11,7 +11,7 @@ class Route {
 
     static async findAll() {
         try {
-            return await this.route.find().toArray()
+          return await this.route.find().toArray()
         } catch (error) {
             throw error
         }

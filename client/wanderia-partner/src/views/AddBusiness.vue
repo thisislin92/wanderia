@@ -1,6 +1,7 @@
 <script>
 import { useMutation, useQuery } from "@vue/apollo-composable";
 import gql from "graphql-tag";
+import NavbarPartner from "../components/NavbarPartner.vue";
 import { ALL_CATEGORIES } from "../stores/queries";
 
 export default {
@@ -20,25 +21,23 @@ export default {
     };
   },
   setup() {
-    const { mutate: addNewPartnerBusiness } = useMutation(
-      gql`
-        mutation addNewPartnerBusiness($input: NewPartnerBusiness) {
-          addNewPartnerBusiness(input: $input) {
-            id
-            name
-            latitude
-            longitude
-            address
-            CategoryId
-            PartnerId
-            status
-            imageUrl
-            rating
-            price
-          }
+    const { mutate: addNewPartnerBusiness } = useMutation(gql`
+      mutation addNewPartnerBusiness($input: NewPartnerBusiness) {
+        addNewPartnerBusiness(input: $input) {
+          id
+          name
+          latitude
+          longitude
+          address
+          CategoryId
+          PartnerId
+          status
+          imageUrl
+          rating
+          price
         }
-      `
-    );
+      }
+    `);
     const { result, loading, error } = useQuery(ALL_CATEGORIES);
     return {
       addNewPartnerBusiness,
@@ -62,19 +61,15 @@ export default {
       }
     },
   },
+  components: { NavbarPartner },
 };
 </script>
 
 <template>
+  <NavbarPartner />
   <div class="d-flex align-self-center">
     <main class="form-register w-100 m-auto">
-      <div class="card">
-        <img
-          src="../assets/wanderia.png"
-          class="mx-auto d-block pt-3"
-          alt="Wanderia"
-          width="100"
-        />
+      <div class="card mt-4">
         <div class="card-body">
           <h1 class="h3 mb-3 fw-normal">Add Business</h1>
           <form @submit.prevent="handleAddBusiness">
@@ -87,7 +82,7 @@ export default {
                 id="name"
               />
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label for="price" class="form-label">Price</label>
               <input
                 type="text"
@@ -104,7 +99,7 @@ export default {
                 class="form-control"
                 id="rating"
               />
-            </div>
+            </div> -->
             <div class="mb-3">
               <label for="address" class="form-label">Address</label>
               <input
